@@ -1,10 +1,11 @@
 import React from 'react'
+import AppLayout from '../components/AppLayout'
 
 function index() {
   return (
-    <div>
-      Hello, Next!
-    </div>
+    <AppLayout>
+      <div>Hello, Next!</div>
+    </AppLayout>
   )
 }
 
