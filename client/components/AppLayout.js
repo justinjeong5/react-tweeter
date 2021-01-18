@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import NavBar from './Header/NavBar'
 
 function AppLayout({ children }) {
   return (
     <div>
-      <div>메뉴</div>
+      <NavBar />
       {children}
     </div>
   )
