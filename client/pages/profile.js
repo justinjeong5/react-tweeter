@@ -1,11 +1,17 @@
 import React from 'react'
+import Head from 'next/head'
 import AppLayout from '../components/AppLayout'
 
 function Profile() {
   return (
-    <AppLayout>
-      Profile
-    </AppLayout>
+    <>
+      <Head>
+        <title>프로필</title>
+      </Head>
+      <AppLayout>
+        Profile
+      </AppLayout>
+    </>
   )
 }
 
