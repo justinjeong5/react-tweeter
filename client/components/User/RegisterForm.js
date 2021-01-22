@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import Link from 'next/link';
 import { Form, Input, Button, Space } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@ant-design/icons';
+import { REGISER_USER } from '../../reducers/types'
 
 function RegisterForm() {
 
@@ -10,7 +11,7 @@ function RegisterForm() {
 
   const onFinish = useCallback((values) => {
     dispatch({
-      type: 'REGISER_USER',
+      type: REGISER_USER,
       payload: values
     })
   }, []);
