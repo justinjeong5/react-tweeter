@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import NavBar from './Header/NavBar'
@@ -7,14 +8,14 @@ import LoginForm from './User/LoginForm'
 
 function AppLayout({ children }) {
 
-  const [login, setLogin] = useState(false)
+  const { userLogin } = useSelector(state => state.user)
 
   return (
     <div>
       <NavBar />
       <Row gutter={[10, 10]}>
         <Col xs={24} md={6}>
-          {login ? <UserProfile setLogin={setLogin} /> : <LoginForm setLogin={setLogin} />}
+          {userLogin ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

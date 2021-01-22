@@ -1,15 +1,20 @@
 import React, { useCallback, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Card, Avatar, Button } from 'antd';
-import PropTypes from 'prop-types'
 
 const { Meta } = Card;
 
-function UserProfile({ setLogin }) {
+function UserProfile() {
+
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.user)
 
   const cardStyle = useMemo(() => ({ width: '100%', maxWidth: 300 }), [])
 
   const handleLogout = useCallback(() => {
-    setLogin(false);
+    dispatch({
+      type: 'LOGOUT_USER'
+    })
   }, [])
 
   return (
@@ -29,16 +34,11 @@ function UserProfile({ setLogin }) {
     >
       <Meta
         avatar={<Avatar>JJ</Avatar>}
-        title="JustinJeong5"
+        title={currentUser.email}
       />
       <Button onClick={handleLogout}>로그아웃</Button>
     </Card>
   )
 }
-
-UserProfile.propTypes = {
-  setLogin: PropTypes.func.isRequired,
-}
-
 
 export default UserProfile

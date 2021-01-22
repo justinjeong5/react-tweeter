@@ -1,9 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link'
 import { Form, Input, Button, Space } from 'antd'
-import PropTypes from 'prop-types'
 
-function LoginForm({ setLogin }) {
+function LoginForm() {
+
+  const dispatch = useDispatch();
 
   const formLabelCol = useMemo(() => ({ span: 8 }), [])
   const formWrapperCol = useMemo(() => ({ span: 16 }), [])
@@ -11,9 +13,20 @@ function LoginForm({ setLogin }) {
   const formItemLabelCol = useMemo(() => ({ offset: 8, span: 16 }), [])
 
   const onFinish = useCallback((values) => {
-    console.log(values);
-    setLogin(true)
+    dispatch({
+      type: 'LOGIN_USER',
+      payload: values
+    })
   }, []);
+
+  const formItemEmailRules = useMemo(() => ([
+    { required: true, message: '이메일을 입력해주세요.' },
+    { type: 'email', message: '이메일의 형식이 올바르지 않습니다.' }
+  ]), [])
+  const formItemPasswordRules = useMemo(() => ([
+    { required: true, message: '비밀번호를 입력해주세요.' },
+    { min: 6, message: '비밀번호는 6자리보다 길어야합니다.' }
+  ]), [])
 
   return (
     <Form
@@ -26,8 +39,7 @@ function LoginForm({ setLogin }) {
       <Form.Item
         label="이메일"
         name="email"
-        rules={[{ required: true, message: '이메일을 입력해주세요.' },
-        { type: 'email', message: '이메일의 형식이 올바르지 않습니다.' }]}
+        rules={formItemEmailRules}
       >
         <Input />
       </Form.Item>
@@ -35,8 +47,7 @@ function LoginForm({ setLogin }) {
       <Form.Item
         label="비밀번호"
         name="password"
-        rules={[{ required: true, message: '비밀번호를 입력해주세요.' },
-        { min: 6, message: '비밀번호는 6자리보다 길어야합니다.' }]}
+        rules={formItemPasswordRules}
       >
         <Input.Password />
       </Form.Item>
@@ -56,10 +67,5 @@ function LoginForm({ setLogin }) {
     </Form >
   )
 }
-
-LoginForm.propTypes = {
-  setLogin: PropTypes.func.isRequired,
-}
-
 
 export default LoginForm

@@ -1,12 +1,18 @@
 import React, { useMemo, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link';
-import { Form, Input, Button, Typography, Space } from 'antd';
+import { Form, Input, Button, Space } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@ant-design/icons';
 
 function RegisterForm() {
 
+  const dispatch = useDispatch();
+
   const onFinish = useCallback((values) => {
-    console.log(values)
+    dispatch({
+      type: 'REGISER_USER',
+      payload: values
+    })
   }, []);
 
   const rootDivWrapperStyle = useMemo(() => ({ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: 20 }), [])
@@ -60,7 +66,7 @@ function RegisterForm() {
 
         <Form.Item
           label="이름"
-          name="userName"
+          name="name"
           rules={formUserNameRules}
         >
           <Input prefix={<UserOutlined />} placeholder="name" />
