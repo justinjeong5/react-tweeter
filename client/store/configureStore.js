@@ -3,11 +3,16 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension'
 import reducer from '../reducers'
 
+const actionLogger = ({ dispatch, getState }) => (next) => (action) => {
+  console.log(action)
+  return next(action);
+};
+
 const configureStore = () => {
   const middlewares = [];
   const enhancer = process.env.NODE_ENV === 'production'
     ? compose(applyMiddleware(...middlewares))
-    : composeWithDevTools(applyMiddleware(...middlewares))
+    : composeWithDevTools(applyMiddleware(...middlewares, actionLogger))
   const store = createStore(reducer, enhancer);
   return store;
 }
