@@ -67,7 +67,7 @@ function RegisterForm() {
 
         <Form.Item
           label="이름"
-          name="name"
+          name="userName"
           rules={formUserNameRules}
         >
           <Input prefix={<UserOutlined />} placeholder="name" />
