@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import Images from '../Image/Images'
 import CommentForm from '../Comment/CommentForm'
 import Comments from '../Comment/Comments'
+import PostCardContent from './PostCardContent'
 
 function PostCard({ post }) {
 
@@ -51,7 +52,7 @@ function PostCard({ post }) {
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-          description={post.content}
+          description={<PostCardContent content={post.content} />}
         />
       </Card>
       {commentShow && <>
