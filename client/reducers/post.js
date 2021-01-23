@@ -7,7 +7,7 @@ const dummyPost = {
     id: faker.random.number(),
     nickname: faker.name.firstName(),
   },
-  content: faker.lorem.sentence(),
+  content: `#해시태그1 ##해시태그2#해시태그3 ### \n ${faker.lorem.sentences()}`,
   Images: Array.from(Array(3)).map(_ => ({ src: faker.image.imageUrl() })),
   Comments: [{
     User: {

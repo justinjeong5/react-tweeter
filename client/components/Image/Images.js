@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { Image } from 'antd'
@@ -9,7 +9,7 @@ function Images({ images }) {
   if (images.length === 1) {
     return (<>
       <div>
-        <Image key={uuidv4()} role="presentation" width='50%' src={images[0].src} alt={images[0].src} />
+        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
       </div>
     </>)
   }
@@ -17,12 +17,12 @@ function Images({ images }) {
   return (<>
     <div style={{ display: 'flex' }}>
       <Image.PreviewGroup>
-        <Image key={uuidv4()} role="presentation" width='50%' src={images[0].src} alt={images[0].src} />
+        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
         {images.map((image, index) => {
           if (index !== 0) return <Image key={uuidv4()} src={image.src} hidden />
         })}
       </Image.PreviewGroup>
-      <div style={{ width: '50%', textAlign: 'center', alignSelf: 'center' }}>
+      <div style={{ width: '40%', textAlign: 'center', alignSelf: 'center' }}>
         <PlusOutlined /><br />
         {`${images.length - 1}개의 사진 더 보기 `}
       </div>
