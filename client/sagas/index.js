@@ -1,4 +1,4 @@
-import { all, call, fork, put, take } from 'redux-saga/effects'
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects'
 import axios from 'axios'
 
 import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE } from '../reducers/types'
@@ -24,7 +24,7 @@ function* login(action) {
 }
 
 function* watchLogin() {
-  yield take(LOGIN_USER_REQUEST, login)
+  yield takeLatest(LOGIN_USER_REQUEST, login)
 }
 
 export default function* rootSaga() {
