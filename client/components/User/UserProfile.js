@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Avatar, Button } from 'antd';
-import { LOGOUT_USER } from '../../reducers/types'
+import { LOGOUT_USER_REQUEST } from '../../reducers/types'
 
 const { Meta } = Card;
 
@@ -14,7 +14,7 @@ function UserProfile() {
 
   const handleLogout = useCallback(() => {
     dispatch({
-      type: LOGOUT_USER
+      type: LOGOUT_USER_REQUEST
     })
   }, [])
 

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import Link from 'next/link'
 import { Form, Input, Button, Space } from 'antd'
 
-import { LOGIN_USER } from '../../reducers/types'
+import { LOGIN_USER_REQUEST } from '../../reducers/types'
 
 function LoginForm() {
 
@@ -16,7 +16,7 @@ function LoginForm() {
 
   const onFinish = useCallback((values) => {
     dispatch({
-      type: LOGIN_USER,
+      type: LOGIN_USER_REQUEST,
       payload: values
     })
   }, []);

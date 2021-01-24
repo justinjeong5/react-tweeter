@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react'
 import { Form, Input, Button } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { ADD_POST } from '../../reducers/types';
+import { ADD_POST_REQUEST } from '../../reducers/types';
 
 function PostForm() {
 
@@ -13,7 +13,7 @@ function PostForm() {
   const handleFinish = useCallback((values) => {
     console.log(values);
     dispatch({
-      type: ADD_POST
+      type: ADD_POST_REQUEST
     })
   }, [])
 
