@@ -61,3 +61,41 @@ document.getElementById("test")
     return eventListener.next();
   });
 ```
+
+## Saga
+```javascript
+function* watchLogin() {
+  yield take(LOGIN_USER_REQUEST, login)
+} // accepts request only once.
+
+function* watchLogin() {
+  while(true) {
+    yield take(LOGIN_USER_REQUEST, login)
+  }
+} // accepts every request. but low readability.
+
+function* watchLogin() {
+  while(true) {
+    yield takeEvery(LOGIN_USER_REQUEST, login)
+  }
+} // equals to above. take all of the duplicated request which lead to server overburden.
+
+function* watchLogin() {
+  yield takeLeading(LOGIN_USER_REQUEST, login)
+} // takes all of the duplicated request, but only receives the first response. still server overburden remains.
+
+function* watchLogin() {
+  yield takeLatest(LOGIN_USER_REQUEST, login)
+} // takes all of the duplicated request, but only receives the last response. still server overburden remains.
+// ex) most of the events, but server should check whether duplicated request receives or not
+
+function* watchLogin() {
+  yield throttle(LOGIN_USER_REQUEST, login, 2000)
+} // takes only one of the duplicated request in 2sec.
+// ex) scroll event
+
+function* watchLogin() {
+  yield debounce(LOGIN_USER_REQUEST, login)
+} // takes only one of the duplicated request in 2sec.
+// ex) search event
+```
