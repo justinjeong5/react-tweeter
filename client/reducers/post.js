@@ -4,13 +4,13 @@ import {
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
 } from './types'
 
-const dummyPost = {
+const dummyPost = (data) => ({
   id: faker.random.number(),
   User: {
-    id: faker.random.number(),
-    nickname: faker.name.firstName(),
+    id: 1,
+    nickname: 'JustinJeong',
   },
-  content: `#해시태그1 ##해시태그2#해시태그3 ### \n ${faker.lorem.sentences()}`,
+  content: data,
   Images: Array.from(Array(3)).map(_ => ({ src: faker.image.imageUrl() })),
   Comments: [{
     User: {
@@ -19,10 +19,18 @@ const dummyPost = {
     },
     content: faker.lorem.sentences(),
   }],
-}
+})
+
+const dummyComment = (payload) => ({
+  User: {
+    id: faker.random.number(),
+    nickname: faker.name.firstName(),
+  },
+  content: payload.comment,
+})
 
 const initialState = {
-  postsList: Array.from(Array(3)).map(_ => (dummyPost)),
+  postsList: Array.from(Array(3)).map(_ => (dummyPost(faker.lorem.sentences()))),
   imagePaths: [],
 
   addPostDone: false,
@@ -45,7 +53,7 @@ const postReducer = (state = initialState, action) => {
     case ADD_POST_SUCCESS:
       return {
         ...state,
-        postsList: [action.data, ...state.postsList],
+        postsList: [dummyPost(action.data.content), ...state.postsList],
         message: action.message,
         addPostLoading: false,
         addPostDone: true,
@@ -65,9 +73,14 @@ const postReducer = (state = initialState, action) => {
         addCommentError: null,
       }
     case ADD_COMMENT_SUCCESS:
+      const postIndex = state.postsList.findIndex((v) => v.id === action.data.postId);
+      const post = state.postsList[postIndex];
+      post.Comments = [dummyComment(action.data), ...post.Comments];
+      const postsList = [...state.postsList];
+      postsList[postIndex] = post
       return {
         ...state,
-        Comments: [dummyComment, ...state.Comments],
+        postsList,
         message: action.message,
         addCommentLoading: false,
         addCommentDone: true,

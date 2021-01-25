@@ -1,8 +1,18 @@
+import faker from 'faker'
+
 import {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
 } from './types'
+
+const dummyUser = {
+  id: 1,
+  nickname: 'JustinJeong',
+  Posts: Array.from(Array(6)).map(_ => ({ nickname: `${faker.name.firstName()} ${faker.name.lastName()}`, image: faker.image.people() })),
+  Followers: Array.from(Array(6)).map(_ => ({ nickname: `${faker.name.firstName()} ${faker.name.lastName()}`, image: faker.image.people() })),
+  Followings: Array.from(Array(4)).map(_ => ({ nickname: `${faker.name.firstName()} ${faker.name.lastName()}`, image: faker.image.people() }))
+}
 
 const initialState = {
   currentUser: {},
@@ -31,7 +41,7 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
-        currentUser: action.data,
+        currentUser: dummyUser,
         message: action.message,
         loginUserLoading: false,
         loginUserDone: true,
