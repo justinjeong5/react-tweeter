@@ -1,6 +1,7 @@
 import faker from 'faker'
 import {
-  ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE
+  ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
+  ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
 } from './types'
 
 const dummyPost = {
@@ -27,6 +28,9 @@ const initialState = {
   addPostDone: false,
   addPostLoading: false,
   addPostError: null,
+  addCommentDone: false,
+  addCommentLoading: false,
+  addCommentError: null,
 }
 
 const postReducer = (state = initialState, action) => {
@@ -52,6 +56,28 @@ const postReducer = (state = initialState, action) => {
         message: action.message,
         addPostLoading: false,
         addPostError: action.error,
+      }
+    case ADD_COMMENT_REQUEST:
+      return {
+        ...state,
+        addCommentLoading: true,
+        addCommentDone: false,
+        addCommentError: null,
+      }
+    case ADD_COMMENT_SUCCESS:
+      return {
+        ...state,
+        Comments: [dummyComment, ...state.Comments],
+        message: action.message,
+        addCommentLoading: false,
+        addCommentDone: true,
+      }
+    case ADD_COMMENT_FAILURE:
+      return {
+        ...state,
+        message: action.message,
+        addCommentLoading: false,
+        addCommentError: action.error,
       }
     default:
       return state;
