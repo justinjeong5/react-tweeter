@@ -16,7 +16,7 @@ function CommentForm({ postId }) {
     dispatch({
       type: ADD_COMMENT_REQUEST,
       data: {
-        content: values.comment,
+        comment: values.comment,
         postId: postId,
         userId: currentUser.id
       }
@@ -34,13 +34,18 @@ function CommentForm({ postId }) {
     >
       <div style={{ position: 'relative', margin: 0 }}>
         <Form.Item name='comment' >
-          <Input.TextArea rows={4} />
+          <Input.TextArea
+            rows={4}
+            placeholder={currentUser.id ? '공감을 남겨주세요' : '로그인해 주세요'}
+          />
         </Form.Item>
         <Button
           type='primary'
           htmlType='submit'
           style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 10 }}
-        >Tweet</Button>
+          disabled={!currentUser.id}
+        >Tweet
+        </Button>
       </div>
     </Form>
   )
