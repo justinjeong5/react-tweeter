@@ -8,7 +8,7 @@ const { Meta } = Card;
 function UserProfile() {
 
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.user)
+  const { currentUser, logoutUserLoading } = useSelector(state => state.user)
 
   const cardStyle = useMemo(() => ({ width: '100%', maxWidth: 300 }), [])
 
@@ -28,16 +28,16 @@ function UserProfile() {
         />
       }
       actions={[
-        <div key='tweet'>게시글<br />0</div>,
-        <div key='followings'>팔로윙<br />0</div>,
-        <div key='followers'>팔로워<br />0</div>,
+        <div key='tweet'>게시글<br />{currentUser.Posts.length}</div>,
+        <div key='followings'>팔로윙<br />{currentUser.Followings.length}</div>,
+        <div key='followers'>팔로워<br />{currentUser.Followers.length}</div>,
       ]}
     >
       <Meta
-        avatar={<Avatar>JJ</Avatar>}
-        title={currentUser.email}
+        avatar={<Avatar>{currentUser.nickname[0]}</Avatar>}
+        title={currentUser.nickname}
       />
-      <Button onClick={handleLogout}>로그아웃</Button>
+      <Button onClick={handleLogout} disabled={logoutUserLoading} loading={logoutUserLoading}>로그아웃</Button>
     </Card>
   )
 }

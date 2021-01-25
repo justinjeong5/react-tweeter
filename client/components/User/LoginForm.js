@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
 import { Form, Input, Button, Space } from 'antd'
 
@@ -8,6 +8,8 @@ import { LOGIN_USER_REQUEST } from '../../reducers/types'
 function LoginForm() {
 
   const dispatch = useDispatch();
+
+  const { loginUserLoading } = useSelector(state => state.user)
 
   const formLabelCol = useMemo(() => ({ span: 8 }), [])
   const formWrapperCol = useMemo(() => ({ span: 16 }), [])
@@ -58,10 +60,10 @@ function LoginForm() {
         wrapperCol={formItemLabelCol}
       >
         <Space>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loginUserLoading} disabled={loginUserLoading}>
             로그인
-        </Button>
-          <Button>
+          </Button>
+          <Button disabled={loginUserLoading}>
             <Link href='/signup'><a>회원가입</a></Link>
           </Button>
         </Space>

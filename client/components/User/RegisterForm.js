@@ -1,18 +1,23 @@
 import React, { useMemo, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link';
 import { Form, Input, Button, Space } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@ant-design/icons';
-import { REGISER_USER } from '../../reducers/types'
+import { REGISTER_USER_REQUEST } from '../../reducers/types'
 
 function RegisterForm() {
 
   const dispatch = useDispatch();
+  const { registerUserLoading } = useSelector(state => state.user)
 
   const onFinish = useCallback((values) => {
     dispatch({
-      type: REGISER_USER,
-      payload: values
+      type: REGISTER_USER_REQUEST,
+      payload: {
+        email: values.email,
+        name: values.name,
+        password: values.password,
+      }
     })
   }, []);
 
@@ -91,17 +96,17 @@ function RegisterForm() {
 
         <Form.Item wrapperCol={formItemWrapperColStyle}>
           <Space >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" disabled={registerUserLoading} loading={registerUserLoading}>
               회원가입
             </Button>
-            <Button>
+            <Button disabled={registerUserLoading} >
               취소
             </Button>
           </Space>
         </Form.Item>
 
         <Form.Item wrapperCol={formItemWrapperColStyle} style={formItemStyle}>
-          <Link href='/'><a>이미 회원이시라면</a></Link>
+          <Link disabled={registerUserLoading} href='/'><a>이미 회원이시라면</a></Link>
         </Form.Item>
 
       </Form>

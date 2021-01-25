@@ -7,12 +7,12 @@ import PostCard from '../components/Post/PostCard'
 
 function index() {
 
-  const { userLogin } = useSelector(state => state.user)
+  const { currentUser } = useSelector(state => state.user)
   const { postsList } = useSelector(state => state.post)
 
   return (
     <AppLayout>
-      {userLogin && <PostForm />}
+      {currentUser?.id && <PostForm />}
       {postsList.map((post) => (<PostCard key={uuidv4()} post={post} />))}
     </AppLayout>
   )

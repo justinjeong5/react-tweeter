@@ -8,14 +8,14 @@ import LoginForm from './User/LoginForm'
 
 function AppLayout({ children }) {
 
-  const { userLogin } = useSelector(state => state.user)
+  const { currentUser } = useSelector(state => state.user)
 
   return (
     <div>
       <NavBar />
       <Row gutter={[10, 10]}>
         <Col xs={24} md={6}>
-          {userLogin ? <UserProfile /> : <LoginForm />}
+          {currentUser?.id ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
