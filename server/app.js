@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const post = require('./routes/post');
+const user = require('./routes/user');
 
 const db = require('./models')
 db.sequelize.sync()
@@ -14,7 +15,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/post', post)
+app.use('/api/user', user)
 
 app.listen(3065, () => {
   console.log('Server is running')
-}) 
+})
