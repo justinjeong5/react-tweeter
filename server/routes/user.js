@@ -2,9 +2,10 @@ const express = require('express');
 const bcrypt = require('bcryptjs')
 const passport = require('passport');
 const { User, Post } = require('../models');
+const { loginRequired, logoutRequired } = require('./middleware')
 
 const router = express.Router();
-router.post('/register', async (req, res, next) => {
+router.post('/register', logoutRequired, async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -27,7 +28,7 @@ router.post('/register', async (req, res, next) => {
   }
 })
 
-router.post('/login', (req, res, next) => {
+router.post('/login', logoutRequired, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
     if (error) {
       console.log(error);
@@ -59,7 +60,7 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', loginRequired, (req, res) => {
   req.logout();
   req.session.destroy();
   res.status(200).json({ message: '로그아웃이 정상적으로 완료되었습니다.' })
