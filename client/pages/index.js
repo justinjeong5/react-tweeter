@@ -4,13 +4,13 @@ import { v4 as uuidv4 } from 'uuid'
 import { LOAD_POSTS_REQUEST } from '../reducers/types'
 import AppLayout from '../components/AppLayout'
 import PostForm from '../components/Post/PostForm'
-import PostCard from '../components/Post/PostCard'
+import PostCardVirtualized from '../components/Post/PostCardVirtualized'
 
 function index() {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
-  const { postsList, hasMorePost, loadPostsLoading } = useSelector(state => state.post)
+  const { hasMorePost, loadPostsLoading } = useSelector(state => state.post)
 
   useEffect(() => {
     dispatch({
@@ -41,7 +41,8 @@ function index() {
   return (
     <AppLayout>
       {currentUser?.id && <PostForm />}
-      {postsList.map((post) => (<PostCard key={uuidv4()} post={post} />))}
+      <PostCardVirtualized />
+      {/* {postsList.map((post) => (<PostCard key={uuidv4()} post={post} />))} */}
     </AppLayout>
   )
 }

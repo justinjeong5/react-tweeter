@@ -99,3 +99,9 @@ function* watchLogin() {
 } // takes only one of the duplicated request in 2sec.
 // ex) search event
 ```
+
+## Virtualized
+
+![virtualized](https://user-images.githubusercontent.com/44011462/105692640-fe5db880-5f41-11eb-84c0-83dea11c91c0.png)
+
+The main concept behind virtual rendering is rendering only what is on the screen. There are one thousand data in the app, but it only shows around ten at any moment (the ones that fit on the screen), until you scroll to show more. So it makes sense to load only the elements that are visible and unload them when they are not by replacing them with new ones.
