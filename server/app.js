@@ -1,14 +1,15 @@
 const express = require('express');
 const app = express();
-
 const post = require('./routes/post');
 const user = require('./routes/user');
-
 const db = require('./models')
 db.sequelize.sync()
   .then(() => {
     console.log('Database Connected Successfully')
   })
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('Server Connected Successfully')
