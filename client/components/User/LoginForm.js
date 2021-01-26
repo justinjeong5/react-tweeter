@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
-import { Form, Input, Button, Space } from 'antd'
+import Router from 'next/router'
+import { Form, Input, Button, Space, message as Message } from 'antd'
 
 import { LOGIN_USER_REQUEST } from '../../reducers/types'
 
@@ -9,7 +10,13 @@ function LoginForm() {
 
   const dispatch = useDispatch();
 
-  const { loginUserLoading } = useSelector(state => state.user)
+  const { loginUserLoading, loginUserError, message } = useSelector(state => state.user)
+
+  useEffect(() => {
+    if (loginUserError) {
+      Message.error(message)
+    }
+  }, [loginUserError])
 
   const formLabelCol = useMemo(() => ({ span: 8 }), [])
   const formWrapperCol = useMemo(() => ({ span: 16 }), [])
@@ -22,6 +29,7 @@ function LoginForm() {
       payload: values
     })
   }, []);
+
 
   const formItemEmailRules = useMemo(() => ([
     { required: true, message: '이메일을 입력해주세요.' },

@@ -9,23 +9,22 @@ import {
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
 } from '../reducers/types'
 
-function loginAPI(data) {
-  return axios.post('/api/login', data)
+function loginAPI(payload) {
+  return axios.post('/api/user/login', payload)
 }
 
 function* login(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(loginAPI, action.data)
+    const result = yield call(loginAPI, action.payload)
     yield put({
       type: LOGIN_USER_SUCCESS,
-      data: action.data
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: LOGIN_USER_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }

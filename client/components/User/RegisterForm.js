@@ -9,7 +9,13 @@ import { REGISTER_USER_REQUEST } from '../../reducers/types'
 function RegisterForm() {
 
   const dispatch = useDispatch();
-  const { registerUserLoading, registerUserDone, registerUserError } = useSelector(state => state.user)
+  const { registerUserLoading, registerUserDone, registerUserError, loginUserDone, message } = useSelector(state => state.user)
+
+  useEffect(() => {
+    if (loginUserDone) {
+      Router.replace('/');
+    }
+  }, [loginUserDone])
 
   useEffect(() => {
     if (registerUserDone) {
@@ -19,7 +25,7 @@ function RegisterForm() {
 
   useEffect(() => {
     if (registerUserError) {
-      Message.error(registerUserError.message)
+      Message.error(message)
     }
   }, [registerUserError])
 

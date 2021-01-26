@@ -1,6 +1,4 @@
-import faker from 'faker'
 import produce from 'immer'
-import { v4 as uuidv4 } from 'uuid'
 import {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
@@ -9,14 +7,6 @@ import {
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
 } from './types'
-
-const dummyUser = {
-  id: 1,
-  nickname: 'JustinJeong',
-  Posts: Array.from(Array(2)).map(_ => ({ id: uuidv4() })),
-  Followers: Array.from(Array(6)).map(_ => ({ nickname: `${faker.name.firstName()} ${faker.name.lastName()}`, image: faker.image.people() })),
-  Followings: Array.from(Array(4)).map(_ => ({ nickname: `${faker.name.firstName()} ${faker.name.lastName()}`, image: faker.image.people() }))
-}
 
 const initialState = {
   currentUser: {},
@@ -48,20 +38,22 @@ const userReducer = (state = initialState, action) => {
         draft.loginUserError = null;
         break;
       case LOGIN_USER_SUCCESS:
-        draft.currentUser = dummyUser;
-        draft.message = action.message;
+        draft.currentUser = action.data.user;
+        draft.message = action.data.message;
         draft.loginUserLoading = false;
         draft.loginUserDone = true;
         break;
       case LOGIN_USER_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.loginUserLoading = false;
-        draft.loginUserError = action.error;
+        draft.loginUserError = action.error.code;
         break;
       case LOGOUT_USER_REQUEST:
         draft.logoutUserLoading = true;
         draft.logoutUserDone = false;
         draft.logoutUserError = null;
+        draft.loginUserDone = false;
+        draft.registerUserDone = false;
         break;
       case LOGOUT_USER_SUCCESS:
         draft.currentUser = {};
