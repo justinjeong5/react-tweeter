@@ -12,17 +12,15 @@ function PostForm() {
   const [form] = useForm();
   const imageUploadRef = useRef();
   const { imagePaths, addPostDone } = useSelector(state => state.post)
-  const { currentUser } = useSelector(state => state.user)
 
   const handleFinish = useCallback((values) => {
     dispatch({
       type: ADD_POST_REQUEST,
       data: {
         content: values.content,
-        userId: currentUser.id
       }
     })
-  }, [currentUser])
+  }, [])
 
   useEffect(() => {
     form.resetFields();

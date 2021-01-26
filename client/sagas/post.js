@@ -1,5 +1,5 @@
-import { all, put, fork, takeLatest, delay, takeLeading } from "redux-saga/effects";
-import { v4 as uuidv4 } from 'uuid'
+import { all, put, fork, call, takeLatest, delay, takeLeading } from "redux-saga/effects";
+import axios from 'axios';
 import { generateDummyPost } from "../reducers/post";
 
 import {
@@ -32,32 +32,25 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) {
-  return axios.post('/api/addPost', data)
+  return axios.post('/api/post/post', data)
 }
 
 function* addPost(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(addPostAPI, action.data)
-    const id = uuidv4();
+    const result = yield call(addPostAPI, action.data)
     yield put({
       type: ADD_POST_SUCCESS,
-      data: {
-        id,
-        content: action.data.content
-      }
+      data: result.data
     })
     yield put({
       type: ADD_POST_TO_ME,
-      data: {
-        id
-      }
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: ADD_POST_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }
