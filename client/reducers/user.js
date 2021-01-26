@@ -57,14 +57,14 @@ const userReducer = (state = initialState, action) => {
         break;
       case LOGOUT_USER_SUCCESS:
         draft.currentUser = {};
-        draft.message = action.message;
+        draft.message = action.data.message;
         draft.logoutUserLoading = false;
         draft.logoutUserDone = true;
         break;
       case LOGOUT_USER_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.logoutUserLoading = false;
-        draft.logoutUserError = action.error;
+        draft.logoutUserError = action.error.code;
         break;
       case REGISTER_USER_REQUEST:
         draft.registerUserLoading = true;

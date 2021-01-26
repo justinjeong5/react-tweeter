@@ -30,22 +30,21 @@ function* login(action) {
 }
 
 function logoutAPI() {
-  return axios.post('/api/logout')
+  return axios.post('/api/user/logout')
 }
 
-function* logout(action) {
+function* logout() {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(logoutAPI, action.data)
+    const result = yield call(logoutAPI)
     yield put({
       type: LOGOUT_USER_SUCCESS,
-      data: action.data
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: LOGOUT_USER_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }
