@@ -9,6 +9,7 @@
   "author": "justinjeong5",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
     "sequelize": "^6.4.0",
