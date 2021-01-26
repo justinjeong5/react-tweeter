@@ -9,6 +9,7 @@ import Images from '../Image/Images'
 import CommentForm from '../Comment/CommentForm'
 import Comments from '../Comment/Comments'
 import PostCardContent from './PostCardContent'
+import FollowButton from '../Follow/FollowButton'
 import { REMOVE_POST_REQUEST } from '../../reducers/types'
 
 function PostCard({ post }) {
@@ -61,6 +62,7 @@ function PostCard({ post }) {
             <EllipsisOutlined />
           </Popover>
         ]}
+        extra={currentUser.id && <FollowButton post={post} />}
       >
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
