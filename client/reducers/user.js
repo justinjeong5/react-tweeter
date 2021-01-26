@@ -6,6 +6,8 @@ import {
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
   ADD_POST_TO_ME, REMOVE_POST_FROM_ME,
+  FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
+  UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
 } from './types'
 
 const dummyUser = {
@@ -29,6 +31,12 @@ const initialState = {
   registerUserDone: false,
   registerUserLoading: false,
   registerUserError: null,
+  followDone: false,
+  followLoading: false,
+  followError: null,
+  unfollowDone: false,
+  unfollowLoading: false,
+  unfollowError: null,
 }
 
 const userReducer = (state = initialState, action) => {
@@ -87,6 +95,39 @@ const userReducer = (state = initialState, action) => {
       case REMOVE_POST_FROM_ME:
         const postIndex = draft.currentUser.Posts.findIndex((post) => post.id === action.data.id);
         draft.currentUser.Posts.splice(postIndex, 1);
+        break;
+      case FOLLOW_REQUEST:
+        draft.followLoading = true;
+        draft.followDone = false;
+        draft.followError = null;
+        break;
+      case FOLLOW_SUCCESS:
+        draft.currentUser.Followings.push({ id: action.data.userTo })
+        draft.message = action.message;
+        draft.followLoading = false;
+        draft.followDone = true;
+        break;
+      case FOLLOW_FAILURE:
+        draft.message = action.message;
+        draft.followLoading = false;
+        draft.followError = action.error;
+        break;
+      case UNFOLLOW_REQUEST:
+        draft.unfollowLoading = true;
+        draft.unfollowDone = false;
+        draft.unfollowError = null;
+        break;
+      case UNFOLLOW_SUCCESS:
+        const followIndex = draft.currentUser.Followings.findIndex((follow => follow.id === action.data.userTo))
+        draft.currentUser.Followings.splice(followIndex, 1)
+        draft.message = action.message;
+        draft.unfollowLoading = false;
+        draft.unfollowDone = true;
+        break;
+      case UNFOLLOW_FAILURE:
+        draft.message = action.message;
+        draft.unfollowLoading = false;
+        draft.unfollowError = action.error;
         break;
       default:
         break;
