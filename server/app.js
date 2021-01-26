@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const passport = require('passport');
+const morgan = require('morgan')
 
 const passportConfig = require('./passport');
 const post = require('./routes/post');
@@ -33,6 +34,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(morgan('dev'))
 
 
 app.get('/', (req, res) => {
