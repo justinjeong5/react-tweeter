@@ -1,5 +1,6 @@
 import produce from 'immer'
 import {
+  LOAD_CURRENT_USER_REQUEST, LOAD_CURRENT_USER_SUCCESS, LOAD_CURRENT_USER_FAILURE,
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
@@ -12,6 +13,9 @@ const initialState = {
   currentUser: {},
 
   message: '',
+  loadCurrentUserDone: false,
+  loadCurrentUserLoading: false,
+  loadCurrentUserError: null,
   loginUserDone: false,
   loginUserLoading: false,
   loginUserError: null,
@@ -32,6 +36,22 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_CURRENT_USER_REQUEST:
+        draft.loadCurrentUserLoading = true;
+        draft.loadCurrentUserDone = false;
+        draft.loadCurrentUserError = null;
+        break;
+      case LOAD_CURRENT_USER_SUCCESS:
+        draft.currentUser = action.data.user;
+        draft.message = action.data.message;
+        draft.loadCurrentUserLoading = false;
+        draft.loadCurrentUserDone = true;
+        break;
+      case LOAD_CURRENT_USER_FAILURE:
+        draft.message = action.error.message;
+        draft.loadCurrentUserLoading = false;
+        draft.loadCurrentUserError = action.error.code;
+        break;
       case LOGIN_USER_REQUEST:
         draft.loginUserLoading = true;
         draft.loginUserDone = false;

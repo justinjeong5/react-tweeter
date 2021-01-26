@@ -2,12 +2,34 @@ import { all, put, fork, call, takeLatest, delay } from "redux-saga/effects";
 import axios from 'axios';
 
 import {
+  LOAD_CURRENT_USER_REQUEST, LOAD_CURRENT_USER_SUCCESS, LOAD_CURRENT_USER_FAILURE,
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
 } from '../reducers/types'
+
+
+function loadCurrentUserAPI() {
+  return axios.get('/api/user/')
+}
+
+function* loadCurrentUser() {
+  try {
+    const result = yield call(loadCurrentUserAPI)
+    yield put({
+      type: LOAD_CURRENT_USER_SUCCESS,
+      data: result.data
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: LOAD_CURRENT_USER_FAILURE,
+      error: error.response.data
+    })
+  }
+}
 
 function loginAPI(payload) {
   return axios.post('/api/user/login', payload)
@@ -112,6 +134,10 @@ function* unfollow(action) {
   }
 }
 
+function* watchLoadCurrentUser() {
+  yield takeLatest(LOAD_CURRENT_USER_REQUEST, loadCurrentUser)
+}
+
 function* watchLogin() {
   yield takeLatest(LOGIN_USER_REQUEST, login)
 }
@@ -135,6 +161,7 @@ function* watchUnfollow() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchLoadCurrentUser),
     fork(watchLogin),
     fork(watchLogout),
     fork(watchRegister),

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-import { LOAD_POSTS_REQUEST } from '../reducers/types'
+import { LOAD_POSTS_REQUEST, LOAD_CURRENT_USER_REQUEST } from '../reducers/types'
 import AppLayout from '../components/AppLayout'
 import PostForm from '../components/Post/PostForm'
 import PostCard from '../components/Post/PostCard'
@@ -13,6 +13,9 @@ function index() {
   const { hasMorePost, postsList, loadPostsLoading } = useSelector(state => state.post)
 
   useEffect(() => {
+    dispatch({
+      type: LOAD_CURRENT_USER_REQUEST
+    })
     dispatch({
       type: LOAD_POSTS_REQUEST
     })
