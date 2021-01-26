@@ -5,6 +5,36 @@ const { User, Post } = require('../models');
 const { loginRequired, logoutRequired } = require('./middleware')
 
 const router = express.Router();
+
+router.get('/', async (req, res, next) => {
+  try {
+    if (req.user.id) {
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: req.user.id },
+        attributes: { exclude: ['password'] },
+        include: [{
+          model: Post,
+          attributes: ['id']
+        }, {
+          model: User,
+          as: 'Followings',
+          attributes: ['id']
+        }, {
+          model: User,
+          as: 'Followers',
+          attributes: ['id']
+        }]
+      })
+      return res.status(200).json({ message: '로그인 상태가 정상적으로 확인되었습니다.', user: fullUserWithoutPassword })
+    } else {
+      return res.status(200).json({ message: '로그인하지 않은 상태입니다.', user: null })
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 router.post('/register', logoutRequired, async (req, res, next) => {
   try {
     const user = await User.findOne({
