@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
+const dotenv = require('dotenv');
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const passport = require('passport');
@@ -11,6 +12,7 @@ const user = require('./routes/user');
 const db = require('./models');
 const app = express();
 
+dotenv.config();
 passportConfig();
 db.sequelize.sync()
   .then(() => {
