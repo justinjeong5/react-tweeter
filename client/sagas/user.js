@@ -1,4 +1,5 @@
-import { all, put, fork, takeLatest, delay } from "redux-saga/effects";
+import { all, put, fork, call, takeLatest, delay } from "redux-saga/effects";
+import axios from 'axios';
 
 import {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
@@ -50,26 +51,26 @@ function* logout(action) {
   }
 }
 
-function registerAPI(data) {
-  return axios.post('/api/register', data)
+function registerAPI(payload) {
+  return axios.post('/api/user/register', payload)
 }
 
 function* register(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(registerAPI, action.data)
+    const result = yield call(registerAPI, action.payload)
     yield put({
       type: REGISTER_USER_SUCCESS,
-      data: action.data
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: REGISTER_USER_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }
+
 
 function followAPI(data) {
   return axios.post('/api/follow', data)

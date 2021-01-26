@@ -80,14 +80,14 @@ const userReducer = (state = initialState, action) => {
         draft.registerUserError = null;
         break;
       case REGISTER_USER_SUCCESS:
-        draft.message = action.message;
+        draft.message = action.data.message;
         draft.registerUserLoading = false;
         draft.registerUserDone = true;
         break;
       case REGISTER_USER_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.registerUserLoading = false;
-        draft.registerUserError = action.error;
+        draft.registerUserError = action.error.code;
         break;
       case ADD_POST_TO_ME:
         draft.currentUser.Posts.unshift({ id: action.data.id })

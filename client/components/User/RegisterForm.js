@@ -1,21 +1,34 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link';
-import { Form, Input, Button, Space } from 'antd';
+import Router from 'next/router';
+import { Form, Input, Button, Space, message as Message } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@ant-design/icons';
 import { REGISTER_USER_REQUEST } from '../../reducers/types'
 
 function RegisterForm() {
 
   const dispatch = useDispatch();
-  const { registerUserLoading } = useSelector(state => state.user)
+  const { registerUserLoading, registerUserDone, registerUserError } = useSelector(state => state.user)
+
+  useEffect(() => {
+    if (registerUserDone) {
+      Router.push('/')
+    }
+  }, [registerUserDone])
+
+  useEffect(() => {
+    if (registerUserError) {
+      Message.error(registerUserError.message)
+    }
+  }, [registerUserError])
 
   const onFinish = useCallback((values) => {
     dispatch({
       type: REGISTER_USER_REQUEST,
       payload: {
         email: values.email,
-        name: values.name,
+        nickname: values.nickname,
         password: values.password,
       }
     })
@@ -72,7 +85,7 @@ function RegisterForm() {
 
         <Form.Item
           label="이름"
-          name="userName"
+          name="nickname"
           rules={formUserNameRules}
         >
           <Input prefix={<UserOutlined />} placeholder="name" />
