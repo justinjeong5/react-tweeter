@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs')
-const { User } = require('../models')
+const passport = require('passport');
+const { User, Post } = require('../models');
 
 const router = express.Router();
 router.post('/register', async (req, res, next) => {
@@ -25,5 +26,37 @@ router.post('/register', async (req, res, next) => {
     next(error);
   }
 })
+
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (error, user, info) => {
+    if (error) {
+      console.log(error);
+      return next(error);
+    }
+    if (info) {
+      return res.status(401).json(info)
+    }
+    return req.login(user, async (loginError) => {
+      if (loginError) {
+        console.error(loginError)
+        return next(loginError);
+      }
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: user.id },
+        attributes: { exclude: ['password'] },
+        include: [{
+          model: Post,
+        }, {
+          model: User,
+          as: 'Followings',
+        }, {
+          model: User,
+          as: 'Followers',
+        }]
+      })
+      return res.status(200).json({ message: '로그인이 정상적으로 완료되었습니다.', user: fullUserWithoutPassword })
+    })
+  })(req, res, next);
+});
 
 module.exports = router;
