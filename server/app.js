@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const post = require('./routes/post');
 const user = require('./routes/user');
 const db = require('./models')
@@ -8,6 +9,10 @@ db.sequelize.sync()
     console.log('Database Connected Successfully')
   })
 
+app.use(cors({
+  origin: true,
+  credentials: false,
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
