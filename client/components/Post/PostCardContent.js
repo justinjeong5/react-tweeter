@@ -8,7 +8,7 @@ function PostCardContent({ content }) {
     <div>
       {content.split(/(#[^\s#]+)/g).map(v => {
         if (v.match(/(#[^\s#]+)/g)) {
-          return <Link key={uuidv4()} href={`/hashtag/${v.slice(1)}`}><a>{v}</a></Link>
+          return <Link key={uuidv4()} href={`/hashtag/${v.slice(1).toLowerCase()}`}><a>{v}</a></Link>
         }
         return v
       })}
