@@ -6,7 +6,6 @@ import { FOLLOW_REQUEST, UNFOLLOW_REQUEST, } from '../../reducers/types'
 
 function FollowButton({ post }) {
 
-  console.log(post)
   const dispatch = useDispatch();
   const { currentUser, followLoading, unfollowLoading } = useSelector(state => state.user)
   const [following, setFollowing] = useState(currentUser.Followings.find(following => following.id === post.User.id))
