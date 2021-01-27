@@ -1,20 +1,30 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Head from 'next/head'
 import Router from 'next/router'
+import { Skeleton } from 'antd'
+
 import AppLayout from '../components/AppLayout'
 import FollowList from '../components/Profile/FollowList'
 import NicknameEditForm from '../components/Profile/NicknameEditForm'
+import { GET_FOLLOW_REQUEST } from '../reducers/types'
 
 function Profile() {
 
-  const { currentUser } = useSelector(state => state.user)
+  const dispatch = useDispatch();
+  const { currentUser, getFollowDone, getFollowLoading } = useSelector(state => state.user)
 
   useEffect(() => {
     if (!currentUser.id) {
       Router.push('/')
     }
   }, [currentUser])
+
+  useEffect(() => {
+    dispatch({
+      type: GET_FOLLOW_REQUEST
+    })
+  }, [])
 
   if (!currentUser.id) {
     return null;
@@ -25,9 +35,14 @@ function Profile() {
         <title>프로필</title>
       </Head>
       <AppLayout>
-        <NicknameEditForm />
-        <FollowList header='나를 팔로우 하는 사람' data={currentUser.Followers} />
-        <FollowList header='내가 팔로우 하는 사람' data={currentUser.Followings} />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ width: '100%', maxWidth: 600 }}>
+            <NicknameEditForm />
+            {getFollowLoading && <Skeleton />}
+            {getFollowDone && <FollowList header='나를 팔로우 하는 사람' data={currentUser.Followers} />}
+            {getFollowDone && <FollowList header='내가 팔로우 하는 사람' data={currentUser.Followings} />}
+          </div>
+        </div>
       </AppLayout>
     </>
   )

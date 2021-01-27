@@ -9,7 +9,8 @@ import {
   EDIT_USER_REQUEST, EDIT_USER_SUCCESS, EDIT_USER_FAILURE,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
-  EDIT_USER_OF_POSTS
+  EDIT_USER_OF_POSTS,
+  GET_FOLLOW_REQUEST, GET_FOLLOW_SUCCESS, GET_FOLLOW_FAILURE,
 } from '../reducers/types'
 
 
@@ -157,6 +158,26 @@ function* unfollow(action) {
   }
 }
 
+function getFollowAPI() {
+  return axios.get(`/api/user/follow`)
+}
+
+function* getFollow() {
+  try {
+    const result = yield call(getFollowAPI)
+    yield put({
+      type: GET_FOLLOW_SUCCESS,
+      data: result.data
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: GET_FOLLOW_FAILURE,
+      error: error.response.data
+    })
+  }
+}
+
 function* watchLoadCurrentUser() {
   yield takeLatest(LOAD_CURRENT_USER_REQUEST, loadCurrentUser)
 }
@@ -185,6 +206,10 @@ function* watchUnfollow() {
   yield takeLatest(UNFOLLOW_REQUEST, unfollow)
 }
 
+function* watchGetFollow() {
+  yield takeLatest(GET_FOLLOW_REQUEST, getFollow)
+}
+
 
 export default function* userSaga() {
   yield all([
@@ -195,5 +220,6 @@ export default function* userSaga() {
     fork(watchEdit),
     fork(watchFollow),
     fork(watchUnfollow),
+    fork(watchGetFollow),
   ])
 }

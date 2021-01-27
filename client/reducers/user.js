@@ -8,6 +8,7 @@ import {
   ADD_POST_TO_ME, REMOVE_POST_FROM_ME,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
+  GET_FOLLOW_REQUEST, GET_FOLLOW_SUCCESS, GET_FOLLOW_FAILURE,
 } from './types'
 
 const initialState = {
@@ -35,12 +36,16 @@ const initialState = {
   unfollowDone: false,
   unfollowLoading: false,
   unfollowError: null,
+  getFollowDone: false,
+  getFollowLoading: false,
+  getFollowError: null,
 }
 
 const userReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
       case LOAD_CURRENT_USER_REQUEST:
+        draft.getFollowDone = false;
         draft.loadCurrentUserLoading = true;
         draft.loadCurrentUserDone = false;
         draft.loadCurrentUserError = null;
@@ -160,6 +165,23 @@ const userReducer = (state = initialState, action) => {
         draft.message = action.message;
         draft.unfollowLoading = false;
         draft.unfollowError = action.error;
+        break;
+      case GET_FOLLOW_REQUEST:
+        draft.getFollowLoading = true;
+        draft.getFollowDone = false;
+        draft.getFollowError = null;
+        break;
+      case GET_FOLLOW_SUCCESS:
+        draft.currentUser.Followings = action.data.followings;
+        draft.currentUser.Followers = action.data.followers;
+        draft.message = action.message;
+        draft.getFollowLoading = false;
+        draft.getFollowDone = true;
+        break;
+      case GET_FOLLOW_FAILURE:
+        draft.message = action.message;
+        draft.getFollowLoading = false;
+        draft.getFollowError = action.error;
         break;
       default:
         break;

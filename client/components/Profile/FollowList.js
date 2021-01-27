@@ -1,55 +1,47 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { List, Card, Button } from 'antd'
+import { List, Avatar } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
+import { useDispatch } from 'react-redux'
+import { UNFOLLOW_REQUEST } from '../../reducers/types'
 
 function FollowList({ header, data }) {
 
-  const [dataList, setDataList] = useState([])
-  const [limit, setLimit] = useState(3);
-  const [skip, setSkip] = useState(0)
-  const [noMoreData, setNoMoreData] = useState(false)
+  console.log(header)
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    appendData();
+  const handleBlock = useCallback((user) => () => {
+    if (header === '내가 팔로우 하는 사람') {
+      dispatch({
+        type: UNFOLLOW_REQUEST,
+        data: { userId: user.id }
+      })
+    } else {
+      console.log(user, 'you are blocked!')
+    }
   }, [])
 
-  const appendData = useCallback(() => {
-    if (!noMoreData) {
-      setDataList([...dataList, ...data.slice(skip, skip + limit)]);
-      setSkip(skip + limit);
-      if (skip + limit > data.length) {
-        setNoMoreData(true);
-      }
-    }
-  }, [skip, limit, dataList, noMoreData])
-
-  const listRenderItem = useCallback((item) => (
-    <List.Item style={listRenderItemCardStyle}>
-      <Card
-        cover={<img src={item.image} alt={item.nickname} style={listRenderItemImageStyle} />}
-        actions={[<StopOutlined key='stop' />]}
-      >
-        <Card.Meta description={item.nickname} />
-      </Card>
+  const listRenderItem = useCallback(() => (item) => (
+    <List.Item style={{ marginTop: 20 }}>
+      <List.Item.Meta
+        avatar={<Avatar>{item.nickname[0]}</Avatar>}
+        title={item.nickname}
+        description={item.email}
+      />
+      <div><StopOutlined onClick={handleBlock(item)} /></div>
     </List.Item>
   ), [])
 
-  const listRenderItemImageStyle = useMemo(() => ({ width: 200 }), [])
-  const listStyle = useMemo(() => ({ marginBottom: 20, }), [])
-  const listGridOption = useMemo(() => ({ gutter: 4, xs: 2, md: 3 }), [])
-  const listLoadMoreDivStyle = useMemo(() => ({ textAlign: 'center', margin: '10px 0' }), [])
-  const listRenderItemCardStyle = useMemo(() => ({ marginTop: 20 }), [])
+
+  const listStyle = useMemo(() => ({ marginBottom: 20 }), [])
 
   return (
     <List
       style={listStyle}
-      grid={listGridOption}
-      header={<div>{header}</div>}
-      loadMore={<div style={listLoadMoreDivStyle}><Button onClick={appendData} disabled={noMoreData} >더보기</Button></div>}
+      header={header}
       bordered
-      dataSource={dataList}
-      renderItem={listRenderItem}
+      dataSource={data}
+      renderItem={listRenderItem()}
     />
   )
 }
