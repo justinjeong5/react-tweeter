@@ -9,7 +9,7 @@ function Images({ images }) {
   if (images.length === 1) {
     return (<>
       <div>
-        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
+        <Image role="presentation" width='60%' src={`http://localhost:3065/${images[0].src}`} alt={images[0].src} />
       </div>
     </>)
   }
@@ -17,9 +17,9 @@ function Images({ images }) {
   return (<>
     <div style={{ display: 'flex' }}>
       <Image.PreviewGroup>
-        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
+        <Image role="presentation" width='60%' src={`http://localhost:3065/${images[0].src}`} alt={images[0].src} />
         {images.map((image, index) => {
-          if (index !== 0) return <Image key={uuidv4()} src={image.src} hidden />
+          if (index !== 0) return <Image key={uuidv4()} src={`http://localhost:3065/${image.src}`} hidden />
         })}
       </Image.PreviewGroup>
       <div style={{ width: '40%', textAlign: 'center', alignSelf: 'center' }}>
