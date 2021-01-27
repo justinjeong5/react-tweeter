@@ -61,7 +61,7 @@ router.post('/register', logoutRequired, async (req, res, next) => {
 router.post('/login', logoutRequired, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
     if (error) {
-      console.log(error);
+      console.error(error);
       return next(error);
     }
     if (info) {
@@ -95,5 +95,6 @@ router.post('/logout', loginRequired, (req, res) => {
   req.session.destroy();
   res.status(200).json({ message: '로그아웃이 정상적으로 완료되었습니다.' })
 })
+
 
 module.exports = router;

@@ -10,7 +10,6 @@ router.get('/posts', loginRequired, async (req, res, next) => {
   try {
     const where = {};
     const lastId = parseInt(req.query.lastId, 10);
-    console.log(lastId);
     if (lastId) {
       where.id = { [Op.lt]: lastId }
     }
