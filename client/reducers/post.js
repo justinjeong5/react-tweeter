@@ -5,6 +5,8 @@ import {
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
+  LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
+  UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
 } from './types'
 
 const initialState = {
@@ -24,6 +26,12 @@ const initialState = {
   addCommentDone: false,
   addCommentLoading: false,
   addCommentError: null,
+  likePostDone: false,
+  likePostLoading: false,
+  likePostError: null,
+  unlikePostDone: false,
+  unlikePostLoading: false,
+  unlikePostError: null,
 }
 
 const postReducer = (state = initialState, action) => {
@@ -96,6 +104,42 @@ const postReducer = (state = initialState, action) => {
         draft.message = action.error.message;
         draft.addCommentLoading = false;
         draft.addCommentError = action.error.code;
+        break;
+      case LIKE_POST_REQUEST:
+        draft.likePostLoading = true;
+        draft.likePostDone = false;
+        draft.likePostError = null;
+        break;
+      case LIKE_POST_SUCCESS: {
+        const post = draft.postsList.find(post => post.id === action.data.PostId);
+        post.Likers.push({ id: action.data.UserId })
+        draft.message = action.data.message;
+        draft.likePostLoading = false;
+        draft.likePostDone = true;
+        break;
+      }
+      case LIKE_POST_FAILURE:
+        draft.message = action.error.message;
+        draft.likePostLoading = false;
+        draft.likePostError = action.error.code;
+      case UNLIKE_POST_REQUEST:
+        draft.unlikePostLoading = true;
+        draft.unlikePostDone = false;
+        draft.unlikePostError = null;
+        break;
+      case UNLIKE_POST_SUCCESS: {
+        const post = draft.postsList.find(post => post.id === action.data.PostId);
+        const likerIndex = post.Likers.findIndex(liker => liker.id === action.data.UserId);
+        post.Likers.splice(likerIndex, 1);
+        draft.message = action.data.message;
+        draft.unlikePostLoading = false;
+        draft.unlikePostDone = true;
+        break;
+      }
+      case UNLIKE_POST_FAILURE:
+        draft.message = action.error.message;
+        draft.unlikePostLoading = false;
+        draft.unlikePostError = action.error.code;
         break;
       default:
         break;

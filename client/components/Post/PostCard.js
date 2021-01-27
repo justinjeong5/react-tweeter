@@ -1,28 +1,41 @@
 import React, { useCallback, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import { v4 as uuidv4 } from 'uuid'
 import { Button, Card, Popover, Avatar } from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
-import { v4 as uuidv4 } from 'uuid'
-import { useDispatch, useSelector } from 'react-redux'
 
 import Images from '../Image/Images'
 import CommentForm from '../Comment/CommentForm'
 import Comments from '../Comment/Comments'
 import PostCardContent from './PostCardContent'
 import FollowButton from '../Follow/FollowButton'
-import { REMOVE_POST_REQUEST } from '../../reducers/types'
+import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/types'
 
 function PostCard({ post }) {
 
   const dispatch = useDispatch();
-  const [like, setLike] = useState(false)
   const [commentShow, setCommentShow] = useState(false)
   const { removePostLoading } = useSelector(state => state.post)
   const { currentUser } = useSelector(state => state.user)
 
-  const handleTogleLike = useCallback(() => {
-    setLike(prev => !prev)
-  }, [])
+  const handleLike = useCallback(() => {
+    if (currentUser.id) {
+      dispatch({
+        type: LIKE_POST_REQUEST,
+        data: { postId: post.id }
+      })
+    }
+  }, [post, currentUser])
+
+  const handleUnlike = useCallback(() => {
+    if (currentUser.id) {
+      dispatch({
+        type: UNLIKE_POST_REQUEST,
+        data: { postId: post.id }
+      })
+    }
+  }, [post, currentUser])
 
   const handleToggleCommentShow = useCallback(() => {
     setCommentShow(prev => !prev)
@@ -38,6 +51,21 @@ function PostCard({ post }) {
   }, [post])
 
   const rootDivWrapperStyle = useMemo(() => ({ marginTop: 20 }), [])
+  const liked = useMemo(() => (post.Likers.find((like) => like.id === currentUser.id)), [post]);
+  const titleContent = useCallback(() => {
+    if (post.Likers.length) {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {post.User.nickname}
+          <span style={{ color: 'gray', fontSize: '0.8em', fontWeight: 300 }}>
+            👍🏻 {post.Likers.length}
+          </span>
+        </div>
+      )
+    } else {
+      return (post.User.nickname)
+    }
+  }, [post])
 
   return (
     <div style={rootDivWrapperStyle}>
@@ -45,9 +73,9 @@ function PostCard({ post }) {
         cover={post.Images.length && <Images images={post.Images} />}
         actions={[
           <RetweetOutlined key={uuidv4()} />,
-          like
-            ? <HeartTwoTone twoToneColor='#eb2f96' key={uuidv4()} onClick={handleTogleLike} />
-            : <HeartOutlined key={uuidv4()} onClick={handleTogleLike} />,
+          liked
+            ? <HeartTwoTone twoToneColor='#eb2f96' key={uuidv4()} onClick={handleUnlike} />
+            : <HeartOutlined key={uuidv4()} onClick={handleLike} />,
           <MessageOutlined key={uuidv4()} onClick={handleToggleCommentShow} />,
           <Popover key={uuidv4()} content={(
             <Button.Group>
@@ -66,14 +94,16 @@ function PostCard({ post }) {
       >
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-          title={post.User.nickname}
+          title={titleContent()}
           description={<PostCardContent content={post.content} />}
         />
       </Card>
-      {commentShow && <>
-        <CommentForm postId={post.id} />
-        <Comments comments={post.Comments} />
-      </>}
+      {
+        commentShow && <>
+          <CommentForm postId={post.id} />
+          <Comments comments={post.Comments} />
+        </>
+      }
     </div >
   )
 }
@@ -95,6 +125,9 @@ PostCard.propTypes = {
         nickname: PropTypes.string.isRequired
       }),
       content: PropTypes.string.isRequired,
+    })),
+    Likers: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired
     })),
   })
 }
