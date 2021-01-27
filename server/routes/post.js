@@ -32,6 +32,10 @@ router.get('/posts', loginRequired, async (req, res, next) => {
           model: User,
           attributes: ['id', 'nickname'],
         }]
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id'],
       }]
     });
     res.status(200).json({ message: '게시글 목록을 정상적으로 가져왔습니다.', posts })
@@ -57,8 +61,15 @@ router.post('/post', loginRequired, async (req, res, next) => {
       }, {
         model: Image,
       }, {
-        model: Post,
-        as: 'Retweet'
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+        }]
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id']
       }]
     })
     return res.status(201).json({ message: '게시글이 정상적으로 등록되었습니다.', post: fullPost })
@@ -89,6 +100,34 @@ router.post('/:postId/comment', loginRequired, async (req, res, next) => {
       }]
     })
     return res.status(201).json({ message: '댓글이 정상적으로 등록되었습니다.', comment: fullComment })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.patch('/:postId/like', loginRequired, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.postId } })
+    if (!post) {
+      return res.status(403).json({ code: 'NoSuchPostExist', message: '존재하지 않는 게시글입니다.' })
+    }
+    await post.addLikers(req.user.id);
+    return res.status(200).json({ PostId: post.id, UserId: req.user.id })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.delete('/:postId/like', loginRequired, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.postId } })
+    if (!post) {
+      return res.status(403).json({ code: 'NoSuchPostExist', message: '존재하지 않는 게시글입니다.' })
+    }
+    await post.removeLikers(req.user.id);
+    return res.status(200).json({ PostId: post.id, UserId: req.user.id })
   } catch (error) {
     console.error(error)
     next(error)
