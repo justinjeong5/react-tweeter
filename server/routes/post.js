@@ -1,5 +1,5 @@
 const express = require('express');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
 
 const { Post, Comment, Image, User } = require('../models')
 const { loginRequired } = require('./middleware')
@@ -50,6 +50,9 @@ router.post('/post', loginRequired, async (req, res, next) => {
       content: req.body.content,
       UserId: req.user.id,
     })
+    const images = await Promise.all(req.body.imagePaths.map(image => Image.create(image)))
+    await post.addImages(images);
+
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
