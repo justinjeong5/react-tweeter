@@ -155,4 +155,23 @@ router.delete('/:userId/follow', loginRequired, async (req, res, next) => {
   }
 })
 
+router.get('/follow', loginRequired, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } });
+    if (!user) {
+      return res.status(403).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' });
+    }
+    const followers = await user.getFollowers({
+      attributes: ['id', 'email', 'nickname']
+    });
+    const followings = await user.getFollowings({
+      attributes: ['id', 'email', 'nickname']
+    });
+    return res.status(200).json({ message: '회원정보를 정상적으로 가져왔습니다.', followers, followings })
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 module.exports = router;
