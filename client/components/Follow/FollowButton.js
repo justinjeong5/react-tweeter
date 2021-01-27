@@ -30,8 +30,7 @@ function FollowButton({ post }) {
 
   return (
     <Button
-      loading={followLoading || unfollowLoading}
-      disabled={followLoading || unfollowLoading}
+      loading={followLoading === post.User.id || unfollowLoading === post.User.id}
       onClick={handleFollow}
     >
       {following ? '언팔로우' : '팔로우'}

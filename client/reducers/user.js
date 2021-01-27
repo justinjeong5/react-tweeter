@@ -138,7 +138,7 @@ const userReducer = (state = initialState, action) => {
         draft.currentUser.Posts.splice(postIndex, 1);
         break;
       case FOLLOW_REQUEST:
-        draft.followLoading = true;
+        draft.followLoading = action.data.userId;
         draft.followDone = false;
         draft.followError = null;
         break;
@@ -154,7 +154,7 @@ const userReducer = (state = initialState, action) => {
         draft.followError = action.error;
         break;
       case UNFOLLOW_REQUEST:
-        draft.unfollowLoading = true;
+        draft.unfollowLoading = action.data.userId;
         draft.unfollowDone = false;
         draft.unfollowError = null;
         break;
