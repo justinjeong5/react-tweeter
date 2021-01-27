@@ -125,4 +125,34 @@ router.patch('/', loginRequired, async (req, res, next) => {
   }
 })
 
+router.patch('/:userId/follow', loginRequired, async (req, res, next) => {
+  try {
+    const userTo = parseInt(req.params.userId);
+    const user = await User.findOne({ where: { id: userTo } });
+    if (!user) {
+      return res.status(403).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' });
+    }
+    await user.addFollowers(req.user.id);
+    return res.status(200).json({ message: '정상적으로 팔로우하였습니다.', UserId: userTo })
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
+router.delete('/:userId/follow', loginRequired, async (req, res, next) => {
+  try {
+    const userTo = parseInt(req.params.userId);
+    const user = await User.findOne({ where: { id: userTo } });
+    if (!user) {
+      return res.status(403).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' });
+    }
+    await user.removeFollowers(req.user.id);
+    return res.status(200).json({ message: '정상적으로 언팔로우하였습니다.', UserId: userTo })
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 module.exports = router;
