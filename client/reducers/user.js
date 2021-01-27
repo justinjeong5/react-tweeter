@@ -134,7 +134,7 @@ const userReducer = (state = initialState, action) => {
         draft.followError = null;
         break;
       case FOLLOW_SUCCESS:
-        draft.currentUser.Followings.push({ id: action.data.userTo })
+        draft.currentUser.Followings.push({ id: action.data.UserId })
         draft.message = action.message;
         draft.followLoading = false;
         draft.followDone = true;
@@ -150,7 +150,7 @@ const userReducer = (state = initialState, action) => {
         draft.unfollowError = null;
         break;
       case UNFOLLOW_SUCCESS:
-        const followIndex = draft.currentUser.Followings.findIndex((follow => follow.id === action.data.userTo))
+        const followIndex = draft.currentUser.Followings.findIndex((follow => follow.id === action.data.UserId))
         draft.currentUser.Followings.splice(followIndex, 1)
         draft.message = action.message;
         draft.unfollowLoading = false;

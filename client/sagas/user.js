@@ -118,43 +118,41 @@ function* edit(action) {
 }
 
 function followAPI(data) {
-  return axios.post('/api/follow', data)
+  return axios.patch(`/api/user/${data.userId}/follow`)
 }
 
 function* follow(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(followAPI, action.data)
+    const result = yield call(followAPI, action.data)
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: FOLLOW_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }
 
 function unfollowAPI(data) {
-  return axios.post('/api/unfollow', data)
+  return axios.delete(`/api/user/${data.userId}/follow`)
 }
 
 function* unfollow(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(unfollowAPI, action.data)
+    const result = yield call(unfollowAPI, action.data)
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: UNFOLLOW_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }

@@ -12,8 +12,7 @@ function FollowButton({ post }) {
 
   const handleFollow = useCallback(() => {
     const data = {
-      userTo: post.User.id,
-      userFrom: currentUser.id
+      userId: post.User.id,
     }
     if (following) {
       dispatch({
