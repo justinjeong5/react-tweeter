@@ -96,5 +96,33 @@ router.post('/logout', loginRequired, (req, res) => {
   res.status(200).json({ message: '로그아웃이 정상적으로 완료되었습니다.' })
 })
 
+router.patch('/', loginRequired, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } })
+    if (!user) {
+      return res.status(401).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.', });
+    }
+    user.nickname = req.body.nickname;
+    await user.save();
+
+    const fullUserWithoutPassword = await User.findOne({
+      where: { id: user.id },
+      attributes: { exclude: ['password'] },
+      include: [{
+        model: Post,
+      }, {
+        model: User,
+        as: 'Followings',
+      }, {
+        model: User,
+        as: 'Followers',
+      }]
+    })
+    return res.status(200).json({ message: '회원정보 수정이 정상적으로 완료되었습니다.', user: fullUserWithoutPassword })
+  } catch (error) {
+    console.error(error);
+    next(error)
+  }
+})
 
 module.exports = router;
