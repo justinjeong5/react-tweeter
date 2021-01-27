@@ -1,4 +1,3 @@
-import faker from 'faker'
 import produce from 'immer'
 
 import {
@@ -7,14 +6,6 @@ import {
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
 } from './types'
-
-const dummyComment = (comment) => ({
-  User: {
-    id: faker.random.number(),
-    nickname: faker.name.firstName(),
-  },
-  content: comment,
-})
 
 const initialState = {
   postsList: [],
@@ -94,17 +85,17 @@ const postReducer = (state = initialState, action) => {
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS: {
-        const post = draft.postsList.find((post) => post.id === action.data.postId);
-        post.Comments.unshift(dummyComment(action.data.comment));
-        draft.message = action.message;
+        const post = draft.postsList.find((post) => post.id === action.data.comment.PostId);
+        post.Comments.unshift(action.data.comment);
+        draft.message = action.data.message;
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;
       }
       case ADD_COMMENT_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.addCommentLoading = false;
-        draft.addCommentError = action.error;
+        draft.addCommentError = action.error.code;
         break;
       default:
         break;

@@ -16,12 +16,11 @@ function CommentForm({ postId }) {
     dispatch({
       type: ADD_COMMENT_REQUEST,
       data: {
-        comment: values.comment,
-        postId: postId,
-        userId: currentUser.id
+        content: values.comment,
+        postId,
       }
     })
-  }, [postId, currentUser])
+  }, [postId])
 
   useEffect(() => {
     form.resetFields();

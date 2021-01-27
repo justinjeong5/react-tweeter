@@ -83,21 +83,21 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post('/api/addComment', data)
+  return axios.post(`/api/post/${data.postId}/comment`, data)
 }
 
 function* addComment(action) {
   try {
-    // const result = yield call(addCommentAPI, action.data)
+    const result = yield call(addCommentAPI, action.data)
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: action.data
+      data: result.data
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: ADD_COMMENT_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }
