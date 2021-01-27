@@ -35,6 +35,22 @@ router.get('/posts', loginRequired, async (req, res, next) => {
         model: User,
         as: 'Likers',
         attributes: ['id'],
+      }, {
+        model: Post,
+        as: 'Retweet',
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }, {
+          model: Image
+        }, {
+          model: User,
+          as: 'Likers',
+          attributes: ['id']
+        }, {
+          model: Comment,
+          attributes: ['id']
+        }]
       }]
     });
     res.status(200).json({ message: '게시글 목록을 정상적으로 가져왔습니다.', posts })
@@ -156,6 +172,81 @@ router.delete('/:postId/like', loginRequired, async (req, res, next) => {
     }
     await post.removeLikers(req.user.id);
     return res.status(200).json({ PostId: post.id, UserId: req.user.id })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.post('/:postId/retweet', loginRequired, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.body.postId },
+      include: [{
+        model: Post,
+        as: 'Retweet'
+      }],
+    })
+    if (!post) {
+      return res.status(403).json({ code: 'NoSuchPostExist', message: '존재하지 않는 게시글입니다.' })
+    }
+    if (req.user.id === post.UserId || req.user.id === post.Retweet?.UserId) {
+      return res.status(403).json({ code: 'NoRetweetRule', message: '자신의 글은 리트윗할 수 없습니다.' })
+    }
+    const retweetTarget = post.RetweetId || post.id;
+    const retweetExist = await Post.findOne({
+      where: {
+        UserId: req.user.id,
+        RetweetId: retweetTarget
+      }
+    })
+    if (retweetExist) {
+      return res.status(403).json({ code: 'NoRetweetRule', message: '이미 리트윗한 게시글입니다.', postId: req.body.postId })
+    }
+    const retweet = await Post.create({
+      UserId: req.user.id,
+      RetweetId: retweetTarget,
+      content: 'retweet',
+    })
+    const fullRetweet = await Post.findOne({
+      where: { id: retweet.id },
+      include: [{
+        model: Post,
+        as: 'Retweet',
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }, {
+          model: Image
+        }, {
+          model: Comment,
+          include: [{
+            model: User,
+            attributes: ['id']
+          }]
+        }, {
+          model: User,
+          as: 'Likers',
+          attributes: ['id']
+        }]
+      }, {
+        model: User,
+        attributes: ['id', 'nickname']
+      }, {
+        model: Image,
+      }, {
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }]
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id']
+      }]
+    })
+    return res.status(200).json({ message: '정상적으로 리트윗하였습니다.', retweet: fullRetweet })
   } catch (error) {
     console.error(error)
     next(error)
