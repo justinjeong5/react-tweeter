@@ -7,6 +7,7 @@ import {
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
   LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
+  EDIT_USER_OF_POSTS,
 } from './types'
 
 const initialState = {
@@ -140,6 +141,13 @@ const postReducer = (state = initialState, action) => {
         draft.message = action.error.message;
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error.code;
+        break;
+      case EDIT_USER_OF_POSTS:
+        draft.postsList.forEach(post => {
+          if (post.User.id === action.data.user.id) {
+            post.User.nickname = action.data.user.nickname
+          }
+        })
         break;
       default:
         break;

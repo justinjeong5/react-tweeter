@@ -6,8 +6,10 @@ import {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
+  EDIT_USER_REQUEST, EDIT_USER_SUCCESS, EDIT_USER_FAILURE,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
+  EDIT_USER_OF_POSTS
 } from '../reducers/types'
 
 
@@ -91,6 +93,29 @@ function* register(action) {
   }
 }
 
+function editAPI(data) {
+  return axios.patch('/api/user/', data)
+}
+
+function* edit(action) {
+  try {
+    const result = yield call(editAPI, action.data)
+    yield put({
+      type: EDIT_USER_SUCCESS,
+      data: result.data
+    })
+    yield put({
+      type: EDIT_USER_OF_POSTS,
+      data: result.data
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: EDIT_USER_FAILURE,
+      error: error.response.data
+    })
+  }
+}
 
 function followAPI(data) {
   return axios.post('/api/follow', data)
@@ -150,6 +175,10 @@ function* watchRegister() {
   yield takeLatest(REGISTER_USER_REQUEST, register)
 }
 
+function* watchEdit() {
+  yield takeLatest(EDIT_USER_REQUEST, edit)
+}
+
 function* watchFollow() {
   yield takeLatest(FOLLOW_REQUEST, follow)
 }
@@ -165,6 +194,7 @@ export default function* userSaga() {
     fork(watchLogin),
     fork(watchLogout),
     fork(watchRegister),
+    fork(watchEdit),
     fork(watchFollow),
     fork(watchUnfollow),
   ])

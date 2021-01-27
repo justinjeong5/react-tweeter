@@ -4,6 +4,7 @@ import {
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
+  EDIT_USER_REQUEST, EDIT_USER_SUCCESS, EDIT_USER_FAILURE,
   ADD_POST_TO_ME, REMOVE_POST_FROM_ME,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
@@ -25,6 +26,9 @@ const initialState = {
   registerUserDone: false,
   registerUserLoading: false,
   registerUserError: null,
+  editUserDone: false,
+  editUserLoading: false,
+  editUserError: null,
   followDone: false,
   followLoading: false,
   followError: null,
@@ -100,6 +104,22 @@ const userReducer = (state = initialState, action) => {
         draft.message = action.error.message;
         draft.registerUserLoading = false;
         draft.registerUserError = action.error.code;
+        break;
+      case EDIT_USER_REQUEST:
+        draft.editUserLoading = true;
+        draft.editUserDone = false;
+        draft.editUserError = null;
+        break;
+      case EDIT_USER_SUCCESS:
+        draft.currentUser = action.data.user;
+        draft.message = action.data.message;
+        draft.editUserLoading = false;
+        draft.editUserDone = true;
+        break;
+      case EDIT_USER_FAILURE:
+        draft.message = action.error.message;
+        draft.editUserLoading = false;
+        draft.editUserError = action.error.code;
         break;
       case ADD_POST_TO_ME:
         draft.currentUser.Posts.unshift({ id: action.data.id })
