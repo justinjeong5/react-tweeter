@@ -80,7 +80,12 @@ router.post('/post', loginRequired, async (req, res, next) => {
 
 router.delete('/:postId', loginRequired, async (req, res, next) => {
   try {
-    const post = await Post.findOne({ where: { id: req.params.postId } })
+    const post = await Post.findOne({
+      where: {
+        id: req.params.postId,
+        UserId: req.user.id,
+      }
+    })
     if (!post) {
       return res.status(403).json({ code: 'NoSuchPostExist', message: '존재하지 않는 게시글입니다.' })
     }
