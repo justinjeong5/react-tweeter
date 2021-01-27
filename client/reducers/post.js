@@ -11,6 +11,7 @@ import {
   UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE,
   REMOVE_IMAGE_FROM_PATHS,
   CLEAR_IMAGE_FROM_PATHS,
+  RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
 } from './types'
 
 const initialState = {
@@ -39,6 +40,9 @@ const initialState = {
   uploadImagesDone: false,
   uploadImagesLoading: false,
   uploadImagesError: null,
+  retweetDone: false,
+  retweetLoading: false,
+  retweetError: null,
 }
 
 const postReducer = (state = initialState, action) => {
@@ -177,6 +181,23 @@ const postReducer = (state = initialState, action) => {
         break;
       case CLEAR_IMAGE_FROM_PATHS:
         draft.imagePaths = [];
+        break;
+      case RETWEET_REQUEST:
+        draft.retweetLoading = true;
+        draft.retweetDone = false;
+        draft.retweetError = null;
+        break;
+      case RETWEET_SUCCESS: {
+        draft.postsList.unshift(action.data.retweet)
+        draft.message = action.data.message;
+        draft.retweetLoading = false;
+        draft.retweetDone = true;
+        break;
+      }
+      case RETWEET_FAILURE:
+        draft.message = action.error.message;
+        draft.retweetLoading = false;
+        draft.retweetError = action.error.postId;
         break;
       default:
         break;
