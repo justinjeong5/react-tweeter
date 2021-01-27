@@ -16,11 +16,13 @@ function index() {
     dispatch({
       type: LOAD_CURRENT_USER_REQUEST
     })
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-      data: { lastId: null }
-    })
-  }, [])
+    if (postsList.length === 0) {
+      dispatch({
+        type: LOAD_POSTS_REQUEST,
+        data: { lastId: null }
+      })
+    }
+  }, [postsList])
 
   useEffect(() => {
     const onScroll = () => {
