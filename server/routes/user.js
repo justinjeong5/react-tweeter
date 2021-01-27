@@ -155,6 +155,21 @@ router.delete('/:userId/follow', loginRequired, async (req, res, next) => {
   }
 })
 
+router.delete('/follow/:userId', loginRequired, async (req, res, next) => {
+  try {
+    const userTo = parseInt(req.params.userId);
+    const user = await User.findOne({ where: { id: userTo } });
+    if (!user) {
+      return res.status(403).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' });
+    }
+    await user.removeFollowings(req.user.id);
+    return res.status(200).json({ message: '팔로워를 정상적으로 차단하였습니다.', UserId: userTo })
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 router.get('/follow', loginRequired, async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
