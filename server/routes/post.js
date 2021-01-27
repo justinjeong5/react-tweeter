@@ -79,6 +79,20 @@ router.post('/post', loginRequired, async (req, res, next) => {
   }
 })
 
+router.delete('/:postId', loginRequired, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.postId } })
+    if (!post) {
+      return res.status(403).json({ code: 'NoSuchPostExist', message: '존재하지 않는 게시글입니다.' })
+    }
+    post.destroy();
+    return res.status(200).json({ message: '게시글이 정상적으로 삭제되었습니다.', PostId: post.id })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 router.post('/:postId/comment', loginRequired, async (req, res, next) => {
   try {
     const post = await Post.findOne({ where: { id: req.params.postId } })
