@@ -1,26 +1,12 @@
 import faker from 'faker'
 import produce from 'immer'
 
-import { v4 as uuidv4 } from 'uuid'
 import {
   LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
 } from './types'
-
-export const generateDummyPost = (number) => (Array(number).fill().map(_ => dummyPost({ id: uuidv4(), content: faker.lorem.sentences() })))
-
-const dummyPost = (data) => ({
-  id: data.id,
-  User: {
-    id: uuidv4(),
-    nickname: faker.name.findName(),
-  },
-  content: data.content,
-  Images: Array.from(Array(Math.floor(Math.random() * 3) + 1)).map(_ => ({ src: faker.image.image() })),
-  Comments: Array.from(Array(2)).map(_ => (dummyComment(faker.lorem.sentence()))),
-})
 
 const dummyComment = (comment) => ({
   User: {
@@ -58,16 +44,16 @@ const postReducer = (state = initialState, action) => {
         draft.loadPostsError = null;
         break;
       case LOAD_POSTS_SUCCESS:
-        draft.postsList.push(...action.data);
-        draft.message = action.message;
+        draft.postsList.push(...action.data.posts);
+        draft.message = action.data.message;
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        draft.hasMorePost = draft.postsList.length < 50;
+        draft.hasMorePost = action.data.posts.length === 10;
         break;
       case LOAD_POSTS_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.loadPostsLoading = false;
-        draft.loadPostsError = action.error;
+        draft.loadPostsError = action.error.code;
         break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;

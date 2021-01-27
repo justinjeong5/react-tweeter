@@ -1,6 +1,5 @@
 import { all, put, fork, call, takeLatest, delay, takeLeading } from "redux-saga/effects";
 import axios from 'axios';
-import { generateDummyPost } from "../reducers/post";
 
 import {
   LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
@@ -11,22 +10,21 @@ import {
 } from '../reducers/types'
 
 function loadPostsAPI(data) {
-  return axios.get('/api/posts')
+  return axios.get(`/api/post/posts?lastId=${data.lastId}`)
 }
 
 function* loadPosts(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(loadPostsAPI, action.data)
+    const result = yield call(loadPostsAPI, action.data)
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: generateDummyPost(10),
+      data: result.data,
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: LOAD_POSTS_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }

@@ -17,7 +17,8 @@ function index() {
       type: LOAD_CURRENT_USER_REQUEST
     })
     dispatch({
-      type: LOAD_POSTS_REQUEST
+      type: LOAD_POSTS_REQUEST,
+      data: { lastId: null }
     })
   }, [])
 
@@ -30,8 +31,10 @@ function index() {
         && document.documentElement.scrollHeight)
         || document.body.scrollHeight;
       if (hasMorePost && !loadPostsLoading && scrollTop + window.innerHeight + 300 >= scrollHeight) {
+        const lastId = postsList[postsList.length - 1]?.id
         dispatch({
-          type: LOAD_POSTS_REQUEST
+          type: LOAD_POSTS_REQUEST,
+          data: { lastId }
         })
       }
     }
