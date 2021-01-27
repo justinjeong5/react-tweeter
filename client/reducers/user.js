@@ -105,7 +105,7 @@ const userReducer = (state = initialState, action) => {
         draft.currentUser.Posts.unshift({ id: action.data.id })
         break;
       case REMOVE_POST_FROM_ME:
-        const postIndex = draft.currentUser.Posts.findIndex((post) => post.id === action.data.id);
+        const postIndex = draft.currentUser.Posts.findIndex((post) => post.id === action.data.PostId);
         draft.currentUser.Posts.splice(postIndex, 1);
         break;
       case FOLLOW_REQUEST:

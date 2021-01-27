@@ -76,7 +76,7 @@ const postReducer = (state = initialState, action) => {
         draft.removePostError = null;
         break;
       case REMOVE_POST_SUCCESS:
-        const postIndex = draft.postsList.findIndex((post) => post.id === action.data.id);
+        const postIndex = draft.postsList.findIndex((post) => post.id === action.data.PostId);
         draft.postsList.splice(postIndex, 1);
         draft.message = action.message;
         draft.removePostLoading = false;

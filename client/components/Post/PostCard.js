@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
-import { Button, Card, Popover, Avatar } from 'antd'
+import { Button, Card, Popover, Avatar, Popconfirm, message as Message } from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 
 import Images from '../Image/Images'
@@ -42,10 +42,11 @@ function PostCard({ post }) {
   }, [])
 
   const handleRemovePost = useCallback(() => {
+    Message.success('게시글을 삭제하였습니다.');
     dispatch({
       type: REMOVE_POST_REQUEST,
       data: {
-        id: post.id
+        postId: post.id
       }
     })
   }, [post])
@@ -82,7 +83,14 @@ function PostCard({ post }) {
               {currentUser.id === post.User.id
                 ? <>
                   <Button>수정</Button>
-                  <Button type='danger' disabled={removePostLoading} loading={removePostLoading} onClick={handleRemovePost}>삭제</Button>
+                  <Popconfirm
+                    title="게시글을 정말로 삭제하시겠습니까?"
+                    onConfirm={handleRemovePost}
+                    okText="삭제"
+                    cancelText="아니오"
+                  >
+                    <Button type='danger' disabled={removePostLoading} loading={removePostLoading} >삭제</Button>
+                  </Popconfirm>
                 </>
                 : <Button>신고</Button>}
             </Button.Group>

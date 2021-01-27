@@ -56,30 +56,25 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.post('/api/removePost', data)
+  return axios.delete(`/api/post/${data.postId}`)
 }
 
 function* removePost(action) {
   try {
-    yield delay(2000);  // server is not ready
-    // const result = yield call(removePostAPI, action.data)
+    const result = yield call(removePostAPI, action.data)
     yield put({
       type: REMOVE_POST_SUCCESS,
-      data: {
-        id: action.data.id,
-      }
+      data: result.data,
     })
     yield put({
       type: REMOVE_POST_FROM_ME,
-      data: {
-        id: action.data.id,
-      }
+      data: result.data,
     })
   } catch (error) {
     console.error(error)
     yield put({
       type: REMOVE_POST_FAILURE,
-      data: error.response.data
+      error: error.response.data
     })
   }
 }
