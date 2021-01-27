@@ -1,13 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { List, Avatar } from 'antd'
+import { List, Avatar, Popconfirm, message as Message } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { UNFOLLOW_REQUEST } from '../../reducers/types'
+import { UNFOLLOW_REQUEST, BLOCK_FOLLOW_REQUEST } from '../../reducers/types'
 
 function FollowList({ header, data }) {
 
-  console.log(header)
   const dispatch = useDispatch();
 
   const handleBlock = useCallback((user) => () => {
@@ -17,7 +16,11 @@ function FollowList({ header, data }) {
         data: { userId: user.id }
       })
     } else {
-      console.log(user, 'you are blocked!')
+      dispatch({
+        type: BLOCK_FOLLOW_REQUEST,
+        data: { userId: user.id }
+      })
+      Message.success(`${user.nickname}님이 차단되었습니다.`)
     }
   }, [])
 
@@ -28,7 +31,18 @@ function FollowList({ header, data }) {
         title={item.nickname}
         description={item.email}
       />
-      <div><StopOutlined onClick={handleBlock(item)} /></div>
+      {header === '내가 팔로우 하는 사람'
+        ? <div><StopOutlined onClick={handleBlock(item)} /></div>
+        : <Popconfirm
+          placement="topRight"
+          title={`${item.nickname}님을 차단하시겠습니까? \n이 작업은 되돌릴 수 없습니다.`}
+          onConfirm={handleBlock(item)}
+          okText='차단'
+          cancelText="아니오"
+        >
+          <StopOutlined />
+        </Popconfirm>
+      }
     </List.Item>
   ), [])
 

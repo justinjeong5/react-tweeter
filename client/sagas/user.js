@@ -10,6 +10,7 @@ import {
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
   EDIT_USER_OF_POSTS,
+  BLOCK_FOLLOW_REQUEST, BLOCK_FOLLOW_SUCCESS, BLOCK_FOLLOW_FAILURE,
   GET_FOLLOW_REQUEST, GET_FOLLOW_SUCCESS, GET_FOLLOW_FAILURE,
 } from '../reducers/types'
 
@@ -158,6 +159,26 @@ function* unfollow(action) {
   }
 }
 
+function blockFollowAPI(data) {
+  return axios.delete(`/api/user/follow/${data.userId}`)
+}
+
+function* blockFollow(action) {
+  try {
+    const result = yield call(blockFollowAPI, action.data)
+    yield put({
+      type: BLOCK_FOLLOW_SUCCESS,
+      data: result.data
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: BLOCK_FOLLOW_FAILURE,
+      error: error.response.data
+    })
+  }
+}
+
 function getFollowAPI() {
   return axios.get(`/api/user/follow`)
 }
@@ -206,6 +227,10 @@ function* watchUnfollow() {
   yield takeLatest(UNFOLLOW_REQUEST, unfollow)
 }
 
+function* watchBlockFollow() {
+  yield takeLatest(BLOCK_FOLLOW_REQUEST, blockFollow)
+}
+
 function* watchGetFollow() {
   yield takeLatest(GET_FOLLOW_REQUEST, getFollow)
 }
@@ -220,6 +245,7 @@ export default function* userSaga() {
     fork(watchEdit),
     fork(watchFollow),
     fork(watchUnfollow),
+    fork(watchBlockFollow),
     fork(watchGetFollow),
   ])
 }

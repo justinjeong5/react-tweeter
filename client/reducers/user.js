@@ -8,6 +8,7 @@ import {
   ADD_POST_TO_ME, REMOVE_POST_FROM_ME,
   FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
+  BLOCK_FOLLOW_REQUEST, BLOCK_FOLLOW_SUCCESS, BLOCK_FOLLOW_FAILURE,
   GET_FOLLOW_REQUEST, GET_FOLLOW_SUCCESS, GET_FOLLOW_FAILURE,
 } from './types'
 
@@ -36,6 +37,9 @@ const initialState = {
   unfollowDone: false,
   unfollowLoading: false,
   unfollowError: null,
+  blockFollowDone: false,
+  blockFollowLoading: false,
+  blockFollowError: null,
   getFollowDone: false,
   getFollowLoading: false,
   getFollowError: null,
@@ -154,17 +158,36 @@ const userReducer = (state = initialState, action) => {
         draft.unfollowDone = false;
         draft.unfollowError = null;
         break;
-      case UNFOLLOW_SUCCESS:
+      case UNFOLLOW_SUCCESS: {
         const followIndex = draft.currentUser.Followings.findIndex((follow => follow.id === action.data.UserId))
         draft.currentUser.Followings.splice(followIndex, 1)
         draft.message = action.message;
         draft.unfollowLoading = false;
         draft.unfollowDone = true;
         break;
+      }
       case UNFOLLOW_FAILURE:
         draft.message = action.message;
         draft.unfollowLoading = false;
         draft.unfollowError = action.error;
+        break;
+      case BLOCK_FOLLOW_REQUEST:
+        draft.blockFollowLoading = true;
+        draft.blockFollowDone = false;
+        draft.blockFollowError = null;
+        break;
+      case BLOCK_FOLLOW_SUCCESS: {
+        const followIndex = draft.currentUser.Followers.findIndex((follow => follow.id === action.data.UserId))
+        draft.currentUser.Followers.splice(followIndex, 1)
+        draft.message = action.message;
+        draft.blockFollowLoading = false;
+        draft.blockFollowDone = true;
+        break;
+      }
+      case BLOCK_FOLLOW_FAILURE:
+        draft.message = action.message;
+        draft.blockFollowLoading = false;
+        draft.blockFollowError = action.error;
         break;
       case GET_FOLLOW_REQUEST:
         draft.getFollowLoading = true;
