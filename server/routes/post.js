@@ -1,7 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 
-const { Post, Comment, Image, User } = require('../models')
+const { Post, Comment, Image, User, Hashtag } = require('../models');
 const { loginRequired } = require('./middleware')
 
 const router = express.Router();
@@ -46,14 +46,21 @@ router.get('/posts', loginRequired, async (req, res, next) => {
 })
 router.post('/post', loginRequired, async (req, res, next) => {
   try {
+    const hashtags = req.body.content.match(/#[^\s#]+/g);
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
     })
+    if (hashtags) {
+      const result = await Promise.all(hashtags.map(tag => Hashtag.findOrCreate({
+        where: { name: tag.slice(1).toLowerCase() }
+      })));
+      await post.addHashtags(result.filter(res => res[1]).map(res => (res[0])));
+    }
     const images = await Promise.all(req.body.imagePaths.map(image => Image.create(image)))
     await post.addImages(images);
 
-    const fullPost = await Post.findOne({
+    const fullPost = await Post.findOne({ // fullPost does not need Hashtag Info
       where: { id: post.id },
       include: [{
         model: User,
