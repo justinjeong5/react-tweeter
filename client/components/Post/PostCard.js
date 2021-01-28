@@ -153,7 +153,7 @@ PostCard.propTypes = {
       id: PropTypes.number.isRequired
     })),
     RetweetId: PropTypes.number,
-    Retweet: PropTypes.arrayOf(PropTypes.shape({
+    Retweet: PropTypes.shape({
       id: PropTypes.number.isRequired,
       User: PropTypes.shape({
         id: PropTypes.number.isRequired,
@@ -169,7 +169,7 @@ PostCard.propTypes = {
       Likers: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired
       })),
-    })),
+    }),
   })
 }
 
