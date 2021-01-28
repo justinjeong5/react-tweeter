@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { Empty } from 'antd'
-import { LOAD_POSTS_REQUEST, LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST } from '../../reducers/types'
+import { LOAD_POSTS_REQUEST } from '../../reducers/types'
 import AppLayout from '../../components/AppLayout'
 import PostForm from '../../components/Post/PostForm'
 import PostCard from '../../components/Post/PostCard'
@@ -12,22 +12,6 @@ function MainPage({ target }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
   const { hasMorePost, postsList, loadPostsLoading, loadPostsDone } = useSelector(state => state.post)
-
-  useEffect(() => {
-    dispatch({
-      type: CLEAR_POSTS_LIST
-    })
-    dispatch({
-      type: LOAD_CURRENT_USER_REQUEST
-    })
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-      data: {
-        lastId: null,
-        target
-      }
-    })
-  }, [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -63,5 +47,7 @@ function MainPage({ target }) {
     </AppLayout>
   )
 }
+
+
 
 export default MainPage
