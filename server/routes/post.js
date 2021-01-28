@@ -43,6 +43,9 @@ router.get('/posts', loginRequired, async (req, res, next) => {
         })
         where.UserId = { [Op.in]: followings.map(user => user.id) };
         break;
+      case 'other':
+        where.UserId = req.query.userId;
+        break;
       default:
         return res.status(400).json({ code: 'InvalidOption', message: '유효하지 않은 옵션입니다.' })
     }
