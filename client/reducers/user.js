@@ -55,6 +55,7 @@ const userReducer = (state = initialState, action) => {
         draft.loadCurrentUserError = null;
         break;
       case LOAD_CURRENT_USER_SUCCESS:
+        draft.registerUserDone = false;
         draft.currentUser = action.data.user;
         draft.message = action.data.message;
         draft.loadCurrentUserLoading = false;

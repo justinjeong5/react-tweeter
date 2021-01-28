@@ -14,6 +14,7 @@ import {
   CLEAR_IMAGE_FROM_PATHS,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
   REMOVE_IMAGE_FROM_PATH,
+  RESET_POST_REDUX_STATE,
 } from './types'
 
 const initialState = {
@@ -224,6 +225,9 @@ const postReducer = (state = initialState, action) => {
         draft.message = action.error.message;
         draft.retweetLoading = false;
         draft.retweetError = action.error.postId;
+        break;
+      case RESET_POST_REDUX_STATE:
+        draft.addPostDone = false;
         break;
       default:
         break;

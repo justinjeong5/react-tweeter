@@ -13,6 +13,7 @@ import {
   BLOCK_FOLLOW_REQUEST, BLOCK_FOLLOW_SUCCESS, BLOCK_FOLLOW_FAILURE,
   GET_FOLLOW_REQUEST, GET_FOLLOW_SUCCESS, GET_FOLLOW_FAILURE,
   REMOVE_IMAGE_FROM_PATH,
+  RESET_POST_REDUX_STATE,
 } from '../reducers/types'
 
 
@@ -26,6 +27,9 @@ function* loadCurrentUser() {
     yield put({
       type: LOAD_CURRENT_USER_SUCCESS,
       data: result.data
+    })
+    yield put({
+      type: RESET_POST_REDUX_STATE,
     })
   } catch (error) {
     console.error(error)
