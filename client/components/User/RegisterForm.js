@@ -1,16 +1,16 @@
-import React, { useMemo, useCallback, useEffect, useRef } from 'react'
+import React, { useMemo, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link';
 import Router from 'next/router';
 import { Form, Input, Button, Space, message as Message, Popconfirm } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@ant-design/icons';
 import md5 from 'md5'
-import { REGISTER_USER_REQUEST, UPLOAD_IMAGE_REQUEST, REMOVE_IMAGE_FROM_PATH } from '../../reducers/types'
+import { REGISTER_USER_REQUEST, REMOVE_IMAGE_FROM_PATH } from '../../reducers/types'
+import ImageUploader from '../Image/ImageUploader';
 
 function RegisterForm() {
 
   const dispatch = useDispatch();
-  const imageUploadRef = useRef();
   const { registerUserLoading, registerUserDone, registerUserError, loginUserDone, message } = useSelector(state => state.user)
   const { imagePath } = useSelector(state => state.post)
 
@@ -45,25 +45,12 @@ function RegisterForm() {
     })
   }, [imagePath]);
 
-  const handleChangeImage = useCallback((e) => {
-    const imageFormData = new FormData();
-    imageFormData.append('image', e.target.files[0])
-
-    dispatch({
-      type: UPLOAD_IMAGE_REQUEST,
-      data: imageFormData     // FormData should not be wrapped by {}, which makes FormData into plain JSON object.
-    })
-  }, [])
-
   const handleRemoveImage = useCallback(() => () => {
     dispatch({
       type: REMOVE_IMAGE_FROM_PATH,
     })
   }, [])
 
-  const handleImageUpload = useCallback(() => {
-    imageUploadRef.current.click();
-  }, [])
 
   const rootDivWrapperStyle = useMemo(() => ({ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: 20 }), [])
   const formLabelColStyle = useMemo(() => ({ span: 8 }), [])
@@ -154,7 +141,7 @@ function RegisterForm() {
             </Popconfirm>
           </div>}
           <Space >
-            <Button onClick={handleImageUpload} disabled={registerUserLoading}>이미지 업로드</Button>
+            <ImageUploader />
             <Button type="primary" htmlType="submit" disabled={registerUserLoading} loading={registerUserLoading}>
               회원가입
             </Button>
@@ -168,9 +155,7 @@ function RegisterForm() {
           <Link disabled={registerUserLoading} href='/'><a>이미 회원이시라면</a></Link>
         </Form.Item>
       </Form>
-      <input type='file' name='image' hidden ref={imageUploadRef} onChange={handleChangeImage} />
-
-    </div >
+    </div>
   )
 }
 
