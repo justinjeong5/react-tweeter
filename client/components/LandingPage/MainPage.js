@@ -7,7 +7,7 @@ import AppLayout from '../../components/AppLayout'
 import PostForm from '../../components/Post/PostForm'
 import PostCard from '../../components/Post/PostCard'
 
-function MainPage({ target }) {
+function MainPage({ target, userId }) {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
@@ -23,12 +23,16 @@ function MainPage({ target }) {
         || document.body.scrollHeight;
       if (hasMorePost && !loadPostsLoading && scrollTop + window.innerHeight + 300 >= scrollHeight) {
         const lastId = postsList[postsList.length - 1]?.id
+        const data = {
+          lastId,
+          target
+        }
+        if (userId) {
+          data.userId = userId;
+        }
         dispatch({
           type: LOAD_POSTS_REQUEST,
-          data: {
-            lastId,
-            target
-          }
+          data
         })
       }
     }

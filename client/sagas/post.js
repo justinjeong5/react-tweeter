@@ -12,14 +12,14 @@ import {
   UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
   CLEAR_IMAGE_FROM_PATHS,
-  NORMAL, MYSELF, FOLLOWER, FOLLOWING,
+  NORMAL, MYSELF, FOLLOWER, FOLLOWING, OTHER,
 } from '../reducers/types'
 
 function loadPostsAPI(data) {
-  if (![NORMAL, MYSELF, FOLLOWER, FOLLOWING].includes(data.target)) {
-    throw new Error('유효하지 않은 옵션입니다.')
+  if (![NORMAL, MYSELF, FOLLOWER, FOLLOWING, OTHER].includes(data.target)) {
+    throw new Error(`유효하지 않은 옵션입니다.`)
   }
-  return axios.get(`/api/post/posts?lastId=${data.lastId}&type=${data.target}`);
+  return axios.get(`/api/post/posts?lastId=${data.lastId}&type=${data.target}&userId=${data.userId}`);
 }
 
 function* loadPosts(action) {

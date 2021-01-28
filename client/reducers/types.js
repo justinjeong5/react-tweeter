@@ -109,3 +109,5 @@ export const NORMAL = 'normal';
 export const MYSELF = 'myself';
 export const FOLLOWER = 'follower';
 export const FOLLOWING = 'following';
+export const OTHER = 'other';
+

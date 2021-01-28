@@ -1,13 +1,15 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { List, Avatar, Popconfirm, message as Message } from 'antd'
+import { List, Avatar, Popconfirm, message as Message, Space, Button } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { UNFOLLOW_REQUEST, BLOCK_FOLLOW_REQUEST } from '../../reducers/types'
+import { useRouter } from 'next/router'
 
 function FollowList({ header, data }) {
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleBlock = useCallback((user) => () => {
     if (header === '내가 팔로우 하는 사람') {
@@ -20,8 +22,12 @@ function FollowList({ header, data }) {
         type: BLOCK_FOLLOW_REQUEST,
         data: { userId: user.id }
       })
-      Message.success(`${user.nickname}님이 차단되었습니다.`)
+      Message.success(`${user.nickname}님을 언팔로우하였습니다.`)
     }
+  }, [])
+
+  const handleCollect = useCallback((id) => () => {
+    router.push(`/user/${id}`)
   }, [])
 
   const listRenderItem = useCallback(() => (item) => (
@@ -31,18 +37,18 @@ function FollowList({ header, data }) {
         title={item.nickname}
         description={item.email}
       />
-      {header === '내가 팔로우 하는 사람'
-        ? <div><StopOutlined onClick={handleBlock(item)} /></div>
-        : <Popconfirm
+      <Space>
+        <Button onClick={handleCollect(item.id)}>모아보기</Button>
+        <Popconfirm
           placement="topRight"
-          title={`${item.nickname}님을 차단하시겠습니까? \n이 작업은 되돌릴 수 없습니다.`}
+          title={`${item.nickname}님을 언팔로우 하시겠습니까? \n이 작업은 되돌릴 수 없습니다.`}
           onConfirm={handleBlock(item)}
-          okText='차단'
+          okText='언팔로우'
           cancelText="아니오"
         >
           <StopOutlined />
         </Popconfirm>
-      }
+      </Space>
     </List.Item>
   ), [])
 
