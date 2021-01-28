@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { Form, Input, Button, Popconfirm, message as Message } from 'antd'
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_FROM_PATHS } from '../../reducers/types';
+import { ADD_POST_REQUEST, REMOVE_IMAGE_FROM_PATHS } from '../../reducers/types';
+import ImagesUploader from '../Image/ImagesUploader';
 
 const { useForm } = Form;
 
@@ -10,7 +11,6 @@ function PostForm() {
 
   const dispatch = useDispatch();
   const [form] = useForm();
-  const imageUploadRef = useRef();
   const { imagePaths, addPostDone, addPostLoading } = useSelector(state => state.post)
 
   const handleFinish = useCallback((values) => {
@@ -32,22 +32,6 @@ function PostForm() {
       Message.success('게시글을 등록하였습니다.')
     }
   }, [addPostDone])
-
-  const handleImageUpload = useCallback(() => {
-    imageUploadRef.current.click();
-  }, [])
-
-  const handleChangeImage = useCallback((e) => {
-    const imageFormData = new FormData();
-
-    [].forEach.call(e.target.files, (file) => {
-      imageFormData.append('image', file)
-    });
-    dispatch({
-      type: UPLOAD_IMAGES_REQUEST,
-      data: imageFormData     // FormData should not be wrapped by {}, which makes FormData into plain JSON object.
-    })
-  }, [])
 
   const handleRemoveImage = useCallback((index) => () => {
     dispatch({
@@ -72,12 +56,10 @@ function PostForm() {
           />
         </Form.Item>
         <Form.Item>
-          <Button onClick={handleImageUpload} disabled={addPostLoading}>이미지 업로드</Button>
+          <ImagesUploader />
           <Button type='primary' style={{ float: 'right' }} htmlType='submit' disabled={addPostLoading} loading={addPostLoading} >Tweet</Button>
         </Form.Item>
       </Form >
-
-      <input type='file' name='image' multiple hidden ref={imageUploadRef} onChange={handleChangeImage} />
       <div style={{ display: 'flex', overflowX: 'scroll' }}>
         {imagePaths.map((value, index) => (
           <div key={uuidv4()}>
