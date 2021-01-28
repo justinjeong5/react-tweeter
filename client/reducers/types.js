@@ -78,6 +78,8 @@ export const RETWEET_FAILURE = 'RETWEET_FAILURE';
 
 export const RESET_POST_REDUX_STATE = 'RESET_POST_REDUX_STATE';
 
+export const CLEAR_POSTS_LIST = 'CLEAR_POSTS_LIST';
+
 
 ////////////////////////////////////////////
 //                  Image
@@ -94,3 +96,12 @@ export const REMOVE_IMAGE_FROM_PATHS = 'REMOVE_IMAGE_FROM_PATHS';
 export const CLEAR_IMAGE_FROM_PATHS = 'CLEAR_IMAGE_FROM_PATHS';
 
 export const REMOVE_IMAGE_FROM_PATH = 'REMOVE_IMAGE_FROM_PATH';
+
+
+////////////////////////////////////////////
+//              Post options
+////////////////////////////////////////////
+export const NORMAL = 'normal';
+export const MYSELF = 'myself';
+export const FOLLOWER = 'follower';
+export const FOLLOWING = 'following';

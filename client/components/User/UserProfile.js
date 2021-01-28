@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Router from 'next/router'
 import { Card, Button } from 'antd';
+import { v4 as uuidv4 } from 'uuid'
 import { LOGOUT_USER_REQUEST } from '../../reducers/types'
 import ImageToAvatar from '../Image/ImageToAvatar';
 
@@ -17,6 +19,11 @@ function UserProfile() {
     dispatch({
       type: LOGOUT_USER_REQUEST
     })
+    Router.replace('/')
+  }, [])
+
+  const handleRouter = useCallback((route) => () => {
+    Router.push(route)
   }, [])
 
   return (
@@ -29,9 +36,9 @@ function UserProfile() {
         />
       }
       actions={[
-        <div key='tweet'>게시글<br />{currentUser.Posts.length}</div>,
-        <div key='followings'>팔로윙<br />{currentUser.Followings.length}</div>,
-        <div key='followers'>팔로워<br />{currentUser.Followers.length}</div>,
+        <div key={uuidv4()} onClick={handleRouter('/user/posts')}>게시글<br />{currentUser.Posts.length}</div>,
+        <div key={uuidv4()} onClick={handleRouter('/user/followings')}>팔로윙<br />{currentUser.Followings.length}</div>,
+        <div key={uuidv4()} onClick={handleRouter('/user/followers')}>팔로워<br />{currentUser.Followers.length}</div>,
       ]}
     >
       <Meta

@@ -10,11 +10,15 @@ import {
   LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
-  CLEAR_IMAGE_FROM_PATHS
+  CLEAR_IMAGE_FROM_PATHS,
+  NORMAL, MYSELF, FOLLOWER, FOLLOWING,
 } from '../reducers/types'
 
 function loadPostsAPI(data) {
-  return axios.get(`/api/post/posts?lastId=${data.lastId}`)
+  if (![NORMAL, MYSELF, FOLLOWER, FOLLOWING].includes(data.target)) {
+    throw new Error('유효하지 않은 옵션입니다.')
+  }
+  return axios.get(`/api/post/posts?lastId=${data.lastId}&type=${data.target}`);
 }
 
 function* loadPosts(action) {

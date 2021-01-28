@@ -10,6 +10,7 @@ import {
   EDIT_USER_OF_POSTS,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
   RESET_POST_REDUX_STATE,
+  CLEAR_POSTS_LIST,
 } from './types'
 
 const initialState = {
@@ -37,6 +38,9 @@ const initialState = {
   retweetDone: false,
   retweetLoading: false,
   retweetError: null,
+  loadMyPostsDone: false,
+  loadMyPostsLoading: false,
+  loadMyPostsError: null,
 }
 
 const postReducer = (state = initialState, action) => {
@@ -184,6 +188,8 @@ const postReducer = (state = initialState, action) => {
       case RESET_POST_REDUX_STATE:
         draft.addPostDone = false;
         break;
+      case CLEAR_POSTS_LIST:
+        draft.postsList = [];
       default:
         break;
     }
