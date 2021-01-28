@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Avatar } from 'antd'
+import { Card } from 'antd'
 
 import PostCardContent from './PostCardContent'
 import PostCardTitle from './PostCardTitle'
 import Images from '../Image/Images'
+import ImageToAvatar from '../Image/ImageToAvatar'
 
 function RetweetPost({ post }) {
 
@@ -14,7 +15,7 @@ function RetweetPost({ post }) {
         cover={post.Images.length && <Images images={post.Images} />}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          avatar={<ImageToAvatar image={post.User.Image} />}
           title={<PostCardTitle post={post} />}
           description={<PostCardContent content={post.content} />}
         />
