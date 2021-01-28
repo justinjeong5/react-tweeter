@@ -11,18 +11,20 @@ import ImageUploader from '../Image/ImageUploader';
 function RegisterForm() {
 
   const dispatch = useDispatch();
-  const { registerUserLoading, registerUserDone, registerUserError, loginUserDone, message } = useSelector(state => state.user)
+  const { currentUser, registerUserLoading, registerUserDone, registerUserError, message } = useSelector(state => state.user)
   const { imagePath } = useSelector(state => state.image)
 
   useEffect(() => {
-    if (loginUserDone) {
+    if (currentUser.id) {
       Router.replace('/');
+      return Message.warning('로그인 하지 않은 사용자만 접근할 수 있습니다.', 1000)
     }
-  }, [loginUserDone])
+  }, [currentUser])
 
   useEffect(() => {
     if (registerUserDone) {
       Router.push('/')
+      Message.success('회원가입이 완료되었습니다.')
     }
   }, [registerUserDone])
 
