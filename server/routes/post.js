@@ -103,6 +103,63 @@ router.get('/posts', loginRequired, async (req, res, next) => {
   }
 
 })
+
+router.get('/:postId', async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+      order: [
+        [Comment, 'createdAt', 'DESC']
+      ],
+      include: [{
+        model: User,
+        attributes: ['id', 'nickname'],
+        include: [{
+          model: Image
+        }]
+      }, {
+        model: Image
+      }, {
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+          include: [{
+            model: Image
+          }]
+        }]
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id'],
+      }, {
+        model: Post,
+        as: 'Retweet',
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+          include: [{
+            model: Image
+          }]
+        }, {
+          model: Image
+        }, {
+          model: User,
+          as: 'Likers',
+          attributes: ['id']
+        }, {
+          model: Comment,
+          attributes: ['id']
+        }]
+      }]
+    });
+    res.status(200).json({ message: '게시글을 정상적으로 가져왔습니다.', post })
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 router.post('/post', loginRequired, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/#[^\s#]+/g);
