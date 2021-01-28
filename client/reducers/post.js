@@ -2,6 +2,7 @@ import produce from 'immer'
 
 import {
   LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
+  LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
@@ -15,11 +16,15 @@ import {
 
 const initialState = {
   postsList: [],
+  singlePost: null,
   hasMorePost: true,
 
   loadPostsDone: false,
   loadPostsLoading: false,
   loadPostsError: null,
+  loadPostDone: false,
+  loadPostLoading: false,
+  loadPostError: null,
   addPostDone: false,
   addPostLoading: false,
   addPostError: null,
@@ -62,6 +67,22 @@ const postReducer = (state = initialState, action) => {
         draft.message = action.error.message;
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error.code;
+        break;
+      case LOAD_POST_REQUEST:
+        draft.loadPostLoading = true;
+        draft.loadPostDone = false;
+        draft.loadPostError = null;
+        break;
+      case LOAD_POST_SUCCESS:
+        draft.singlePost = action.data.post;
+        draft.message = action.data.message;
+        draft.loadPostLoading = false;
+        draft.loadPostDone = true;
+        break;
+      case LOAD_POST_FAILURE:
+        draft.message = action.error.message;
+        draft.loadPostLoading = false;
+        draft.loadPostError = action.error.code;
         break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;

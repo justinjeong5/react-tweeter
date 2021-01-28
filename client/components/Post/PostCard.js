@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
-import { Button, Card, Popover, Popconfirm, message as Message } from 'antd'
+import { Button, Card, Popover, Popconfirm, message as Message, Typography } from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 
 import Images from '../Image/Images'
@@ -14,6 +14,8 @@ import RetweetPost from './RetweetPost'
 import PostCardTitle from './PostCardTitle'
 import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, RETWEET_REQUEST } from '../../reducers/types'
 import ImageToAvatar from '../Image/ImageToAvatar'
+
+const { Paragraph } = Typography;
 
 function PostCard({ post }) {
 
@@ -103,11 +105,13 @@ function PostCard({ post }) {
                   </Popconfirm>
                 </>
                 : <Button>신고</Button>}
+              <Button><Paragraph copyable={{ text: `http://localhost:3000/post/${post.id}` }}>링크</Paragraph> </Button>
             </Button.Group>
           )}>
             <EllipsisOutlined />
           </Popover>
-        ]}
+        ]
+        }
         extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton post={post} />}
       >
         <Card.Meta
@@ -116,7 +120,7 @@ function PostCard({ post }) {
           description={<PostCardContent content={post.content} />}
         />
         {post.Retweet && <RetweetPost post={post.Retweet} />}
-      </Card>
+      </Card >
       {
         commentShow && <>
           <CommentForm postId={post.id} />
