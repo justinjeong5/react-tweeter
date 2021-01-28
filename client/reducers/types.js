@@ -40,6 +40,8 @@ export const GET_FOLLOW_REQUEST = 'GET_FOLLOW_REQUEST';
 export const GET_FOLLOW_SUCCESS = 'GET_FOLLOW_SUCCESS';
 export const GET_FOLLOW_FAILURE = 'GET_FOLLOW_FAILURE';
 
+export const RESET_USER_REDUX_STATE = 'RESET_USER_REDUX_STATE';
+
 
 ////////////////////////////////////////////
 //                  Post

@@ -150,7 +150,14 @@ const postReducer = (state = initialState, action) => {
         draft.postsList.forEach(post => {
           if (post.User.id === action.data.user.id) {
             post.User.nickname = action.data.user.nickname
+            post.User.Image.src = action.data.user.Image.src
           }
+          post.Comments.forEach(comment => {
+            if (comment.User.id === action.data.user.id) {
+              comment.User.nickname = action.data.user.nickname
+              comment.User.Image.src = action.data.user.Image.src
+            }
+          })
         })
         break;
       case RETWEET_REQUEST:

@@ -7,6 +7,7 @@ import { Skeleton } from 'antd'
 import AppLayout from '../components/AppLayout'
 import FollowList from '../components/Profile/FollowList'
 import NicknameEditForm from '../components/Profile/NicknameEditForm'
+import ImageEditForm from '../components/Profile/ImageEditForm'
 import { GET_FOLLOW_REQUEST } from '../reducers/types'
 
 function Profile() {
@@ -38,6 +39,7 @@ function Profile() {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: '100%', maxWidth: 600 }}>
             <NicknameEditForm />
+            <ImageEditForm />
             {getFollowLoading && <Skeleton />}
             {getFollowDone && <FollowList header='나를 팔로우 하는 사람' data={currentUser.Followers} />}
             {getFollowDone && <FollowList header='내가 팔로우 하는 사람' data={currentUser.Followings} />}

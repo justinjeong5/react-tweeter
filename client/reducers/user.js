@@ -10,6 +10,7 @@ import {
   UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE,
   BLOCK_FOLLOW_REQUEST, BLOCK_FOLLOW_SUCCESS, BLOCK_FOLLOW_FAILURE,
   GET_FOLLOW_REQUEST, GET_FOLLOW_SUCCESS, GET_FOLLOW_FAILURE,
+  RESET_USER_REDUX_STATE,
 } from './types'
 
 const initialState = {
@@ -207,6 +208,8 @@ const userReducer = (state = initialState, action) => {
         draft.getFollowLoading = false;
         draft.getFollowError = action.error;
         break;
+      case RESET_USER_REDUX_STATE:
+        draft.editUserDone = false;
       default:
         break;
     }
