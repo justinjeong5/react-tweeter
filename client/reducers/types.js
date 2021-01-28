@@ -70,6 +70,16 @@ export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
 
 export const EDIT_USER_OF_POSTS = 'EDIT_USER_OF_POSTS';
 
+export const RETWEET_REQUEST = 'RETWEET_REQUEST';
+export const RETWEET_SUCCESS = 'RETWEET_SUCCESS';
+export const RETWEET_FAILURE = 'RETWEET_FAILURE';
+
+export const RESET_POST_REDUX_STATE = 'RESET_POST_REDUX_STATE';
+
+
+////////////////////////////////////////////
+//                  Image
+////////////////////////////////////////////
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
@@ -82,9 +92,3 @@ export const REMOVE_IMAGE_FROM_PATHS = 'REMOVE_IMAGE_FROM_PATHS';
 export const CLEAR_IMAGE_FROM_PATHS = 'CLEAR_IMAGE_FROM_PATHS';
 
 export const REMOVE_IMAGE_FROM_PATH = 'REMOVE_IMAGE_FROM_PATH';
-
-export const RETWEET_REQUEST = 'RETWEET_REQUEST';
-export const RETWEET_SUCCESS = 'RETWEET_SUCCESS';
-export const RETWEET_FAILURE = 'RETWEET_FAILURE';
-
-export const RESET_POST_REDUX_STATE = 'RESET_POST_REDUX_STATE';

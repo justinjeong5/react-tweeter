@@ -12,7 +12,7 @@ function RegisterForm() {
 
   const dispatch = useDispatch();
   const { registerUserLoading, registerUserDone, registerUserError, loginUserDone, message } = useSelector(state => state.user)
-  const { imagePath } = useSelector(state => state.post)
+  const { imagePath } = useSelector(state => state.image)
 
   useEffect(() => {
     if (loginUserDone) {

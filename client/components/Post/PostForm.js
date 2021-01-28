@@ -11,7 +11,8 @@ function PostForm() {
 
   const dispatch = useDispatch();
   const [form] = useForm();
-  const { imagePaths, addPostDone, addPostLoading } = useSelector(state => state.post)
+  const { addPostDone, addPostLoading } = useSelector(state => state.post)
+  const { imagePaths } = useSelector(state => state.image)
 
   const handleFinish = useCallback((values) => {
     if (!values.content?.trim()) {

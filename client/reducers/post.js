@@ -8,19 +8,12 @@ import {
   LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
   EDIT_USER_OF_POSTS,
-  UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE,
-  UPLOAD_IMAGE_REQUEST, UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE,
-  REMOVE_IMAGE_FROM_PATHS,
-  CLEAR_IMAGE_FROM_PATHS,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
-  REMOVE_IMAGE_FROM_PATH,
   RESET_POST_REDUX_STATE,
 } from './types'
 
 const initialState = {
   postsList: [],
-  imagePaths: [],
-  imagePath: null,
   hasMorePost: true,
 
   loadPostsDone: false,
@@ -41,12 +34,6 @@ const initialState = {
   unlikePostDone: false,
   unlikePostLoading: false,
   unlikePostError: null,
-  uploadImagesDone: false,
-  uploadImagesLoading: false,
-  uploadImagesError: null,
-  uploadImageDone: false,
-  uploadImageLoading: false,
-  uploadImageError: null,
   retweetDone: false,
   retweetLoading: false,
   retweetError: null,
@@ -165,49 +152,6 @@ const postReducer = (state = initialState, action) => {
             post.User.nickname = action.data.user.nickname
           }
         })
-        break;
-      case UPLOAD_IMAGES_REQUEST:
-        draft.uploadImagesLoading = true;
-        draft.uploadImagesDone = false;
-        draft.uploadImagesError = null;
-        break;
-      case UPLOAD_IMAGES_SUCCESS: {
-        draft.imagePaths.push(...action.data.images);
-        draft.message = action.data.message;
-        draft.uploadImagesLoading = false;
-        draft.uploadImagesDone = true;
-        break;
-      }
-      case UPLOAD_IMAGE_FAILURE:
-        draft.message = action.error.message;
-        draft.uploadImageLoading = false;
-        draft.uploadImageError = action.error.code;
-        break;
-      case UPLOAD_IMAGE_REQUEST:
-        draft.uploadImageLoading = true;
-        draft.uploadImageDone = false;
-        draft.uploadImageError = null;
-        break;
-      case UPLOAD_IMAGE_SUCCESS: {
-        draft.imagePath = action.data.image;
-        draft.message = action.data.message;
-        draft.uploadImageLoading = false;
-        draft.uploadImageDone = true;
-        break;
-      }
-      case UPLOAD_IMAGES_FAILURE:
-        draft.message = action.error.message;
-        draft.uploadImagesLoading = false;
-        draft.uploadImagesError = action.error.code;
-        break;
-      case REMOVE_IMAGE_FROM_PATHS:
-        draft.imagePaths.splice(action.data, 1);
-        break;
-      case CLEAR_IMAGE_FROM_PATHS:
-        draft.imagePaths = [];
-        break;
-      case REMOVE_IMAGE_FROM_PATH:
-        draft.imagePath = null;
         break;
       case RETWEET_REQUEST:
         draft.retweetLoading = true;

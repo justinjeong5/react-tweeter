@@ -9,10 +9,8 @@ import {
   ADD_POST_TO_ME, REMOVE_POST_FROM_ME,
   LIKE_POST_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
-  UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE,
-  UPLOAD_IMAGE_REQUEST, UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE,
-  CLEAR_IMAGE_FROM_PATHS,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
+  CLEAR_IMAGE_FROM_PATHS
 } from '../reducers/types'
 
 function loadPostsAPI(data) {
@@ -146,46 +144,6 @@ function* unlikePost(action) {
   }
 }
 
-function uploadImagesAPI(data) {
-  return axios.post('/api/image/images', data)    // FormData should not be wrapped by {}, which makes FormData into plain JSON object.
-}
-
-function* uploadImages(action) {
-  try {
-    const result = yield call(uploadImagesAPI, action.data)
-    yield put({
-      type: UPLOAD_IMAGES_SUCCESS,
-      data: result.data
-    })
-  } catch (error) {
-    console.error(error)
-    yield put({
-      type: UPLOAD_IMAGES_FAILURE,
-      error: error.response.data
-    })
-  }
-}
-
-function uploadImageAPI(data) {
-  return axios.post('/api/image/image', data)    // FormData should not be wrapped by {}, which makes FormData into plain JSON object.
-}
-
-function* uploadImage(action) {
-  try {
-    const result = yield call(uploadImageAPI, action.data)
-    yield put({
-      type: UPLOAD_IMAGE_SUCCESS,
-      data: result.data
-    })
-  } catch (error) {
-    console.error(error)
-    yield put({
-      type: UPLOAD_IMAGE_FAILURE,
-      error: error.response.data
-    })
-  }
-}
-
 function retweetAPI(data) {
   return axios.post(`/api/post/${data.postId}/retweet`, data)
 }
@@ -230,14 +188,6 @@ function* watchUnlikePost() {
   yield takeLatest(UNLIKE_POST_REQUEST, unlikePost)
 }
 
-function* watchUploadImages() {
-  yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages)
-}
-
-function* watchUploadImage() {
-  yield takeLatest(UPLOAD_IMAGE_REQUEST, uploadImage)
-}
-
 function* watchRetweet() {
   yield takeLatest(RETWEET_REQUEST, retweet)
 }
@@ -251,8 +201,6 @@ export default function* postSaga() {
     fork(watchAddComment),
     fork(watchLikePost),
     fork(watchUnlikePost),
-    fork(watchUploadImages),
-    fork(watchUploadImage),
     fork(watchRetweet),
   ])
 }
