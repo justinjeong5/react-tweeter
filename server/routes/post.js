@@ -96,17 +96,9 @@ router.post('/post', loginRequired, async (req, res, next) => {
         model: Image,
       }, {
         model: Comment,
-        include: [{
-          model: User,
-          attributes: ['id', 'nickname'],
-          include: [{
-            model: Image
-          }]
-        }]
       }, {
         model: User,
         as: 'Likers',
-        attributes: ['id']
       }]
     })
     return res.status(201).json({ message: '게시글이 정상적으로 등록되었습니다.', post: fullPost })
