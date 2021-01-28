@@ -46,7 +46,10 @@ router.get('/posts', loginRequired, async (req, res, next) => {
         as: 'Retweet',
         include: [{
           model: User,
-          attributes: ['id', 'nickname']
+          attributes: ['id', 'nickname'],
+          include: [{
+            model: Image
+          }]
         }, {
           model: Image
         }, {
@@ -252,9 +255,6 @@ router.post('/:postId/retweet', loginRequired, async (req, res, next) => {
         include: [{
           model: User,
           attributes: ['id', 'nickname'],
-          include: [{
-            model: Image
-          }]
         }]
       }, {
         model: User,
