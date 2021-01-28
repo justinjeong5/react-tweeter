@@ -1,15 +1,18 @@
-import React, { useMemo, useCallback, useEffect } from 'react'
+import React, { useMemo, useCallback, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link';
 import Router from 'next/router';
-import { Form, Input, Button, Space, message as Message } from 'antd';
+import { Form, Input, Button, Space, message as Message, Popconfirm } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@ant-design/icons';
-import { REGISTER_USER_REQUEST } from '../../reducers/types'
+import md5 from 'md5'
+import { REGISTER_USER_REQUEST, UPLOAD_IMAGE_REQUEST, REMOVE_IMAGE_FROM_PATH } from '../../reducers/types'
 
 function RegisterForm() {
 
   const dispatch = useDispatch();
+  const imageUploadRef = useRef();
   const { registerUserLoading, registerUserDone, registerUserError, loginUserDone, message } = useSelector(state => state.user)
+  const { imagePath } = useSelector(state => state.post)
 
   useEffect(() => {
     if (loginUserDone) {
@@ -30,15 +33,37 @@ function RegisterForm() {
   }, [registerUserError])
 
   const onFinish = useCallback((values) => {
+    const defaultImage = `http://gravatar.com/avatar/${md5(values.email)}?d=identicon`
     dispatch({
       type: REGISTER_USER_REQUEST,
-      payload: {
+      data: {
         email: values.email,
         nickname: values.nickname,
         password: values.password,
+        image: imagePath || { src: defaultImage }
       }
     })
-  }, []);
+  }, [imagePath]);
+
+  const handleChangeImage = useCallback((e) => {
+    const imageFormData = new FormData();
+    imageFormData.append('image', e.target.files[0])
+
+    dispatch({
+      type: UPLOAD_IMAGE_REQUEST,
+      data: imageFormData     // FormData should not be wrapped by {}, which makes FormData into plain JSON object.
+    })
+  }, [])
+
+  const handleRemoveImage = useCallback(() => () => {
+    dispatch({
+      type: REMOVE_IMAGE_FROM_PATH,
+    })
+  }, [])
+
+  const handleImageUpload = useCallback(() => {
+    imageUploadRef.current.click();
+  }, [])
 
   const rootDivWrapperStyle = useMemo(() => ({ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: 20 }), [])
   const formLabelColStyle = useMemo(() => ({ span: 8 }), [])
@@ -114,7 +139,22 @@ function RegisterForm() {
         </Form.Item>
 
         <Form.Item wrapperCol={formItemWrapperColStyle}>
+          {imagePath && <div style={{ marginBottom: 25 }}>
+            <Popconfirm
+              placement="bottom"
+              title='사진을 삭제하시겠습니까?'
+              onConfirm={handleRemoveImage()}
+              okText='삭제'
+              cancelText='아니오'>
+              <img
+                style={{ width: 266 }}
+                src={`http://localhost:3065/${imagePath.src}`}
+                alt={imagePath.src}
+              />
+            </Popconfirm>
+          </div>}
           <Space >
+            <Button onClick={handleImageUpload} disabled={registerUserLoading}>이미지 업로드</Button>
             <Button type="primary" htmlType="submit" disabled={registerUserLoading} loading={registerUserLoading}>
               회원가입
             </Button>
@@ -127,8 +167,9 @@ function RegisterForm() {
         <Form.Item wrapperCol={formItemWrapperColStyle} style={formItemStyle}>
           <Link disabled={registerUserLoading} href='/'><a>이미 회원이시라면</a></Link>
         </Form.Item>
-
       </Form>
+      <input type='file' name='image' hidden ref={imageUploadRef} onChange={handleChangeImage} />
+
     </div >
   )
 }
