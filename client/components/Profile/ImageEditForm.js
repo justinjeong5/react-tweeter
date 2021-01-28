@@ -12,7 +12,7 @@ function NicknameEditForm() {
 
   useEffect(() => {
     if (editUserDone) {
-      Message.success('이미지가 변경되었습니다.')
+      Message.success('회원정보가 변경되었습니다.')
     }
   }, [editUserDone])
 
