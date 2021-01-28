@@ -158,6 +158,10 @@ const postReducer = (state = initialState, action) => {
               comment.User.Image.src = action.data.user.Image.src
             }
           })
+          if (post.Retweet?.id === action.data.user.id) {
+            post.Retweet.User.nickname = action.data.user.nickname
+            post.Retweet.User.Image.src = action.data.user.Image.src
+          }
         })
         break;
       case RETWEET_REQUEST:
