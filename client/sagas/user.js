@@ -75,13 +75,13 @@ function* logout() {
   }
 }
 
-function registerAPI(payload) {
-  return axios.post('/api/user/register', payload)
+function registerAPI(data) {
+  return axios.post('/api/user/register', data)
 }
 
 function* register(action) {
   try {
-    const result = yield call(registerAPI, action.payload)
+    const result = yield call(registerAPI, action.data)
     yield put({
       type: REGISTER_USER_SUCCESS,
       data: result.data
