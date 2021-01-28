@@ -23,6 +23,9 @@ router.get('/posts', loginRequired, async (req, res, next) => {
       include: [{
         model: User,
         attributes: ['id', 'nickname'],
+        include: [{
+          model: Image
+        }]
       }, {
         model: Image
       }, {
@@ -30,6 +33,9 @@ router.get('/posts', loginRequired, async (req, res, next) => {
         include: [{
           model: User,
           attributes: ['id', 'nickname'],
+          include: [{
+            model: Image
+          }]
         }]
       }, {
         model: User,
@@ -82,7 +88,10 @@ router.post('/post', loginRequired, async (req, res, next) => {
         model: User,
         attributes: {
           exclude: ['password']
-        }
+        },
+        include: [{
+          model: Image
+        }]
       }, {
         model: Image,
       }, {
@@ -90,6 +99,9 @@ router.post('/post', loginRequired, async (req, res, next) => {
         include: [{
           model: User,
           attributes: ['id', 'nickname'],
+          include: [{
+            model: Image
+          }]
         }]
       }, {
         model: User,
@@ -140,7 +152,10 @@ router.post('/:postId/comment', loginRequired, async (req, res, next) => {
         model: User,
         attributes: {
           attributes: ['id', 'nickname'],
-        }
+        },
+        include: [{
+          model: Image
+        }]
       }]
     })
     return res.status(201).json({ message: '댓글이 정상적으로 등록되었습니다.', comment: fullComment })
@@ -238,7 +253,10 @@ router.post('/:postId/retweet', loginRequired, async (req, res, next) => {
         model: Comment,
         include: [{
           model: User,
-          attributes: ['id', 'nickname']
+          attributes: ['id', 'nickname'],
+          include: [{
+            model: Image
+          }]
         }]
       }, {
         model: User,

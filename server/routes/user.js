@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs')
 const passport = require('passport');
-const { User, Post } = require('../models');
+const { User, Post, Image } = require('../models');
 const { loginRequired, logoutRequired } = require('./middleware')
 
 const router = express.Router();
@@ -23,6 +23,8 @@ router.get('/', async (req, res, next) => {
           model: User,
           as: 'Followers',
           attributes: ['id']
+        }, {
+          model: Image,
         }]
       })
       return res.status(200).json({ message: '로그인 상태가 정상적으로 확인되었습니다.', user: fullUserWithoutPassword })
@@ -37,20 +39,22 @@ router.get('/', async (req, res, next) => {
 
 router.post('/register', logoutRequired, async (req, res, next) => {
   try {
-    const user = await User.findOne({
+    const userExist = await User.findOne({
       where: {
         email: req.body.email
       }
     });
-    if (user) {
+    if (userExist) {
       return res.status(403).json({ code: 'AlreadyExistUser', message: '이미 사용중인 이메일입니다.', });
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create({
+    const user = await User.create({
       email: req.body.email,
       nickname: req.body.nickname,
       password: hashedPassword,
     });
+    const image = await Image.create(req.body.image);
+    await user.setImage(image)
     res.status(201).json({ message: '회원가입이 정상적으로 완료되었습니다.' })
   } catch (error) {
     console.error(error);
@@ -83,6 +87,8 @@ router.post('/login', logoutRequired, (req, res, next) => {
         }, {
           model: User,
           as: 'Followers',
+        }, {
+          model: Image,
         }]
       })
       return res.status(200).json({ message: '로그인이 정상적으로 완료되었습니다.', user: fullUserWithoutPassword })
@@ -116,6 +122,8 @@ router.patch('/', loginRequired, async (req, res, next) => {
       }, {
         model: User,
         as: 'Followers',
+      }, {
+        model: Image,
       }]
     })
     return res.status(200).json({ message: '회원정보 수정이 정상적으로 완료되었습니다.', user: fullUserWithoutPassword })

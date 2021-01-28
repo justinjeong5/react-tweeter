@@ -22,4 +22,9 @@ router.post('/images', loginRequired, upload.array('image'), (req, res) => {
   return res.status(201).json({ message: '이미지를 정상적으로 업로드했습니다.', images })
 })
 
+router.post('/image', loginRequired, upload.single('image'), (req, res) => {
+  const image = { src: req.file.filename };
+  return res.status(201).json({ message: '이미지를 정상적으로 업로드했습니다.', image })
+})
+
 module.exports = router;
