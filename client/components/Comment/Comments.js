@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Comment, Avatar } from 'antd'
+import { List, Comment } from 'antd'
+import ImageToAvatar from '../Image/ImageToAvatar'
 
 function Comments({ comments }) {
   return (
@@ -13,7 +14,7 @@ function Comments({ comments }) {
         <Comment
           style={{ marginLeft: 20 }}
           author={item.User.nickname}
-          avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+          avatar={<ImageToAvatar image={item.User.Image} />}
           content={item.content}
         />
       )}

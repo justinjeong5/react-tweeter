@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Card, Avatar, Button } from 'antd';
+import { Card, Button } from 'antd';
 import { LOGOUT_USER_REQUEST } from '../../reducers/types'
+import ImageToAvatar from '../Image/ImageToAvatar';
 
 const { Meta } = Card;
 
@@ -34,7 +35,7 @@ function UserProfile() {
       ]}
     >
       <Meta
-        avatar={<Avatar>{currentUser.nickname[0]}</Avatar>}
+        avatar={<ImageToAvatar image={currentUser.Image} />}
         title={currentUser.nickname}
       />
       <Button onClick={handleLogout} disabled={logoutUserLoading} loading={logoutUserLoading}>로그아웃</Button>

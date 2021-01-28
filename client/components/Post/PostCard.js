@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
-import { Button, Card, Popover, Avatar, Popconfirm, message as Message } from 'antd'
+import { Button, Card, Popover, Popconfirm, message as Message } from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 
 import Images from '../Image/Images'
@@ -13,6 +13,7 @@ import FollowButton from '../Follow/FollowButton'
 import RetweetPost from './RetweetPost'
 import PostCardTitle from './PostCardTitle'
 import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, RETWEET_REQUEST } from '../../reducers/types'
+import ImageToAvatar from '../Image/ImageToAvatar'
 
 function PostCard({ post }) {
 
@@ -110,7 +111,7 @@ function PostCard({ post }) {
         extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          avatar={<ImageToAvatar image={post.User.Image} />}
           title={<PostCardTitle post={post} />}
           description={<PostCardContent content={post.content} />}
         />
