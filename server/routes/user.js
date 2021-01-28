@@ -108,8 +108,14 @@ router.patch('/', loginRequired, async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.', });
     }
-    user.nickname = req.body.nickname;
-    await user.save();
+    if (req.body.nickname) {
+      user.nickname = req.body.nickname
+      await user.save();
+    }
+    if (req.body.image) {
+      const image = await Image.create(req.body.image);
+      await user.setImage(image)
+    }
 
     const fullUserWithoutPassword = await User.findOne({
       where: { id: user.id },
