@@ -167,14 +167,14 @@ const userReducer = (state = initialState, action) => {
         break;
       case FOLLOW_SUCCESS:
         draft.currentUser.Followings.push({ id: action.data.UserId })
-        draft.message = action.message;
+        draft.message = action.data.message;
         draft.followLoading = false;
         draft.followDone = true;
         break;
       case FOLLOW_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.followLoading = false;
-        draft.followError = action.error;
+        draft.followError = action.error.code;
         break;
       case UNFOLLOW_REQUEST:
         draft.unfollowLoading = action.data.userId;
@@ -184,15 +184,15 @@ const userReducer = (state = initialState, action) => {
       case UNFOLLOW_SUCCESS: {
         const followIndex = draft.currentUser.Followings.findIndex((follow => follow.id === action.data.UserId))
         draft.currentUser.Followings.splice(followIndex, 1)
-        draft.message = action.message;
+        draft.message = action.data.message;
         draft.unfollowLoading = false;
         draft.unfollowDone = true;
         break;
       }
       case UNFOLLOW_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.unfollowLoading = false;
-        draft.unfollowError = action.error;
+        draft.unfollowError = action.error.code;
         break;
       case BLOCK_FOLLOW_REQUEST:
         draft.blockFollowLoading = true;
@@ -202,15 +202,15 @@ const userReducer = (state = initialState, action) => {
       case BLOCK_FOLLOW_SUCCESS: {
         const followIndex = draft.currentUser.Followers.findIndex((follow => follow.id === action.data.UserId))
         draft.currentUser.Followers.splice(followIndex, 1)
-        draft.message = action.message;
+        draft.message = action.data.message;
         draft.blockFollowLoading = false;
         draft.blockFollowDone = true;
         break;
       }
       case BLOCK_FOLLOW_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.blockFollowLoading = false;
-        draft.blockFollowError = action.error;
+        draft.blockFollowError = action.error.code;
         break;
       case GET_FOLLOW_REQUEST:
         draft.getFollowLoading = true;
@@ -220,14 +220,14 @@ const userReducer = (state = initialState, action) => {
       case GET_FOLLOW_SUCCESS:
         draft.currentUser.Followings = action.data.followings;
         draft.currentUser.Followers = action.data.followers;
-        draft.message = action.message;
+        draft.message = action.data.message;
         draft.getFollowLoading = false;
         draft.getFollowDone = true;
         break;
       case GET_FOLLOW_FAILURE:
-        draft.message = action.message;
+        draft.message = action.error.message;
         draft.getFollowLoading = false;
-        draft.getFollowError = action.error;
+        draft.getFollowError = action.error.code;
         break;
       case RESET_USER_REDUX_STATE:
         draft.editUserDone = false;
