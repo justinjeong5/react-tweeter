@@ -14,7 +14,7 @@ function Comments({ comments }) {
         <Comment
           style={{ marginLeft: 20 }}
           author={item.User.nickname}
-          avatar={<ImageToAvatar image={item.User.Image} />}
+          avatar={<ImageToAvatar User={item.User} />}
           content={item.content}
         />
       )}

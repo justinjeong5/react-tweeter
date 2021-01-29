@@ -1,10 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { List, Avatar, Popconfirm, message as Message, Space, Button } from 'antd'
+import { List, Popconfirm, message as Message, Space, Button } from 'antd'
 import { StopOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { UNFOLLOW_REQUEST, BLOCK_FOLLOW_REQUEST } from '../../reducers/types'
 import { useRouter } from 'next/router'
+import ImageToAvatar from '../Image/ImageToAvatar'
 
 function FollowList({ header, data }) {
 
@@ -33,7 +34,7 @@ function FollowList({ header, data }) {
   const listRenderItem = useCallback(() => (item) => (
     <List.Item style={{ marginTop: 20 }}>
       <List.Item.Meta
-        avatar={<Avatar>{item.nickname[0]}</Avatar>}
+        avatar={<ImageToAvatar User={item} />}
         title={item.nickname}
         description={item.email}
       />

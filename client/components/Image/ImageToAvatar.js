@@ -4,22 +4,24 @@ import PropTypes from 'prop-types'
 import { Avatar } from 'antd'
 import { imageSrcParser } from '../utils/ImageSrcParser'
 
-function ImageToAvatar({ image, userId }) {
+function ImageToAvatar({ User }) {
 
   const handleRouter = useCallback(() => {
-    Router.push(`/user/${userId}`)
-  }, [userId])
+    Router.push(`/user/${User.id}`)
+  }, [User])
 
   return (
-    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={imageSrcParser(image)} /></span>
+    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={imageSrcParser(User.Image)} /></span>
   )
 }
 
 ImageToAvatar.propTypes = {
-  image: PropTypes.shape({
-    src: PropTypes.string.isRequired
-  }),
-  userId: PropTypes.number.isRequired
+  User: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    Image: PropTypes.shape({
+      src: PropTypes.string.isRequired
+    }).isRequired,
+  }).isRequired
 }
 
 export default ImageToAvatar

@@ -115,7 +115,7 @@ function PostCard({ post }) {
         extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<ImageToAvatar image={post.User.Image} userId={post.User.id} />}
+          avatar={<ImageToAvatar User={post.User} />}
           title={<PostCardTitle post={post} />}
           description={<PostCardContent content={post.content} />}
         />

@@ -15,7 +15,7 @@ function RetweetPost({ post }) {
         cover={post.Images.length && <Images images={post.Images} />}
       >
         <Card.Meta
-          avatar={<ImageToAvatar image={post.User.Image} userId={post.User.id} />}
+          avatar={<ImageToAvatar User={post.User} />}
           title={<PostCardTitle post={post} />}
           description={<PostCardContent content={post.content} />}
         />
