@@ -124,7 +124,7 @@ router.get('/following', loginRequired, async (req, res, next) => {
   }
 })
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/user/:userId/', async (req, res, next) => {
   try {
     const where = { UserId: req.params.userId };
     const lastId = parseInt(req.query.lastId, 10);

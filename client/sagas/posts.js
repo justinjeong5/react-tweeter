@@ -29,7 +29,7 @@ function* loadPosts(action) {
 }
 
 function loadUserPostsAPI(data) {
-  return axios.get(`/api/posts/${data.userId}?lastId=${data.lastId}`);
+  return axios.get(`/api/posts/user/${data.userId}?lastId=${data.lastId}`);
 }
 
 function* loadUserPosts(action) {
