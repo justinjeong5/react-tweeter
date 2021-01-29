@@ -81,14 +81,18 @@ router.post('/login', logoutRequired, (req, res, next) => {
         attributes: { exclude: ['password'] },
         include: [{
           model: Post,
+          attributes: ['id']
         }, {
           model: User,
           as: 'Followings',
+          attributes: ['id']
         }, {
           model: User,
           as: 'Followers',
+          attributes: ['id']
         }, {
           model: Image,
+          attributes: ['src']
         }]
       })
       return res.status(200).json({ message: '로그인이 정상적으로 완료되었습니다.', user: fullUserWithoutPassword })
