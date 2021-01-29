@@ -200,6 +200,9 @@ router.delete('/follow/:userId', loginRequired, async (req, res, next) => {
 
 router.get('/follow', loginRequired, async (req, res, next) => {
   try {
+    if (!req?.user?.id) {
+      return res.status(200).json({ message: '로그인 해주세요.', followers: [], followings: [] })
+    }
     const user = await User.findOne({ where: { id: req.user.id } });
     if (!user) {
       return res.status(403).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' });
