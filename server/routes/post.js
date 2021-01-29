@@ -61,6 +61,39 @@ router.get('/:postId', async (req, res, next) => {
   }
 })
 
+router.get('/:postId/user', async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.postId } });
+    const user = await User.findOne({
+      where: { id: post.UserId },
+      attributes: ['id', 'nickname'],
+      include: [{
+        model: Post,
+      }, {
+        model: User,
+        as: 'Followings',
+      }, {
+        model: User,
+        as: 'Followers',
+      }, {
+        model: Image,
+      }]
+    })
+    if (user) {
+      const fullUser = user.toJSON();
+      fullUser.Posts = fullUser.Posts.length;
+      fullUser.Followings = fullUser.Followings.length;
+      fullUser.Followers = fullUser.Followers.length;
+      return res.status(200).json({ message: '사용자 정보를 정상적으로 가져왔습니다.', user: fullUser })
+    } else {
+      return res.status(404).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' })
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 router.post('/post', loginRequired, async (req, res, next) => {
   try {
     const duplicatedhashtags = req.body.content.match(/#[^\s#]+/g);
