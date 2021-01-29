@@ -4,8 +4,9 @@ import { Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import NavBar from './Header/NavBar'
 import LoginForm from './User/LoginForm'
+import UserProfile from './User/UserProfile'
 
-function AppLayout({ children, UserProfile }) {
+function AppLayout({ children, DefaultProfile, option }) {
 
   const { currentUser } = useSelector(state => state.user)
 
@@ -14,7 +15,11 @@ function AppLayout({ children, UserProfile }) {
       <NavBar />
       <Row gutter={[10, 10]}>
         <Col xs={24} md={6}>
-          {currentUser?.id ? UserProfile : <LoginForm />}
+          {option
+            ? DefaultProfile
+            : currentUser.id
+              ? <UserProfile User={currentUser} />
+              : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
@@ -30,6 +35,7 @@ function AppLayout({ children, UserProfile }) {
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
   UserProfile: PropTypes.node.isRequired,
+  option: PropTypes.bool.isRequired,
 };
 
 export default AppLayout

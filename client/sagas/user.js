@@ -4,6 +4,7 @@ import axios from 'axios';
 import {
   LOAD_CURRENT_USER_REQUEST, LOAD_CURRENT_USER_SUCCESS, LOAD_CURRENT_USER_FAILURE,
   LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE,
+  LOAD_POST_USER_REQUEST, LOAD_POST_USER_SUCCESS, LOAD_POST_USER_FAILURE,
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
@@ -60,6 +61,26 @@ function* loadUser(action) {
     console.error(error)
     yield put({
       type: LOAD_USER_FAILURE,
+      error: error.response.data
+    })
+  }
+}
+
+function loadPostUserAPI(data) {
+  return axios.get(`/api/post/${data.postId}/user`)
+}
+
+function* loadPostUser(action) {
+  try {
+    const result = yield call(loadPostUserAPI, action.data)
+    yield put({
+      type: LOAD_POST_USER_SUCCESS,
+      data: result.data
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: LOAD_POST_USER_FAILURE,
       error: error.response.data
     })
   }
@@ -243,6 +264,10 @@ function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser)
 }
 
+function* watchLoadPostUser() {
+  yield takeLatest(LOAD_POST_USER_REQUEST, loadPostUser)
+}
+
 function* watchLogin() {
   yield takeLatest(LOGIN_USER_REQUEST, login)
 }
@@ -280,6 +305,7 @@ export default function* userSaga() {
   yield all([
     fork(watchLoadCurrentUser),
     fork(watchLoadUser),
+    fork(watchLoadPostUser),
     fork(watchLogin),
     fork(watchLogout),
     fork(watchRegister),

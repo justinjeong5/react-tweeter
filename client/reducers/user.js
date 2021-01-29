@@ -2,6 +2,7 @@ import produce from 'immer'
 import {
   LOAD_CURRENT_USER_REQUEST, LOAD_CURRENT_USER_SUCCESS, LOAD_CURRENT_USER_FAILURE,
   LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE,
+  LOAD_POST_USER_REQUEST, LOAD_POST_USER_SUCCESS, LOAD_POST_USER_FAILURE,
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
@@ -73,17 +74,20 @@ const userReducer = (state = initialState, action) => {
         draft.loadCurrentUserError = action.error.code;
         break;
       case LOAD_USER_REQUEST:
+      case LOAD_POST_USER_REQUEST:
         draft.loadUserLoading = true;
         draft.loadUserDone = false;
         draft.loadUserError = null;
         break;
       case LOAD_USER_SUCCESS:
+      case LOAD_POST_USER_SUCCESS:
         draft.otherUser = action.data.user;
         draft.message = action.data.message;
         draft.loadUserLoading = false;
         draft.loadUserDone = true;
         break;
       case LOAD_USER_FAILURE:
+      case LOAD_POST_USER_FAILURE:
         draft.message = action.error.message;
         draft.loadUserLoading = false;
         draft.loadUserError = action.error.code;

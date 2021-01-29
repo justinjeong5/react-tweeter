@@ -14,7 +14,8 @@ function Followers() {
   return (
     <MainPage
       payload={{ action: LOAD_FOLLOWER_POSTS_REQUEST }}
-      UserProfile={<UserProfile User={currentUser} />}
+      DefaultProfile={<UserProfile User={currentUser} />}
+      option={false}
     />
   )
 }

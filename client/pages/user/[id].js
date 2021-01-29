@@ -25,7 +25,8 @@ function User() {
     <MainPage
       payload={{ action: LOAD_USER_POSTS_REQUEST, userId: router.query.id }}
       PostForm={handleForm()}
-      UserProfile={loadUserDone && <UserProfile User={otherUser} />}
+      DefaultProfile={loadUserDone && <UserProfile User={otherUser} />}
+      option={true}
     />
   )
 }

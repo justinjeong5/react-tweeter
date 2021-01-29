@@ -7,7 +7,7 @@ import AppLayout from '../../components/AppLayout'
 import PostCard from '../../components/Post/PostCard'
 import { LOAD_USER_POSTS_REQUEST, LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/types'
 
-function MainPage({ payload, PostForm, UserProfile }) {
+function MainPage({ payload, PostForm, DefaultProfile, option }) {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
@@ -44,7 +44,7 @@ function MainPage({ payload, PostForm, UserProfile }) {
   }, [hasMorePost, loadPostsLoading])
 
   return (
-    <AppLayout UserProfile={UserProfile}>
+    <AppLayout DefaultProfile={DefaultProfile} option={option}>
       {currentUser?.id && PostForm}
       {/* <PostCardVirtualized /> using react-virtualized */}
       {loadPostsDone && postsList.length === 0 && <Empty style={{ marginTop: '30vh' }} description='해당하는 게시글이 없습니다.' />}
@@ -60,6 +60,7 @@ MainPage.propTypes = {
   }).isRequired,
   PostForm: PropTypes.node,
   UserProfile: PropTypes.node.isRequired,
+  option: PropTypes.bool.isRequired,
 }
 
 

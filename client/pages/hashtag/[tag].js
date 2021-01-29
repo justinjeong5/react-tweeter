@@ -17,7 +17,7 @@ function User() {
     <MainPage
       payload={{ action: LOAD_HASHTAG_POSTS_REQUEST, hashtag: router.query.tag }}
       PostForm={null}
-      UserProfile={<UserProfile User={currentUser} />}
+      DefaultProfile={<UserProfile User={currentUser} />}
     />
   )
 }

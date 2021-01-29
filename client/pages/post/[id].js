@@ -9,12 +9,14 @@ import { Empty } from 'antd'
 import wrapper from '../../store/configureStore';
 import AppLayout from '../../components/AppLayout'
 import PostCard from '../../components/Post/PostCard'
-import { LOAD_CURRENT_USER_REQUEST, LOAD_POST_REQUEST } from '../../reducers/types';
+import UserProfile from '../../components/User/UserProfile'
+import { LOAD_POST_REQUEST, LOAD_POST_USER_REQUEST } from '../../reducers/types';
 
 function Post() {
 
   const router = useRouter();
   const { id } = router.query;
+  const { otherUser, loadUserDone } = useSelector(state => state.user)
   const { singlePost } = useSelector(state => state.post)
 
   return (
@@ -30,8 +32,15 @@ function Post() {
             : singlePost.User.Image.src} />
           <meta property="og:url" content={`http://localhost:3000/post/${id}`} />
         </Head>}
-      <AppLayout>
-        {!singlePost && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 48px)' }}><Empty description='존재하지 않는 게시글입니다.' /></div>}
+      <AppLayout
+        DefaultProfile={loadUserDone && <UserProfile User={otherUser} />}
+        option={true}
+      >
+        {!singlePost && <>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 48px)' }}>
+            <Empty description='존재하지 않는 게시글입니다.' />
+          </div>
+        </>}
         {singlePost && <PostCard post={singlePost} />}
       </AppLayout>
     </>
@@ -44,11 +53,15 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (cookie) {
     axios.defaults.headers.Cookie = cookie;
   }
-  context.store.dispatch({
-    type: LOAD_CURRENT_USER_REQUEST,
-  })
+
   context.store.dispatch({
     type: LOAD_POST_REQUEST,
+    data: {
+      postId: context.params.id
+    }
+  })
+  context.store.dispatch({
+    type: LOAD_POST_USER_REQUEST,
     data: {
       postId: context.params.id
     }
