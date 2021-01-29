@@ -129,9 +129,19 @@ router.patch('/', loginRequired, async (req, res, next) => {
       }, {
         model: User,
         as: 'Followings',
+        attributes: ['id', 'nickname', 'email'],
+        include: [{
+          model: Image,
+          attributes: ['src']
+        }]
       }, {
         model: User,
         as: 'Followers',
+        attributes: ['id', 'nickname', 'email'],
+        include: [{
+          model: Image,
+          attributes: ['src']
+        }]
       }, {
         model: Image,
       }]
