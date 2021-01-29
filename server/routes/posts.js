@@ -72,7 +72,10 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/follower', loginRequired, async (req, res, next) => {
+router.get('/follower', async (req, res, next) => {
+  if (!req.user) {
+    return res.status(200).json({ message: '로그인이 필요한 서비스입니다.', posts: [] })
+  }
   try {
     const followers = await User.findAll({
       attributes: ['id'],
@@ -98,7 +101,10 @@ router.get('/follower', loginRequired, async (req, res, next) => {
   }
 })
 
-router.get('/following', loginRequired, async (req, res, next) => {
+router.get('/following', async (req, res, next) => {
+  if (!req.user) {
+    return res.status(200).json({ message: '로그인이 필요한 서비스입니다.', posts: [] })
+  }
   try {
     const followings = await User.findAll({
       attributes: ['id'],
