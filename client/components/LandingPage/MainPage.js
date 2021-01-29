@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { Empty } from 'antd'
 import AppLayout from '../../components/AppLayout'
-import PostForm from '../../components/Post/PostForm'
 import PostCard from '../../components/Post/PostCard'
 import { LOAD_USER_POSTS_REQUEST, LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/types'
 
-function MainPage({ payload }) {
+function MainPage({ payload, PostForm }) {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
@@ -45,12 +45,20 @@ function MainPage({ payload }) {
 
   return (
     <AppLayout>
-      {currentUser?.id && <PostForm />}
+      {currentUser?.id && PostForm}
       {/* <PostCardVirtualized /> using react-virtualized */}
       {loadPostsDone && postsList.length === 0 && <Empty style={{ marginTop: '30vh' }} description='해당하는 게시글이 없습니다.' />}
       {postsList.map((post) => (<PostCard key={uuidv4()} post={post} />))}
     </AppLayout>
   )
+}
+MainPage.propTypes = {
+  payload: PropTypes.shape({
+    action: PropTypes.string.isRequired,
+    userId: PropTypes.string,
+    hashtag: PropTypes.string,
+  }),
+  PostForm: PropTypes.element
 }
 
 

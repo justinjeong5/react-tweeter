@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { END } from 'redux-saga'
 import axios from 'axios'
 import wrapper from '../../store/configureStore'
 import MainPage from '../../components/LandingPage/MainPage'
+import PostForm from '../../components/Post/PostForm'
 import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_USER_POSTS_REQUEST } from '../../reducers/types'
 import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 function User() {
 
   const router = useRouter();
+  const { currentUser } = useSelector(state => state.user)
+
+  const handleForm = useCallback(() => {
+    if (currentUser.id === router.query.id) {
+      return < PostForm />;
+    }
+    return null;
+  }, [])
 
   return (
-    <MainPage payload={{ action: LOAD_USER_POSTS_REQUEST, userId: router.query.id }} />
+    <MainPage
+      payload={{ action: LOAD_USER_POSTS_REQUEST, userId: router.query.id }}
+      PostForm={handleForm()}
+    />
   )
 }
 

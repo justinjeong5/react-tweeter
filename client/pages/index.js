@@ -3,12 +3,13 @@ import { END } from 'redux-saga'
 import axios from 'axios'
 import wrapper from '../store/configureStore'
 import MainPage from '../components/LandingPage/MainPage'
+import PostForm from '../components/Post/PostForm'
 import { LOAD_POSTS_REQUEST, CLEAR_POSTS_LIST, LOAD_CURRENT_USER_REQUEST } from '../reducers/types'
 
 function index() {
 
   return (
-    <MainPage payload={{ action: LOAD_POSTS_REQUEST }} />
+    <MainPage payload={{ action: LOAD_POSTS_REQUEST }} PostForm={<PostForm />} />
   )
 }
 
