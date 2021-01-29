@@ -14,6 +14,7 @@ const post = require('./routes/post');
 const posts = require('./routes/posts');
 const user = require('./routes/user');
 const image = require('./routes/image');
+const hashtag = require('./routes/hashtag');
 const db = require('./models');
 const app = express();
 
@@ -56,6 +57,7 @@ app.use('/api/post', post)
 app.use('/api/posts', posts)
 app.use('/api/user', user)
 app.use('/api/image', image)
+app.use('/api/hashtag', hashtag)
 
 app.listen(3065, () => {
   console.log('Server is running')
