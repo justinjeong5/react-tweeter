@@ -5,6 +5,7 @@ import {
   LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_FAILURE,
   LOAD_FOLLOWER_POSTS_REQUEST, LOAD_FOLLOWER_POSTS_SUCCESS, LOAD_FOLLOWER_POSTS_FAILURE,
   LOAD_FOLLOWING_POSTS_REQUEST, LOAD_FOLLOWING_POSTS_SUCCESS, LOAD_FOLLOWING_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE,
   EDIT_USER_OF_POSTS,
   CLEAR_POSTS_LIST,
   ADD_POST_TO_POSTS_LIST,
@@ -31,6 +32,7 @@ const postsReducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_REQUEST:
       case LOAD_FOLLOWER_POSTS_REQUEST:
       case LOAD_FOLLOWING_POSTS_REQUEST:
+      case LOAD_HASHTAG_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
@@ -39,6 +41,7 @@ const postsReducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_SUCCESS:
       case LOAD_FOLLOWER_POSTS_SUCCESS:
       case LOAD_FOLLOWING_POSTS_SUCCESS:
+      case LOAD_HASHTAG_POSTS_SUCCESS:
         draft.postsList.push(...action.data.posts);
         draft.message = action.data.message;
         draft.loadPostsLoading = false;
@@ -49,6 +52,7 @@ const postsReducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_FAILURE:
       case LOAD_FOLLOWER_POSTS_FAILURE:
       case LOAD_FOLLOWING_POSTS_FAILURE:
+      case LOAD_HASHTAG_POSTS_FAILURE:
         draft.message = action.error.message;
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error.code;

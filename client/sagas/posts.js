@@ -6,6 +6,7 @@ import {
   LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_FAILURE,
   LOAD_FOLLOWER_POSTS_REQUEST, LOAD_FOLLOWER_POSTS_SUCCESS, LOAD_FOLLOWER_POSTS_FAILURE,
   LOAD_FOLLOWING_POSTS_REQUEST, LOAD_FOLLOWING_POSTS_SUCCESS, LOAD_FOLLOWING_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE,
 } from '../reducers/types'
 
 function loadPostsAPI(data) {
@@ -89,6 +90,26 @@ function* loadFollowingPosts(action) {
   }
 }
 
+function loadHashtagPostsAPI(data) {
+  return axios.get(`/api/hashtag/${encodeURI(data.hashtag)}?lastId=${data.lastId}`);
+}
+
+function* loadHashtagPosts(action) {
+  try {
+    const result = yield call(loadHashtagPostsAPI, action.data)
+    yield put({
+      type: LOAD_HASHTAG_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: LOAD_HASHTAG_POSTS_FAILURE,
+      error: error.response.data
+    })
+  }
+}
+
 function* watchLoadPosts() {
   yield throttle(1000, LOAD_POSTS_REQUEST, loadPosts)
 }
@@ -105,6 +126,10 @@ function* watchLoadFollowingPosts() {
   yield throttle(1000, LOAD_FOLLOWING_POSTS_REQUEST, loadFollowingPosts)
 }
 
+function* watchLoadHashtagPosts() {
+  yield throttle(1000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
+}
+
 
 export default function* postSaga() {
   yield all([
@@ -112,5 +137,6 @@ export default function* postSaga() {
     fork(watchLoadUserPosts),
     fork(watchLoadFollowerPosts),
     fork(watchLoadFollowingPosts),
+    fork(watchLoadHashtagPosts),
   ])
 }

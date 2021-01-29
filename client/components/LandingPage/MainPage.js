@@ -5,7 +5,7 @@ import { Empty } from 'antd'
 import AppLayout from '../../components/AppLayout'
 import PostForm from '../../components/Post/PostForm'
 import PostCard from '../../components/Post/PostCard'
-import { LOAD_USER_POSTS_REQUEST } from '../../reducers/types'
+import { LOAD_USER_POSTS_REQUEST, LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/types'
 
 function MainPage({ payload }) {
 
@@ -28,6 +28,9 @@ function MainPage({ payload }) {
         }
         if (payload.action === LOAD_USER_POSTS_REQUEST) {
           data.userId = payload.userId
+        }
+        if (payload.action === LOAD_HASHTAG_POSTS_REQUEST) {
+          data.hashtag = payload.hashtag
         }
         dispatch({
           type: payload.action,
