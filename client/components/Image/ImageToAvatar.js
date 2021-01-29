@@ -11,7 +11,7 @@ function ImageToAvatar({ User }) {
   }, [User])
 
   return (
-    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={imageSrcParser(User.Image)} /></span>
+    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={User.Image && imageSrcParser(User.Image)} /></span>
   )
 }
 
