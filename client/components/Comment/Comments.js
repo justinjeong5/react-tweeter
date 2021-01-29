@@ -26,10 +26,13 @@ Comments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.shape({
     User: PropTypes.shape({
       id: PropTypes.number.isRequired,
-      nickname: PropTypes.string.isRequired
-    }),
+      nickname: PropTypes.string.isRequired,
+      Image: PropTypes.arrayOf(PropTypes.shape({
+        src: PropTypes.string.isRequired
+      })).isRequired,
+    }).isRequired,
     content: PropTypes.string.isRequired,
-  }))
+  })).isRequired
 }
 
 export default Comments

@@ -29,7 +29,7 @@ function AppLayout({ children, UserProfile }) {
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
-  UserProfile: PropTypes.node,
+  UserProfile: PropTypes.node.isRequired,
 };
 
 export default AppLayout

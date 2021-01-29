@@ -69,7 +69,16 @@ function FollowList({ header, data }) {
 
 FollowList.propTypes = {
   header: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      nickname: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      Image: PropTypes.shape({
+        src: PropTypes.string.isRequired
+      }).isRequired,
+    }).isRequired
+  ).isRequired,
 }
 
 export default FollowList

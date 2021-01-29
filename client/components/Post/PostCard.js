@@ -136,41 +136,41 @@ PostCard.propTypes = {
     id: PropTypes.number.isRequired,
     User: PropTypes.shape({
       id: PropTypes.number.isRequired,
-      nickname: PropTypes.string.isRequired
-    }),
+      Image: PropTypes.shape({
+        src: PropTypes.string.isRequired
+      }).isRequired,
+    }).isRequired,
     content: PropTypes.string.isRequired,
     Images: PropTypes.arrayOf(PropTypes.shape({
       src: PropTypes.string.isRequired
-    })),
+    })).isRequired,
     Comments: PropTypes.arrayOf(PropTypes.shape({
       User: PropTypes.shape({
         id: PropTypes.number.isRequired,
-        nickname: PropTypes.string.isRequired
-      }),
+        nickname: PropTypes.string.isRequired,
+        Image: PropTypes.arrayOf(PropTypes.shape({
+          src: PropTypes.string.isRequired
+        })).isRequired,
+      }).isRequired,
       content: PropTypes.string.isRequired,
-    })),
+    })).isRequired,
     Likers: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired
-    })),
-    RetweetId: PropTypes.number,
+    })).isRequired,
     Retweet: PropTypes.shape({
-      id: PropTypes.number.isRequired,
       User: PropTypes.shape({
         id: PropTypes.number.isRequired,
-        nickname: PropTypes.string.isRequired
-      }),
+        Image: PropTypes.shape({
+          src: PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired,
       content: PropTypes.string.isRequired,
       Images: PropTypes.arrayOf(PropTypes.shape({
         src: PropTypes.string.isRequired
-      })),
-      Comments: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
-      })),
-      Likers: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired
-      })),
-    }),
-  })
+      })).isRequired,
+      Comments: PropTypes.array.isRequired,
+    }).isRequired,
+  }).isRequired
 }
 
 export default PostCard

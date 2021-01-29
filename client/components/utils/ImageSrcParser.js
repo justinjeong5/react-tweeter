@@ -11,5 +11,5 @@ export const imageSrcParser = (image) => {
 imageSrcParser.propTypes = {
   image: PropTypes.shape({
     src: PropTypes.string.isRequired
-  })
+  }).isRequired
 }

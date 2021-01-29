@@ -57,9 +57,9 @@ MainPage.propTypes = {
     action: PropTypes.string.isRequired,
     userId: PropTypes.string,
     hashtag: PropTypes.string,
-  }),
-  PostForm: PropTypes.element,
-  UserProfile: PropTypes.element.isRequired,
+  }).isRequired,
+  PostForm: PropTypes.node,
+  UserProfile: PropTypes.node.isRequired,
 }
 
 

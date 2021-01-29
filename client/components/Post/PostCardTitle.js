@@ -15,22 +15,12 @@ function PostCardTitle({ post }) {
 
 PostCardTitle.propTypes = {
   post: PropTypes.shape({
-    id: PropTypes.number.isRequired,
     User: PropTypes.shape({
-      id: PropTypes.number.isRequired,
       nickname: PropTypes.string.isRequired
-    }),
-    content: PropTypes.string.isRequired,
-    Images: PropTypes.arrayOf(PropTypes.shape({
-      src: PropTypes.string.isRequired
-    })),
-    Comments: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-    })),
-    Likers: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired
-    })),
-  })
+    }).isRequired,
+    Comments: PropTypes.array.isRequired,
+    Likers: PropTypes.array.isRequired,
+  }).isRequired
 }
 
 export default PostCardTitle

@@ -34,7 +34,7 @@ function Images({ images }) {
 Images.propTypes = {
   images: PropTypes.arrayOf(PropTypes.shape({
     src: PropTypes.string.isRequired
-  }))
+  })).isRequired
 }
 
 export default Images
