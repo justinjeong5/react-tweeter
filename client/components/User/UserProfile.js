@@ -36,7 +36,7 @@ function UserProfile() {
         />
       }
       actions={[
-        <div key={uuidv4()} onClick={handleRouter('/user/posts')}>게시글<br />{currentUser.Posts.length}</div>,
+        <div key={uuidv4()} onClick={handleRouter(`/user/${currentUser.id}`)}>게시글<br />{currentUser.Posts.length}</div>,
         <div key={uuidv4()} onClick={handleRouter('/user/followings')}>팔로윙<br />{currentUser.Followings.length}</div>,
         <div key={uuidv4()} onClick={handleRouter('/user/followers')}>팔로워<br />{currentUser.Followers.length}</div>,
       ]}

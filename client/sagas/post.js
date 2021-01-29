@@ -1,8 +1,7 @@
-import { all, put, fork, call, takeLatest, delay, takeLeading } from "redux-saga/effects";
+import { all, put, fork, call, takeLatest } from "redux-saga/effects";
 import axios from 'axios';
 
 import {
-  LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE,
   LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
@@ -12,31 +11,13 @@ import {
   UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE,
   RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE,
   CLEAR_IMAGE_FROM_PATHS,
-  NORMAL, MYSELF, FOLLOWER, FOLLOWING, OTHER,
+  ADD_POST_TO_POSTS_LIST,
+  REMOVE_POST_FROM_POSTS_LIST,
+  ADD_COMMENT_TO_POSTS_LIST,
+  ADD_LIKE_TO_POSTS_LIST,
+  REMOVE_LIKE_FROM_POSTS_LIST,
+  ADD_TWEET_TO_POSTS_LIST,
 } from '../reducers/types'
-
-function loadPostsAPI(data) {
-  if (![NORMAL, MYSELF, FOLLOWER, FOLLOWING, OTHER].includes(data.target)) {
-    throw new Error(`유효하지 않은 옵션입니다.`)
-  }
-  return axios.get(`/api/post/posts?lastId=${data.lastId}&type=${data.target}&userId=${data.userId}`);
-}
-
-function* loadPosts(action) {
-  try {
-    const result = yield call(loadPostsAPI, action.data)
-    yield put({
-      type: LOAD_POSTS_SUCCESS,
-      data: result.data,
-    })
-  } catch (error) {
-    console.error(error)
-    yield put({
-      type: LOAD_POSTS_FAILURE,
-      error: error.response.data
-    })
-  }
-}
 
 function loadPostAPI(data) {
   return axios.get(`/api/post/${data.postId}`);
@@ -70,6 +51,10 @@ function* addPost(action) {
       data: result.data
     })
     yield put({
+      type: ADD_POST_TO_POSTS_LIST,
+      data: result.data
+    })
+    yield put({
       type: ADD_POST_TO_ME,
       data: result.data
     })
@@ -100,6 +85,10 @@ function* removePost(action) {
       type: REMOVE_POST_FROM_ME,
       data: result.data,
     })
+    yield put({
+      type: REMOVE_POST_FROM_POSTS_LIST,
+      data: result.data,
+    })
   } catch (error) {
     console.error(error)
     yield put({
@@ -118,6 +107,10 @@ function* addComment(action) {
     const result = yield call(addCommentAPI, action.data)
     yield put({
       type: ADD_COMMENT_SUCCESS,
+      data: result.data
+    })
+    yield put({
+      type: ADD_COMMENT_TO_POSTS_LIST,
       data: result.data
     })
   } catch (error) {
@@ -140,6 +133,10 @@ function* likePost(action) {
       type: LIKE_POST_SUCCESS,
       data: result.data
     })
+    yield put({
+      type: ADD_LIKE_TO_POSTS_LIST,
+      data: result.data
+    })
   } catch (error) {
     console.error(error)
     yield put({
@@ -158,6 +155,10 @@ function* unlikePost(action) {
     const result = yield call(unlikePostAPI, action.data)
     yield put({
       type: UNLIKE_POST_SUCCESS,
+      data: result.data
+    })
+    yield put({
+      type: REMOVE_LIKE_FROM_POSTS_LIST,
       data: result.data
     })
   } catch (error) {
@@ -180,6 +181,10 @@ function* retweet(action) {
       type: RETWEET_SUCCESS,
       data: result.data
     })
+    yield put({
+      type: ADD_TWEET_TO_POSTS_LIST,
+      data: result.data
+    })
   } catch (error) {
     console.error(error)
     yield put({
@@ -189,12 +194,8 @@ function* retweet(action) {
   }
 }
 
-function* watchLoadPosts() {
-  yield takeLeading(LOAD_POSTS_REQUEST, loadPosts)
-}
-
 function* watchLoadPost() {
-  yield takeLeading(LOAD_POST_REQUEST, loadPost)
+  yield takeLatest(LOAD_POST_REQUEST, loadPost)
 }
 
 function* watchAddPost() {
@@ -224,7 +225,6 @@ function* watchRetweet() {
 
 export default function* postSaga() {
   yield all([
-    fork(watchLoadPosts),
     fork(watchLoadPost),
     fork(watchAddPost),
     fork(watchRemovePost),

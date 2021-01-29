@@ -3,12 +3,12 @@ import { END } from 'redux-saga'
 import axios from 'axios'
 import wrapper from '../../store/configureStore'
 import MainPage from '../../components/LandingPage/MainPage'
-import { FOLLOWING, LOAD_CURRENT_USER_REQUEST, LOAD_POSTS_REQUEST } from '../../reducers/types'
+import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_FOLLOWING_POSTS_REQUEST } from '../../reducers/types'
 
 function Followings() {
 
   return (
-    <MainPage target={FOLLOWING} />
+    <MainPage payload={{ action: LOAD_FOLLOWING_POSTS_REQUEST }} />
   )
 }
 
@@ -23,10 +23,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     type: LOAD_CURRENT_USER_REQUEST
   });
   context.store.dispatch({
-    type: LOAD_POSTS_REQUEST,
+    type: CLEAR_POSTS_LIST,
+  })
+  context.store.dispatch({
+    type: LOAD_FOLLOWING_POSTS_REQUEST,
     data: {
       lastId: null,
-      target: FOLLOWING
     }
   });
   context.store.dispatch(END);

@@ -2,16 +2,17 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { Empty } from 'antd'
-import { LOAD_POSTS_REQUEST } from '../../reducers/types'
 import AppLayout from '../../components/AppLayout'
 import PostForm from '../../components/Post/PostForm'
 import PostCard from '../../components/Post/PostCard'
+import { LOAD_USER_POSTS_REQUEST } from '../../reducers/types'
 
-function MainPage({ target, userId }) {
+function MainPage({ payload }) {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
-  const { hasMorePost, postsList, loadPostsLoading, loadPostsDone } = useSelector(state => state.post)
+  const { loadPostsLoading, loadPostsDone } = useSelector(state => state.post)
+  const { hasMorePost, postsList } = useSelector(state => state.posts)
 
   useEffect(() => {
     const onScroll = () => {
@@ -22,16 +23,14 @@ function MainPage({ target, userId }) {
         && document.documentElement.scrollHeight)
         || document.body.scrollHeight;
       if (hasMorePost && !loadPostsLoading && scrollTop + window.innerHeight + 300 >= scrollHeight) {
-        const lastId = postsList[postsList.length - 1]?.id
         const data = {
-          lastId,
-          target
+          lastId: postsList[postsList.length - 1].id,
         }
-        if (userId) {
-          data.userId = userId;
+        if (payload.action === LOAD_USER_POSTS_REQUEST) {
+          data.userId = payload.userId
         }
         dispatch({
-          type: LOAD_POSTS_REQUEST,
+          type: payload.action,
           data
         })
       }
@@ -51,7 +50,6 @@ function MainPage({ target, userId }) {
     </AppLayout>
   )
 }
-
 
 
 export default MainPage

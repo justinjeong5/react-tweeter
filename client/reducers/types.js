@@ -46,10 +46,6 @@ export const RESET_USER_REDUX_STATE = 'RESET_USER_REDUX_STATE';
 ////////////////////////////////////////////
 //                  Post
 ////////////////////////////////////////////
-export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
-export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
-export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
-
 export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
@@ -82,7 +78,33 @@ export const RETWEET_FAILURE = 'RETWEET_FAILURE';
 
 export const RESET_POST_REDUX_STATE = 'RESET_POST_REDUX_STATE';
 
+
+////////////////////////////////////////////
+//                  Posts
+////////////////////////////////////////////
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
+
+export const LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST';
+export const LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS';
+export const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE';
+
+export const LOAD_FOLLOWER_POSTS_REQUEST = 'LOAD_FOLLOWER_POSTS_REQUEST';
+export const LOAD_FOLLOWER_POSTS_SUCCESS = 'LOAD_FOLLOWER_POSTS_SUCCESS';
+export const LOAD_FOLLOWER_POSTS_FAILURE = 'LOAD_FOLLOWER_POSTS_FAILURE';
+
+export const LOAD_FOLLOWING_POSTS_REQUEST = 'LOAD_FOLLOWING_POSTS_REQUEST';
+export const LOAD_FOLLOWING_POSTS_SUCCESS = 'LOAD_FOLLOWING_POSTS_SUCCESS';
+export const LOAD_FOLLOWING_POSTS_FAILURE = 'LOAD_FOLLOWING_POSTS_FAILURE';
+
 export const CLEAR_POSTS_LIST = 'CLEAR_POSTS_LIST';
+export const ADD_POST_TO_POSTS_LIST = 'ADD_POST_TO_POSTS_LIST';
+export const REMOVE_POST_FROM_POSTS_LIST = 'REMOVE_POST_FROM_POSTS_LIST';
+export const ADD_COMMENT_TO_POSTS_LIST = 'ADD_COMMENT_TO_POSTS_LIST';
+export const ADD_LIKE_TO_POSTS_LIST = 'ADD_LIKE_TO_POSTS_LIST';
+export const REMOVE_LIKE_FROM_POSTS_LIST = 'REMOVE_LIKE_FROM_POSTS_LIST';
+export const ADD_TWEET_TO_POSTS_LIST = 'ADD_TWEET_TO_POSTS_LIST';
 
 
 ////////////////////////////////////////////
@@ -100,14 +122,3 @@ export const REMOVE_IMAGE_FROM_PATHS = 'REMOVE_IMAGE_FROM_PATHS';
 export const CLEAR_IMAGE_FROM_PATHS = 'CLEAR_IMAGE_FROM_PATHS';
 
 export const REMOVE_IMAGE_FROM_PATH = 'REMOVE_IMAGE_FROM_PATH';
-
-
-////////////////////////////////////////////
-//              Post options
-////////////////////////////////////////////
-export const NORMAL = 'normal';
-export const MYSELF = 'myself';
-export const FOLLOWER = 'follower';
-export const FOLLOWING = 'following';
-export const OTHER = 'other';
-
