@@ -42,7 +42,7 @@ function UserProfile() {
       ]}
     >
       <Meta
-        avatar={<ImageToAvatar image={currentUser.Image} />}
+        avatar={<ImageToAvatar image={currentUser.Image} userId={currentUser.id} />}
         title={currentUser.nickname}
       />
       <Button onClick={handleLogout} disabled={logoutUserLoading} loading={logoutUserLoading}>로그아웃</Button>

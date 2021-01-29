@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react'
+import Router from 'next/router'
 import PropTypes from 'prop-types'
 import { Avatar } from 'antd'
 
-function ImageToAvatar({ image }) {
+function ImageToAvatar({ image, userId }) {
 
   const srcParser = useCallback(() => {
     if (image.src.includes('http://gravatar.com/avatar/')) {
@@ -12,15 +13,20 @@ function ImageToAvatar({ image }) {
     }
   }, [image])
 
+  const handleRouter = useCallback(() => {
+    Router.push(`/user/${userId}`)
+  }, [userId])
+
   return (
-    <Avatar src={srcParser()} />
+    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={srcParser()} /></span>
   )
 }
 
 ImageToAvatar.propTypes = {
   image: PropTypes.shape({
     src: PropTypes.string.isRequired
-  })
+  }),
+  userId: PropTypes.number.isRequired
 }
 
 export default ImageToAvatar
