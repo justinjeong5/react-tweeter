@@ -195,10 +195,18 @@ router.get('/follow', loginRequired, async (req, res, next) => {
       return res.status(403).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' });
     }
     const followers = await user.getFollowers({
-      attributes: ['id', 'email', 'nickname']
+      attributes: ['id', 'email', 'nickname'],
+      include: [{
+        model: Image,
+        attributes: ['src']
+      }]
     });
     const followings = await user.getFollowings({
-      attributes: ['id', 'email', 'nickname']
+      attributes: ['id', 'email', 'nickname'],
+      include: [{
+        model: Image,
+        attributes: ['src']
+      }]
     });
     return res.status(200).json({ message: '회원정보를 정상적으로 가져왔습니다.', followers, followings })
   } catch (error) {
@@ -206,5 +214,38 @@ router.get('/follow', loginRequired, async (req, res, next) => {
     next(error);
   }
 })
+
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: ['id', 'nickname'],
+      include: [{
+        model: Post,
+      }, {
+        model: User,
+        as: 'Followings',
+      }, {
+        model: User,
+        as: 'Followers',
+      }, {
+        model: Image,
+      }]
+    })
+    if (user) {
+      const fullUser = user.toJSON();
+      fullUser.Posts = fullUser.Posts.length;
+      fullUser.Followings = fullUser.Followings.length;
+      fullUser.Followers = fullUser.Followers.length;
+      return res.status(200).json({ message: '사용자 정보를 정상적으로 가져왔습니다.', user: fullUser })
+    } else {
+      return res.status(404).json({ code: 'NoSuchUserExist', message: '존재하지 않는 사용자입니다.' })
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 
 module.exports = router;
