@@ -11,6 +11,7 @@ const morgan = require('morgan')
 
 const passportConfig = require('./passport');
 const post = require('./routes/post');
+const posts = require('./routes/posts');
 const user = require('./routes/user');
 const image = require('./routes/image');
 const db = require('./models');
@@ -52,6 +53,7 @@ app.get('/', (req, res) => {
 
 app.use('/', express.static(path.join(__dirname, 'uploads')))
 app.use('/api/post', post)
+app.use('/api/posts', posts)
 app.use('/api/user', user)
 app.use('/api/image', image)
 
