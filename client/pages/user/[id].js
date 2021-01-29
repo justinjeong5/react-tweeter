@@ -1,18 +1,18 @@
 import React, { useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import { END } from 'redux-saga'
+import { useRouter } from 'next/router'
 import axios from 'axios'
 import wrapper from '../../store/configureStore'
 import MainPage from '../../components/LandingPage/MainPage'
 import PostForm from '../../components/Post/PostForm'
 import UserProfile from '../../components/User/UserProfile'
-import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_USER_POSTS_REQUEST } from '../../reducers/types'
-import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_USER_POSTS_REQUEST, LOAD_USER_REQUEST } from '../../reducers/types'
 
 function User() {
 
   const router = useRouter();
-  const { currentUser } = useSelector(state => state.user)
+  const { currentUser, otherUser, loadUserDone } = useSelector(state => state.user)
 
   const handleForm = useCallback(() => {
     if (currentUser.id === router.query.id) {
@@ -25,7 +25,7 @@ function User() {
     <MainPage
       payload={{ action: LOAD_USER_POSTS_REQUEST, userId: router.query.id }}
       PostForm={handleForm()}
-      UserProfile={<UserProfile User={currentUser} />}
+      UserProfile={loadUserDone && <UserProfile User={otherUser} />}
     />
   )
 }
@@ -50,6 +50,12 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
       userId: context.params.id
     }
   });
+  context.store.dispatch({
+    type: LOAD_USER_REQUEST,
+    data: {
+      userId: context.params.id
+    }
+  })
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });

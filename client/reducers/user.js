@@ -1,6 +1,7 @@
 import produce from 'immer'
 import {
   LOAD_CURRENT_USER_REQUEST, LOAD_CURRENT_USER_SUCCESS, LOAD_CURRENT_USER_FAILURE,
+  LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE,
   LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE,
   LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE,
   REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE,
@@ -15,11 +16,15 @@ import {
 
 const initialState = {
   currentUser: {},
+  otherUser: {},
 
   message: '',
   loadCurrentUserDone: false,
   loadCurrentUserLoading: false,
   loadCurrentUserError: null,
+  loadUserDone: false,
+  loadUserLoading: false,
+  loadUserError: null,
   loginUserDone: false,
   loginUserLoading: false,
   loginUserError: null,
@@ -66,6 +71,22 @@ const userReducer = (state = initialState, action) => {
         draft.message = action.error.message;
         draft.loadCurrentUserLoading = false;
         draft.loadCurrentUserError = action.error.code;
+        break;
+      case LOAD_USER_REQUEST:
+        draft.loadUserLoading = true;
+        draft.loadUserDone = false;
+        draft.loadUserError = null;
+        break;
+      case LOAD_USER_SUCCESS:
+        draft.otherUser = action.data.user;
+        draft.message = action.data.message;
+        draft.loadUserLoading = false;
+        draft.loadUserDone = true;
+        break;
+      case LOAD_USER_FAILURE:
+        draft.message = action.error.message;
+        draft.loadUserLoading = false;
+        draft.loadUserError = action.error.code;
         break;
       case LOGIN_USER_REQUEST:
         draft.loginUserLoading = true;
