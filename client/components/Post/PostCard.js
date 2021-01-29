@@ -112,7 +112,7 @@ function PostCard({ post }) {
           </Popover>
         ]
         }
-        extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton post={post} />}
+        extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton User={post.User} />}
       >
         <Card.Meta
           avatar={<ImageToAvatar User={post.User} />}

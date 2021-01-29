@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 import { Button } from 'antd'
 import { FOLLOW_REQUEST, UNFOLLOW_REQUEST, } from '../../reducers/types'
 
-function FollowButton({ post }) {
+function FollowButton({ User }) {
 
   const dispatch = useDispatch();
   const { currentUser, followLoading, unfollowLoading } = useSelector(state => state.user)
-  const [following, setFollowing] = useState(currentUser.Followings.find(following => following.id === post.User.id))
+  const [following, setFollowing] = useState(currentUser.Followings.find(following => following.id === User.id))
 
   const handleFollow = useCallback(() => {
     const data = {
-      userId: post.User.id,
+      userId: User.id,
     }
     if (following) {
       dispatch({
@@ -30,7 +30,7 @@ function FollowButton({ post }) {
 
   return (
     <Button
-      loading={followLoading === post.User.id || unfollowLoading === post.User.id}
+      loading={followLoading === User.id || unfollowLoading === User.id}
       onClick={handleFollow}
     >
       {following ? '언팔로우' : '팔로우'}
@@ -39,24 +39,9 @@ function FollowButton({ post }) {
 }
 
 FollowButton.propsType = {
-  post: PropTypes.shape({
+  User: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    User: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      nickname: PropTypes.string.isRequired
-    }),
-    content: PropTypes.string.isRequired,
-    Images: PropTypes.arrayOf(PropTypes.shape({
-      src: PropTypes.string.isRequired
-    })),
-    Comments: PropTypes.arrayOf(PropTypes.shape({
-      User: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        nickname: PropTypes.string.isRequired
-      }),
-      content: PropTypes.string.isRequired,
-    })),
-  })
+  }).isRequired,
 }
 
 export default FollowButton
