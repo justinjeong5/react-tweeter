@@ -148,9 +148,9 @@ PostCard.propTypes = {
       User: PropTypes.shape({
         id: PropTypes.number.isRequired,
         nickname: PropTypes.string.isRequired,
-        Image: PropTypes.arrayOf(PropTypes.shape({
+        Image: PropTypes.shape({
           src: PropTypes.string.isRequired
-        })).isRequired,
+        }).isRequired,
       }).isRequired,
       content: PropTypes.string.isRequired,
     })).isRequired,
@@ -169,7 +169,7 @@ PostCard.propTypes = {
         src: PropTypes.string.isRequired
       })).isRequired,
       Comments: PropTypes.array.isRequired,
-    }).isRequired,
+    }),
   }).isRequired
 }
 
