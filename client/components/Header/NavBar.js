@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 
 function NavBar() {
 
+  const { currentUser } = useSelector(state => state.user)
   const { loadPostsLoading } = useSelector(state => state.posts)
   const [searchInput, setSearchInput] = useState('')
   const handleSearchInput = useCallback((e) => {
@@ -45,7 +46,7 @@ function NavBar() {
           disabled={loadPostsLoading}
         />
       </Menu.Item>
-      <Menu.Item key="signupMenu" icon={<AppstoreOutlined />} style={{ float: 'right' }}>
+      <Menu.Item key="signupMenu" icon={<AppstoreOutlined />} style={{ float: 'right' }} hidden={currentUser.id} >
         <Link href='/signup'><a>회원가입</a></Link>
       </Menu.Item>
     </Menu>
