@@ -11,8 +11,7 @@ function MainPage({ payload }) {
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
-  const { loadPostsLoading, loadPostsDone } = useSelector(state => state.post)
-  const { hasMorePost, postsList } = useSelector(state => state.posts)
+  const { hasMorePost, postsList, loadPostsLoading, loadPostsDone } = useSelector(state => state.posts)
 
   useEffect(() => {
     const onScroll = () => {
@@ -48,7 +47,7 @@ function MainPage({ payload }) {
     <AppLayout>
       {currentUser?.id && <PostForm />}
       {/* <PostCardVirtualized /> using react-virtualized */}
-      {loadPostsDone && postsList.length === 0 && <Empty description='해당하는 게시글이 없습니다.' />}
+      {loadPostsDone && postsList.length === 0 && <Empty style={{ marginTop: '30vh' }} description='해당하는 게시글이 없습니다.' />}
       {postsList.map((post) => (<PostCard key={uuidv4()} post={post} />))}
     </AppLayout>
   )
