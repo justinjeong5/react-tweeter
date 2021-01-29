@@ -76,6 +76,7 @@ function PostCard({ post }) {
       type: RETWEET_REQUEST,
       data: {
         postId: post.id,
+        content: `📨 ${post.User.nickname}님의 게시글을 리트윗하였습니다.`
       }
     })
   }, [currentUser])
@@ -110,8 +111,7 @@ function PostCard({ post }) {
           )}>
             <EllipsisOutlined />
           </Popover>
-        ]
-        }
+        ]}
         extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton User={post.User} />}
       >
         <Card.Meta
@@ -121,12 +121,10 @@ function PostCard({ post }) {
         />
         {post.Retweet && <RetweetPost post={post.Retweet} />}
       </Card >
-      {
-        commentShow && <>
-          <CommentForm postId={post.id} />
-          <Comments comments={post.Comments} />
-        </>
-      }
+      {commentShow && <>
+        <CommentForm postId={post.id} />
+        <Comments comments={post.Comments} />
+      </>}
     </div >
   )
 }
