@@ -63,16 +63,22 @@ router.get('/:postId', async (req, res, next) => {
 
 router.post('/post', loginRequired, async (req, res, next) => {
   try {
-    const hashtags = req.body.content.match(/#[^\s#]+/g);
+    const duplicatedhashtags = req.body.content.match(/#[^\s#]+/g);
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
     })
-    if (hashtags) {
+    if (duplicatedhashtags) {
+      const hashtags = [];
+      duplicatedhashtags.forEach(tag => {
+        if (hashtags.findIndex(v => v === tag) === -1) {
+          hashtags.push(tag);
+        }
+      })
       const result = await Promise.all(hashtags.map(tag => Hashtag.findOrCreate({
         where: { name: tag.slice(1).toLowerCase() }
       })));
-      await post.addHashtags(result.filter(res => res[1]).map(res => (res[0])));
+      await post.addHashtags(result.map(res => (res[0])));
     }
     const images = await Promise.all(req.body.imagePaths.map(image => Image.create(image)))
     await post.addImages(images);
