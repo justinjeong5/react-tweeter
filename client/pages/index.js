@@ -4,12 +4,20 @@ import axios from 'axios'
 import wrapper from '../store/configureStore'
 import MainPage from '../components/LandingPage/MainPage'
 import PostForm from '../components/Post/PostForm'
+import UserProfile from '../components/User/UserProfile'
 import { LOAD_POSTS_REQUEST, CLEAR_POSTS_LIST, LOAD_CURRENT_USER_REQUEST } from '../reducers/types'
+import { useSelector } from 'react-redux'
 
 function index() {
 
+  const { currentUser } = useSelector(state => state.user)
+
   return (
-    <MainPage payload={{ action: LOAD_POSTS_REQUEST }} PostForm={<PostForm />} />
+    <MainPage
+      payload={{ action: LOAD_POSTS_REQUEST }}
+      PostForm={<PostForm />}
+      UserProfile={<UserProfile User={currentUser} />}
+    />
   )
 }
 

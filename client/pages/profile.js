@@ -8,6 +8,7 @@ import AppLayout from '../components/AppLayout'
 import FollowList from '../components/Profile/FollowList'
 import NicknameEditForm from '../components/Profile/NicknameEditForm'
 import ImageEditForm from '../components/Profile/ImageEditForm'
+import UserProfile from '../components/User/UserProfile'
 import { GET_FOLLOW_REQUEST } from '../reducers/types'
 
 function Profile() {
@@ -35,7 +36,7 @@ function Profile() {
       <Head>
         <title>프로필</title>
       </Head>
-      <AppLayout>
+      <AppLayout UserProfile={<UserProfile User={currentUser} />}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: '100%', maxWidth: 600 }}>
             <NicknameEditForm />

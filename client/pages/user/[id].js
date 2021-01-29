@@ -4,6 +4,7 @@ import axios from 'axios'
 import wrapper from '../../store/configureStore'
 import MainPage from '../../components/LandingPage/MainPage'
 import PostForm from '../../components/Post/PostForm'
+import UserProfile from '../../components/User/UserProfile'
 import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_USER_POSTS_REQUEST } from '../../reducers/types'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
@@ -24,6 +25,7 @@ function User() {
     <MainPage
       payload={{ action: LOAD_USER_POSTS_REQUEST, userId: router.query.id }}
       PostForm={handleForm()}
+      UserProfile={<UserProfile User={currentUser} />}
     />
   )
 }

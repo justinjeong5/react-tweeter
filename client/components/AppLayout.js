@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux'
 import { Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import NavBar from './Header/NavBar'
-import UserProfile from './User/UserProfile'
 import LoginForm from './User/LoginForm'
 
-function AppLayout({ children }) {
+function AppLayout({ children, UserProfile }) {
 
   const { currentUser } = useSelector(state => state.user)
 
@@ -15,7 +14,7 @@ function AppLayout({ children }) {
       <NavBar />
       <Row gutter={[10, 10]}>
         <Col xs={24} md={6}>
-          {currentUser?.id ? <UserProfile /> : <LoginForm />}
+          {currentUser?.id ? UserProfile : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
@@ -30,6 +29,7 @@ function AppLayout({ children }) {
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
+  UserProfile: PropTypes.node,
 };
 
 export default AppLayout
