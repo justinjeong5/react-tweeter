@@ -214,7 +214,7 @@ router.post('/:postId/retweet', loginRequired, async (req, res, next) => {
     const retweet = await Post.create({
       UserId: req.user.id,
       RetweetId: retweetTarget,
-      content: 'retweet',
+      content: req.body.content,
     })
     const fullRetweet = await Post.findOne({
       where: { id: retweet.id },
