@@ -4,6 +4,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(140),
       allowNull: false,
     },
+    edit: {
+      type: DataTypes.BOOLEAN
+    }
   }, {
     charset: 'utf8mb4',  // mb4 is for emoji
     collate: 'utf8mb4_general_ci',

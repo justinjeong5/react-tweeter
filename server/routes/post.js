@@ -94,6 +94,25 @@ router.get('/:postId/user', async (req, res, next) => {
   }
 })
 
+router.patch('/:postId', loginRequired, async (req, res, next) => {
+  try {
+    const postId = parseInt(req.params.postId, 10);
+    await Post.update({
+      content: req.body.content,
+      edit: true,
+    }, {
+      where: {
+        id: postId,
+        UserId: req.user.id,
+      }
+    });
+    return res.status(200).json({ message: '게시글을 정상적으로 수정했습니다.', PostId: postId, content: req.body.content })
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+})
+
 router.post('/post', loginRequired, async (req, res, next) => {
   try {
     const duplicatedhashtags = req.body.content.match(/#[^\s#]+/g);
