@@ -2,6 +2,7 @@ import produce from 'immer'
 
 import {
   LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
+  EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
@@ -18,6 +19,9 @@ const initialState = {
   loadPostDone: false,
   loadPostLoading: false,
   loadPostError: null,
+  editPostDone: false,
+  editPostLoading: false,
+  editPostError: null,
   addPostDone: false,
   addPostLoading: false,
   addPostError: null,
@@ -51,6 +55,21 @@ const postReducer = (state = initialState, action) => {
         draft.message = action.data.message;
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
+        break;
+      case EDIT_POST_FAILURE:
+        draft.message = action.error.message;
+        draft.editPostLoading = false;
+        draft.editPostError = action.error.code;
+        break;
+      case EDIT_POST_REQUEST:
+        draft.editPostLoading = true;
+        draft.editPostDone = false;
+        draft.editPostError = null;
+        break;
+      case EDIT_POST_SUCCESS:
+        draft.message = action.data.message;
+        draft.editPostLoading = false;
+        draft.editPostDone = true;
         break;
       case LOAD_POST_FAILURE:
         draft.message = action.error.message;

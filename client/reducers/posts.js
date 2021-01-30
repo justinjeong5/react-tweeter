@@ -10,6 +10,7 @@ import {
   CLEAR_POSTS_LIST,
   ADD_POST_TO_POSTS_LIST,
   REMOVE_POST_FROM_POSTS_LIST,
+  EDIT_POST_OF_POSTS_LIST,
   ADD_COMMENT_TO_POSTS_LIST,
   ADD_LIKE_TO_POSTS_LIST,
   REMOVE_LIKE_FROM_POSTS_LIST,
@@ -84,6 +85,11 @@ const postsReducer = (state = initialState, action) => {
       case REMOVE_POST_FROM_POSTS_LIST: {
         const postIndex = draft.postsList.findIndex((post) => post.id === action.data.PostId);
         draft.postsList.splice(postIndex, 1);
+        break;
+      }
+      case EDIT_POST_OF_POSTS_LIST: {
+        const postIndex = draft.postsList.findIndex((post) => post.id === action.data.PostId);
+        draft.postsList[postIndex].content = action.data.content;
         break;
       }
       case ADD_COMMENT_TO_POSTS_LIST: {

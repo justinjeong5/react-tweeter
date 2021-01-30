@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import {
   LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE,
+  EDIT_POST_REQUEST, EDIT_POST_SUCCESS, EDIT_POST_FAILURE,
   ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
   REMOVE_POST_REQUEST, REMOVE_POST_SUCCESS, REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
@@ -13,6 +14,7 @@ import {
   CLEAR_IMAGE_FROM_PATHS,
   ADD_POST_TO_POSTS_LIST,
   REMOVE_POST_FROM_POSTS_LIST,
+  EDIT_POST_OF_POSTS_LIST,
   ADD_COMMENT_TO_POSTS_LIST,
   ADD_LIKE_TO_POSTS_LIST,
   REMOVE_LIKE_FROM_POSTS_LIST,
@@ -34,6 +36,30 @@ function* loadPost(action) {
     console.error(error)
     yield put({
       type: LOAD_POST_FAILURE,
+      error: error.response.data
+    })
+  }
+}
+
+function editPostAPI(data) {
+  return axios.patch(`/api/post/${data.postId}`, data);
+}
+
+function* editPost(action) {
+  try {
+    const result = yield call(editPostAPI, action.data)
+    yield put({
+      type: EDIT_POST_SUCCESS,
+      data: result.data,
+    })
+    yield put({
+      type: EDIT_POST_OF_POSTS_LIST,
+      data: result.data,
+    })
+  } catch (error) {
+    console.error(error)
+    yield put({
+      type: EDIT_POST_FAILURE,
       error: error.response.data
     })
   }
@@ -198,6 +224,10 @@ function* watchLoadPost() {
   yield takeLatest(LOAD_POST_REQUEST, loadPost)
 }
 
+function* watchEditPost() {
+  yield takeLatest(EDIT_POST_REQUEST, editPost)
+}
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost)
 }
@@ -226,6 +256,7 @@ function* watchRetweet() {
 export default function* postSaga() {
   yield all([
     fork(watchLoadPost),
+    fork(watchEditPost),
     fork(watchAddPost),
     fork(watchRemovePost),
     fork(watchAddComment),

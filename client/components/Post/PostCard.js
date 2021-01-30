@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
-import { Button, Card, Popover, Popconfirm, message as Message, Typography } from 'antd'
+import { Button, Card, Popover, Popconfirm, message as Message, Typography, Space } from 'antd'
 import { EllipsisOutlined, HeartOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons'
 
 import Images from '../Image/Images'
@@ -21,7 +21,8 @@ function PostCard({ post }) {
 
   const dispatch = useDispatch();
   const [commentShow, setCommentShow] = useState(false)
-  const { removePostLoading, retweetError, message } = useSelector(state => state.post)
+  const [editMode, setEditMode] = useState(false);
+  const { removePostLoading, retweetError, message, editPostDone } = useSelector(state => state.post)
   const { currentUser } = useSelector(state => state.user)
 
   useEffect(() => {
@@ -29,6 +30,12 @@ function PostCard({ post }) {
       Message.warning(message)
     }
   }, [retweetError])
+
+  useEffect(() => {
+    if (editPostDone) {
+      setEditMode(false);
+    }
+  }, [editPostDone])
 
   const handleLike = useCallback(() => {
     if (currentUser.id) {
@@ -81,6 +88,10 @@ function PostCard({ post }) {
     })
   }, [currentUser])
 
+  const handleEdit = useCallback(() => {
+    setEditMode(prev => !prev);
+  }, [])
+
   return (
     <div style={rootDivWrapperStyle}>
       <Card
@@ -93,35 +104,41 @@ function PostCard({ post }) {
           <MessageOutlined key={uuidv4()} onClick={handleToggleCommentShow} />,
           <Popover key={uuidv4()} content={(
             <Button.Group>
-              {currentUser.id === post.User.id
-                ? <>
-                  <Button>수정</Button>
-                  <Popconfirm
-                    title="게시글을 정말로 삭제하시겠습니까?"
-                    onConfirm={handleRemovePost}
-                    okText="삭제"
-                    cancelText="아니오"
-                  >
-                    <Button type='danger' disabled={removePostLoading} loading={removePostLoading} >삭제</Button>
-                  </Popconfirm>
-                </>
-                : <Button>신고</Button>}
-              <Button><Paragraph copyable={{ text: `http://localhost:3000/post/${post.id}` }}>링크</Paragraph> </Button>
+              <Space>
+                {currentUser.id === post.User.id
+                  ? <>
+                    <Popconfirm
+                      title="게시글을 정말로 삭제하시겠습니까?"
+                      onConfirm={handleRemovePost}
+                      okText="삭제"
+                      cancelText="아니오"
+                    >
+                      <Button type='danger' disabled={removePostLoading} loading={removePostLoading} >삭제</Button>
+                    </Popconfirm>
+                    {!post.Retweet && !editMode && <Button onClick={handleEdit} type='primary'>수정</Button>}
+                  </>
+                  : <Button>신고</Button>}
+                <Button><Paragraph copyable={{ text: `http://localhost:3000/post/${post.id}` }}>링크</Paragraph> </Button>
+              </Space>
             </Button.Group>
-          )}>
+          )
+          }>
             <EllipsisOutlined />
-          </Popover>
+          </Popover >
         ]}
         extra={currentUser.id && post.User.id !== currentUser.id && <FollowButton User={post.User} />}
       >
         <Card.Meta
           avatar={<ImageToAvatar User={post.User} />}
           title={<PostCardTitle post={post} />}
-          description={<PostCardContent content={post.content} />}
+          description={<>
+            <PostCardContent editMode={editMode} handleEdit={handleEdit} content={post.content} postId={post.id} />
+            {!editMode && <span style={{ fontSize: '0.7em' }}>{post.edit && '(수정된 글)'} </span>}
+          </>}
         />
         {post.Retweet && <RetweetPost post={post.Retweet} />}
       </Card >
-      {commentShow && <>
+      { commentShow && <>
         <CommentForm postId={post.id} />
         <Comments comments={post.Comments} />
       </>}
