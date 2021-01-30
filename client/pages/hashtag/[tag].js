@@ -5,19 +5,17 @@ import wrapper from '../../store/configureStore'
 import MainPage from '../../components/LandingPage/MainPage'
 import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/types'
 import { useRouter } from 'next/router'
-import UserProfile from '../../components/User/UserProfile'
-import { useSelector } from 'react-redux'
 
 function User() {
 
   const router = useRouter();
-  const { currentUser } = useSelector(state => state.user)
 
   return (
     <MainPage
       payload={{ action: LOAD_HASHTAG_POSTS_REQUEST, hashtag: router.query.tag }}
       PostForm={null}
-      DefaultProfile={<UserProfile User={currentUser} />}
+      DefaultProfile={<></>}
+      option={false}
     />
   )
 }

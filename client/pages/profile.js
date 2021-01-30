@@ -31,7 +31,10 @@ function Profile() {
       <Head>
         <title>프로필</title>
       </Head>
-      <AppLayout UserProfile={!editUserLoading && <UserProfile User={currentUser} />}>
+      <AppLayout
+        DefaultProfile={!editUserLoading && <UserProfile User={currentUser} />}
+        option={true}
+      >
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: '100%', maxWidth: 600 }}>
             <NicknameEditForm />

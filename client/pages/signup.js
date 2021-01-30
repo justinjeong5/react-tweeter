@@ -14,7 +14,10 @@ function Signup() {
       <Head>
         <title>회원가입</title>
       </Head>
-      <AppLayout>
+      <AppLayout
+        DefaultProfile={<></>}
+        option={false}
+      >
         <RegisterForm />
       </AppLayout>
     </>

@@ -34,7 +34,7 @@ function AppLayout({ children, DefaultProfile, option }) {
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
-  UserProfile: PropTypes.node.isRequired,
+  DefaultProfile: PropTypes.node.isRequired,
   option: PropTypes.bool.isRequired,
 };
 

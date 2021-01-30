@@ -59,7 +59,7 @@ MainPage.propTypes = {
     hashtag: PropTypes.string,
   }).isRequired,
   PostForm: PropTypes.node,
-  UserProfile: PropTypes.node.isRequired,
+  DefaultProfile: PropTypes.node.isRequired,
   option: PropTypes.bool.isRequired,
 }
 

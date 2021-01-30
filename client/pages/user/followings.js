@@ -3,18 +3,14 @@ import { END } from 'redux-saga'
 import axios from 'axios'
 import wrapper from '../../store/configureStore'
 import MainPage from '../../components/LandingPage/MainPage'
-import UserProfile from '../../components/User/UserProfile'
 import { LOAD_CURRENT_USER_REQUEST, CLEAR_POSTS_LIST, LOAD_FOLLOWING_POSTS_REQUEST } from '../../reducers/types'
-import { useSelector } from 'react-redux'
 
 function Followings() {
-
-  const { currentUser } = useSelector(state => state.user)
 
   return (
     <MainPage
       payload={{ action: LOAD_FOLLOWING_POSTS_REQUEST }}
-      DefaultProfile={<UserProfile User={currentUser} />}
+      DefaultProfile={<></>}
       option={false}
     />
   )
