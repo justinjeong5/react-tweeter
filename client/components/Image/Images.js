@@ -9,7 +9,17 @@ function Images({ images }) {
   if (images.length === 1) {
     return (<>
       <div>
-        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
+        <Image
+          role="presentation"
+          width='60%'
+          placeholder={
+            <Image
+              src={images[0].src}
+              width={200}
+            />
+          }
+          src={images[0].src.replace(/\/thumbnail\//, '/original/')}
+          alt={images[0].src} />
       </div>
     </>)
   }
@@ -17,9 +27,19 @@ function Images({ images }) {
   return (<>
     <div style={{ display: 'flex' }}>
       <Image.PreviewGroup>
-        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
+        <Image
+          role="presentation"
+          width='60%'
+          placeholder={
+            <Image
+              src={images[0].src}
+              width={200}
+            />
+          }
+          src={images[0].src.replace(/\/thumbnail\//, '/original/')}
+          alt={images[0].src} />
         {images.map((image, index) => {
-          if (index !== 0) return <Image key={uuidv4()} src={images.src} hidden />
+          if (index !== 0) return <Image key={uuidv4()} src={image.src.replace(/\/thumbnail\//, '/original/')} hidden />
         })}
       </Image.PreviewGroup>
       <div style={{ width: '40%', textAlign: 'center', alignSelf: 'center' }}>

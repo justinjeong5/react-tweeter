@@ -25,7 +25,7 @@ const upload = multer({
 })
 
 router.post('/images', loginRequired, upload.array('image'), (req, res) => {
-  const images = req.files.map(file => ({ src: file.location }));
+  const images = req.files.map(file => ({ src: file.location.replace(/\/original\//, '/thumbnail/') }));
   return res.status(201).json({ message: '이미지를 정상적으로 업로드했습니다.', images })
 })
 
