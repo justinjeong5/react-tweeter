@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(hpp());
   app.use(helmet());
   app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL, 
     credentials: true,
   }))
 } else {
@@ -57,6 +57,11 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,  // no https, yet
+    domain: process.env.NODE_ENV === 'production' && '.shinywaterjeong.com',
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
