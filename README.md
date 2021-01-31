@@ -108,3 +108,26 @@ The main concept behind virtual rendering is rendering only what is on the scree
 
 ## database 
 ![relationForTweet](https://user-images.githubusercontent.com/44011462/105812886-4e945380-5ff2-11eb-9f55-8d95b7dbbd15.png)
+
+
+## aws-ec2
+
+### basic setup for ubuntu
+```bash
+$ sudo apt-get update
+$ sudo apt-get install -y build-essential
+```
+
+### npm install for ubuntu
+```bash
+$ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash --
+$ sudo apt-get install -y nodejs
+```
+
+### mysql install for ubuntu
+```bash
+$ sudo apt-get install -y mysql-server
+$ sudo su
+$ mysql_secure_installation
+$ vim .env
+```
