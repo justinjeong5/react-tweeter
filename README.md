@@ -129,5 +129,8 @@ $ sudo apt-get install -y nodejs
 $ sudo apt-get install -y mysql-server
 $ sudo su
 $ mysql_secure_installation
+$ mysql -u root -p
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 $ vim .env
+$ npx sequelize db:create
 ```
