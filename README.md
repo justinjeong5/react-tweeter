@@ -140,9 +140,6 @@ $ npx sequelize db:create
 $ sudo git pull
 $ cd lambda/
 $ sudo apt install zip
-$ sudo zip -r aws-upload.zip ./*
-$ ls  
-  // aws-upload.zip
 $ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 $ sudo unzip awscliv2.zip
 $ sudo ./aws/install
@@ -151,5 +148,8 @@ $ aws configure
   // AWS Secret Access Key [None]: ****
   // Default region name [None]: ap-northeast-2
   //Default output format [None]: json
+$ sudo zip -r aws-upload.zip ./*
+$ ls  
+  // aws-upload.zip
 $ aws s3 cp "aws-upload.zip" s3://yourBucketName
 ```
