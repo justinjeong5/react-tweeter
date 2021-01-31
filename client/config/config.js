@@ -1,4 +1,4 @@
-const AWS_URL = 'http://54.180.147.16';
+const AWS_URL = 'http://tweeter.api.shinywaterjeong.com';
 const LOCALHOST_URL = 'http://localhost:3065';
 
 module.exports = {
