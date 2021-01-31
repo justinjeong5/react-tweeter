@@ -14,7 +14,7 @@ function PostCardContent({ content, postId, editMode, handleEdit }) {
     setText(e.target.value);
   }, [])
 
-  const handleFinish = useCallback(() => {
+  const handleFinish = useCallback(() => () => {
     dispatch({
       type: EDIT_POST_REQUEST,
       data: {
@@ -35,7 +35,7 @@ function PostCardContent({ content, postId, editMode, handleEdit }) {
         <Space style={{ float: 'right' }}>
           <Popconfirm
             title="게시글을 수정하시겠습니까?"
-            onConfirm={handleFinish}
+            onConfirm={handleFinish()}
             okText="수정"
             cancelText="아니오"
           >
