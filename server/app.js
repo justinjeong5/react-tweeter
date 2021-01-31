@@ -8,6 +8,8 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const passport = require('passport');
 const morgan = require('morgan')
+const hpp = require('hpp')
+const helmet = require('helmet')
 
 const passportConfig = require('./passport');
 const post = require('./routes/post');
@@ -32,10 +34,22 @@ db.sequelize.sync()
     console.log('Database Connected Successfully')
   })
 
-app.use(cors({
-  origin: true,
-  credentials: true,
-}))
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'))
+  app.use(hpp());
+  app.use(helmet());
+  app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }))
+} else {
+  app.use(morgan('dev'))
+  app.use(cors({
+    origin: true,
+    credentials: true,
+  }))
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -46,7 +60,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(morgan('dev'))
+
 
 app.get('/', (req, res) => {
   res.send('Server Connected Successfully')
