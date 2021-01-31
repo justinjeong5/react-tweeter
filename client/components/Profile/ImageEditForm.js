@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Popconfirm, Space, message as Message } from 'antd'
 import ImageUploader from '../Image/ImageUploader'
 import { EDIT_USER_REQUEST, REMOVE_IMAGE_FROM_PATH } from '../../reducers/types';
-import config from '../../config/config';
-const env = process.env.NODE_ENV || 'development';
-const { server_url } = config[env];
 
 function NicknameEditForm() {
 
@@ -51,7 +48,7 @@ function NicknameEditForm() {
           cancelText='아니오'>
           <img
             style={{ width: 266 }}
-            src={`${server_url}/${imagePath.src}`}
+            src={imagePath.src}
             alt={imagePath.src}
           />
         </Popconfirm>

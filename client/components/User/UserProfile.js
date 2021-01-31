@@ -6,7 +6,6 @@ import { Card, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid'
 import { LOGOUT_USER_REQUEST } from '../../reducers/types'
 import ImageToAvatar from '../Image/ImageToAvatar';
-import { imageSrcParser } from '../utils/ImageSrcParser'
 
 const { Meta } = Card;
 
@@ -44,7 +43,7 @@ function UserProfile({ User }) {
       cover={
         <img
           alt="example"
-          src={imageSrcParser(User.Image)}
+          src={User.Image.src}
         />
       }
       actions={[

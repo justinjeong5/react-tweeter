@@ -3,16 +3,13 @@ import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { Image } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import config from '../../config/config';
-const env = process.env.NODE_ENV || 'development';
-const { server_url } = config[env];
 
 function Images({ images }) {
 
   if (images.length === 1) {
     return (<>
       <div>
-        <Image role="presentation" width='60%' src={`${server_url}/${images[0].src}`} alt={images[0].src} />
+        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
       </div>
     </>)
   }
@@ -20,9 +17,9 @@ function Images({ images }) {
   return (<>
     <div style={{ display: 'flex' }}>
       <Image.PreviewGroup>
-        <Image role="presentation" width='60%' src={`${server_url}/${images[0].src}`} alt={images[0].src} />
+        <Image role="presentation" width='60%' src={images[0].src} alt={images[0].src} />
         {images.map((image, index) => {
-          if (index !== 0) return <Image key={uuidv4()} src={`${server_url}/${image.src}`} hidden />
+          if (index !== 0) return <Image key={uuidv4()} src={images.src} hidden />
         })}
       </Image.PreviewGroup>
       <div style={{ width: '40%', textAlign: 'center', alignSelf: 'center' }}>

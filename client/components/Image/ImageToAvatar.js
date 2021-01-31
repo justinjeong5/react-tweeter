@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import Router from 'next/router'
 import PropTypes from 'prop-types'
 import { Avatar } from 'antd'
-import { imageSrcParser } from '../utils/ImageSrcParser'
 
 function ImageToAvatar({ User }) {
 
@@ -11,7 +10,7 @@ function ImageToAvatar({ User }) {
   }, [User])
 
   return (
-    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={User.Image && imageSrcParser(User.Image)} /></span>
+    <span style={{ cursor: 'pointer' }} onClick={handleRouter}><Avatar src={User.Image.src} /></span>
   )
 }
 

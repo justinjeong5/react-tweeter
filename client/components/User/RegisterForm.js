@@ -7,9 +7,6 @@ import { UserOutlined, MailOutlined, LockOutlined, CheckSquareOutlined } from '@
 import md5 from 'md5'
 import { REGISTER_USER_REQUEST, REMOVE_IMAGE_FROM_PATH } from '../../reducers/types'
 import ImageUploader from '../Image/ImageUploader';
-import config from '../../config/config';
-const env = process.env.NODE_ENV || 'development';
-const { server_url } = config[env];
 
 function RegisterForm() {
 
@@ -140,7 +137,7 @@ function RegisterForm() {
               cancelText='아니오'>
               <img
                 style={{ width: 266 }}
-                src={`${server_url}/${imagePath.src}`}
+                src={imagePath.src}
                 alt={imagePath.src}
               />
             </Popconfirm>
