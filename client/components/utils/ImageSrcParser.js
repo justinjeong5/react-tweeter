@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
+const env = process.env.NODE_ENV || 'development';
+const config = require('../../config/config')[env];
 
 export const imageSrcParser = (image) => {
   if (image.src.includes('http://gravatar.com/avatar/')) {
     return image.src
   } else {
-    return `http://localhost:3065/${image.src}`
+    return `${config.server_url}/${image.src}`
   }
 }
 
