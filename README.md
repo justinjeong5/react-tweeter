@@ -134,3 +134,22 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'p
 $ vim .env
 $ npx sequelize db:create
 ```
+## aws-lambda
+
+```bash
+$ sudo git pull
+$ cd lambda/
+$ sudo apt install zip
+$ sudo zip -r aws-upload.zip ./*
+$ ls  
+  // aws-upload.zip
+$ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+$ sudo unzip awscliv2.zip
+$ sudo ./aws/install
+$ aws configure
+  // AWS Access Key ID [None]: ****
+  // AWS Secret Access Key [None]: ****
+  // Default region name [None]: ap-northeast-2
+  //Default output format [None]: json
+$ aws s3 cp "aws-upload.zip" s3://yourBucketName
+```
