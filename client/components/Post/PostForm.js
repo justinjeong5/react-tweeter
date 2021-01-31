@@ -71,7 +71,7 @@ function PostForm() {
               cancelText='아니오'>
               <img
                 style={{ height: '15vw', maxHeight: 220 }}
-                src={value.src}
+                src={value.src.replace(/\/thumbnail\//, '/original/')}
                 alt={value.src}
               />
             </Popconfirm>
