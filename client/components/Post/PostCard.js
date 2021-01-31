@@ -14,6 +14,9 @@ import RetweetPost from './RetweetPost'
 import PostCardTitle from './PostCardTitle'
 import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, RETWEET_REQUEST } from '../../reducers/types'
 import ImageToAvatar from '../Image/ImageToAvatar'
+const env = process.env.NODE_ENV || 'development';
+const config = require('../../config/config')[env];
+
 
 const { Paragraph } = Typography;
 
@@ -118,7 +121,7 @@ function PostCard({ post }) {
                     {!post.Retweet && !editMode && <Button onClick={handleEdit} type='primary'>수정</Button>}
                   </>
                   : <Button>신고</Button>}
-                <Button><Paragraph copyable={{ text: `http://localhost:3000/post/${post.id}` }}>링크</Paragraph> </Button>
+                <Button><Paragraph copyable={{ text: `${config.server_url}/post/${post.id}` }}>링크</Paragraph> </Button>
               </Space>
             </Button.Group>
           )
