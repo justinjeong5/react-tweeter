@@ -5,7 +5,7 @@ const AWS_CLIENT_URL = 'http://tweeter.shinywaterjeong.com'
 const LOCALHOST_CLIENT_URL = 'http://localhost:3000';
 
 
-module.exports = {
+const config = {
   "development": {
     'server_url': LOCALHOST_URL,
     'client_url': LOCALHOST_CLIENT_URL,
@@ -19,3 +19,5 @@ module.exports = {
     'client_url': AWS_CLIENT_URL,
   }
 }
+
+export default config

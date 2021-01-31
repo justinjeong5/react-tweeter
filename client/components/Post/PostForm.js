@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { Form, Input, Button, Popconfirm, message as Message } from 'antd'
 import { ADD_POST_REQUEST, REMOVE_IMAGE_FROM_PATHS } from '../../reducers/types';
 import ImagesUploader from '../Image/ImagesUploader';
+import config from '../../config/config';
 const env = process.env.NODE_ENV || 'development';
-const config = require('../../config/config')[env];
-
+const { server_url } = config[env];
 const { useForm } = Form;
 
 function PostForm() {
@@ -74,7 +74,7 @@ function PostForm() {
               cancelText='아니오'>
               <img
                 style={{ height: '15vw', maxHeight: 220 }}
-                src={`${config.server_url}/${value.src}`}
+                src={`${server_url}/${value.src}`}
                 alt={value.src}
               />
             </Popconfirm>

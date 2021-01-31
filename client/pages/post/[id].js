@@ -11,6 +11,9 @@ import AppLayout from '../../components/AppLayout'
 import PostCard from '../../components/Post/PostCard'
 import UserProfile from '../../components/User/UserProfile'
 import { LOAD_POST_REQUEST, LOAD_POST_USER_REQUEST } from '../../reducers/types';
+import config from '../../config/config';
+const env = process.env.NODE_ENV || 'development';
+const { server_url, client_url } = config[env];
 
 function Post() {
 
@@ -28,9 +31,9 @@ function Post() {
           <meta property="og:title" content={singlePost.content} />
           <meta property="og:description" content={singlePost.content} />
           <meta property="og:image" content={singlePost.Images[0]
-            ? `http://localhost:/3065/${singlePost.Images[0].src}`
+            ? `${server_url}/${singlePost.Images[0].src}`
             : singlePost.User.Image.src} />
-          <meta property="og:url" content={`http://localhost:3000/post/${id}`} />
+          <meta property="og:url" content={`${client_url}/post/${id}`} />
         </Head>}
       <AppLayout
         DefaultProfile={loadUserDone && <UserProfile User={otherUser} />}
