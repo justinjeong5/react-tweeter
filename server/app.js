@@ -59,6 +59,7 @@ app.use('/api/user', user)
 app.use('/api/image', image)
 app.use('/api/hashtag', hashtag)
 
-app.listen(3065, () => {
-  console.log('Server is running')
+const port = process.env.PORT || 3065
+app.listen(port, () => {
+  console.log(`Server is running on ${port}`)
 })
