@@ -17,7 +17,10 @@ function RetweetPost({ post }) {
         <Card.Meta
           avatar={<ImageToAvatar User={post.User} />}
           title={<PostCardTitle post={post} />}
-          description={<PostCardContent content={post.content} />}
+          description={<>
+            <PostCardContent content={post.content} />
+            <span style={{ fontSize: '0.7em' }}>{post.edit && '(수정된 글)'} </span>
+          </>}
         />
       </Card>
     </div >

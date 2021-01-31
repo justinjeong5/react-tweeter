@@ -90,6 +90,7 @@ const postsReducer = (state = initialState, action) => {
       case EDIT_POST_OF_POSTS_LIST: {
         const postIndex = draft.postsList.findIndex((post) => post.id === action.data.PostId);
         draft.postsList[postIndex].content = action.data.content;
+        draft.postsList[postIndex].edit = true;
         break;
       }
       case ADD_COMMENT_TO_POSTS_LIST: {
