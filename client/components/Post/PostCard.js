@@ -121,7 +121,7 @@ function PostCard({ post }) {
                     {!post.Retweet && !editMode && <Button onClick={handleEdit} type='primary'>수정</Button>}
                   </>
                   : <Button>신고</Button>}
-                <Button><Paragraph copyable={{ text: `${config.server_url}/post/${post.id}` }}>링크</Paragraph> </Button>
+                <Button><Paragraph copyable={{ text: `${config.client_url}/post/${post.id}` }}>링크</Paragraph> </Button>
               </Space>
             </Button.Group>
           )
