@@ -1,9 +1,9 @@
 const AWS = require('aws-sdk');
 const sharp = require('sharp')
 
-const s3 = new AWS.S3();
+const S3 = new AWS.S3({ region: 'ap-northeast-2' });
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   const Bucket = event.Records[0].s3.bucket.name;
   const Key = decodeURIComponent(event.Records[0].s3.object.key);
   console.log(Bucket, Key);
@@ -14,16 +14,16 @@ exports.handler = (event, context, callback) => {
 
   const requiredFormat = ext === 'jpg' ? 'jpeg' : ext;
   try {
-    const s3Object = await s3.getObject({ Bucket, Key }).promise();
-    console.log(`original size: ${Math.floor(s3Object.Body.length / (1024 * 1024))} MB`)
+    const s3Object = await S3.getObject({ Bucket, Key }).promise();
+    console.log(`original size: ${s3Object.Body.length} byte`)
 
     const resizedImage = await sharp(s3Object.Body)
-      .resize(400, 400, { fit: 'inside' })
+      .resize(500, 500, { fit: 'inside' })
       .toFormat(requiredFormat)
       .toBuffer();
-    console.log(`resized size: ${Math.floor(resizedImage.length / (1024 * 1024))} MB`)
+    console.log(`resized size: ${resizedImage.length} byte`)
 
-    await s3.putObject({
+    await S3.putObject({
       Bucket,
       Key: `thumbnail/${filename}`,
       Body: resizedImage
