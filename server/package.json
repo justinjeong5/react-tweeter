@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production pm2 start app.js"
   },
   "author": "justinjeong5",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pm2": "^4.5.2",
     "sequelize": "^6.4.0",
     "sequelize-cli": "^6.2.0"
   },
