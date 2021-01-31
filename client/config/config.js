@@ -1,4 +1,4 @@
-const AWS_URL = '54.180.147.16';
+const AWS_URL = 'http://54.180.147.16';
 const LOCALHOST_URL = 'http://localhost:3065';
 
 module.exports = {
