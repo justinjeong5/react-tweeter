@@ -153,3 +153,71 @@ $ ls
   // aws-upload.zip
 $ aws s3 cp "aws-upload.zip" s3://yourBucketName
 ```
+
+## https
+
+![nginx](https://user-images.githubusercontent.com/44011462/106407535-a3671c80-647f-11eb-97c7-72cc5fb66743.png)
+
+### ssl certification
+```bash
+$ sudo apt-get install nginx
+$ sudo su
+$ vim /etc/nginx/nginx.conf
+  # {
+  #   ...
+  #   server {
+  #     server_name tweeter.shinywaterjeong.com
+  #     listen 80;
+  #     location / {
+  #       proxy_set_header HOST $host;
+  #       proxy_pass http://127.0.0.1:3000;
+  #       proxy_redirect off;
+  #     }
+  #   }
+  #   ...
+  # }
+$ exit
+$ sudo lsof -i tcp:80
+  # port 80 should be idle
+$ sudo apt install snapd
+$ sudo snap install core; sudo snap refresh core
+$ sudo snap install --classic certbot
+$ sudo certbot --nginx
+$ sudo certbot renew --dry-run
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Congratulations, all simulated renewals succeeded: 
+  #   /etc/letsencrypt/live/yourDomainName/chine.pem (success)
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+```
+
+### success ssl setting
+```bash
+# /etc/nginx/nginx.conf
+{
+  ...
+  server {
+    server_name tweeter.shinywaterjeong.com
+    listen 80;
+    location / {
+      proxy_set_header HOST $host;
+      proxy_pass http://127.0.0.1:3000;
+      proxy_redirect off;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/tweeter.shinywaterjeong.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/tweeter.shinywaterjeong.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+  }
+  server {
+    if ($host = tweeter.shinywaterjeong.com) {
+      return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    server_name tweeter.shinywaterjeong.com
+    listen 80;
+    return 404; # managed by Certbot
+  }
+}
+```
