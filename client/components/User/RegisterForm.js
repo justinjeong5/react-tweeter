@@ -35,7 +35,7 @@ function RegisterForm() {
   }, [registerUserError])
 
   const onFinish = useCallback((values) => {
-    const defaultImage = `http://gravatar.com/avatar/${md5(values.email)}?d=identicon`
+    const defaultImage = `https://gravatar.com/avatar/${md5(values.email)}?d=identicon`
     dispatch({
       type: REGISTER_USER_REQUEST,
       data: {
