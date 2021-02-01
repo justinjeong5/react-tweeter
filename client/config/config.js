@@ -1,7 +1,7 @@
-const AWS_URL = 'http://tweeter.api.shinywaterjeong.com';
+const AWS_URL = 'https://tweeter.api.shinywaterjeong.com';
 const LOCALHOST_URL = 'http://localhost:3065';
 
-const AWS_CLIENT_URL = 'http://tweeter.shinywaterjeong.com'
+const AWS_CLIENT_URL = 'https://tweeter.shinywaterjeong.com'
 const LOCALHOST_CLIENT_URL = 'http://localhost:3000';
 
 
