@@ -221,3 +221,15 @@ $ sudo certbot renew --dry-run
   }
 }
 ```
+
+## Forest Admin
+
+```bash
+# on root dir
+$ npm install -g lumber-cli@latest -s
+$ lumber generate "databaseName" --connection-url "mysql://root:password@localhost:3306/databaseName" --ssl "false" --application-host "localhost" --application-port "3310" --email "justin.jeong5@gmail.com" --token "****"
+$ cd "databaseName"
+$ npm install -s
+$ npm start
+#  https://app.forestadmin.com/projects
+```
