@@ -1,11 +1,88 @@
 # React Tweeter
 
-## redux
+![image](https://user-images.githubusercontent.com/44011462/106691554-0dfe9080-6617-11eb-8b66-4348a2b52394.png)
+
+React Tweeter[(Here)](https://tweeter.shinywaterjeong.com) is SNS that connects people through posting text & images, retweet, following.
+
+## 💼 Summary
+React Tweeter is a fullstack project which is refferring to [zerocho](https://github.com/ZeroCho/react-nodebird). As sound as it likes, most of features of React Tweeter are from [Tweeter](https://twitter.com/): Tweet, Retweet, Follow, Hashtag, Comment, Like.  
+
+React, Nextjs for Frontend, Nodejs, Express, Mysql for Backend. Nextjs provides us with SSR which makes React Tweeter looks to be fast and stable. I made use of Sequelizer for mysql and found it was as much easy as mongodb and works just fine. Since all database model has relations to eact other, I guess, mysql is much suitable than mongodb which i usually make use of. 
+
+Flowchart of SSR and CSR, for my better understanding, shows differences between SSR and CSR briefly. Since Nextjs provides client with html page fully loaded with data, there is no loading signal which looks dull and when if data from server takes longer time than client's patient, people loose an interest. Early of the project, React was just fine, because not much of data needs to be loaded, but as much data as I want to deploy, Nextjs is no longer an option.
+
+![tweeter-summary](https://user-images.githubusercontent.com/44011462/106693916-d2fe5c00-661a-11eb-98d5-961bd62bafca.png)
+
+
+## 🌟 Features
+
+Register user using nickname, email, password, image.
+Login / Logout using cookie.
+Edit User for nickname or image.
+
+- User
+  - Register & Edit
+    - nickname, email, image
+  - Login & Logout
+    - cookie & session & passport
+  
+User Information & Follow list on Profile.
+
+- Profile
+  - User Information
+  - Followers & Followings List
+
+Add, Remove, Edit a tweet(post).
+User can retweet others' post.
+User can add Hashtag on a post.
+Visitor can add a Comment, Like on a post.
+
+- Post
+  - Add & Remove & Edit a post
+  - Retweet
+  - Comment
+  - Like
+  - Hashtag
+    - regex, "/(#[^\s#]+)/g"
+
+Images are stored at AWS S3.
+Resizing using Lambda.
+
+- Image
+  - aws s3
+  - lambda for resizing
+
+
+## 🔧 Tech Stack
+- React
+- Nextjs
+- Nodejs
+- Express
+- Mysql
+- Sequelizer
+
+## 🗃️ Database 
+![relationForTweet](https://user-images.githubusercontent.com/44011462/105812886-4e945380-5ff2-11eb-9f55-8d95b7dbbd15.png)
+
+## 📚 redux
 ![redux](https://user-images.githubusercontent.com/44011462/105483516-4f28a380-5ced-11eb-965e-5596641ee6b3.png)
 
-## Generator
+## 🗓️ Future Works
 
-### Concept
+- Admin page is a priority for the control of services.
+- Report function for abuse of service or censorship.
+- Image Component should be refactored for better data optimization
+  - user can upload high solution image with full size, and that leads to be overburdened. For optimization, already aws lambda is on operation, but Image component from react doesn't support the function.
+- OAuth for login
+  - User should be able to make use of the service using exist account:google, facebook, kakaotalk, naver.
+
+## 🏫 Research
+
+### Generator
+<details>
+    <summary>Concept and Example</summary>
+
+#### Concept
 ```javascript
 const gen = function* () {
   console.log(1);
@@ -31,7 +108,7 @@ generator.next()
 // { value: undefined, done: true }
 ```
 
-### Counter
+#### Counter
 ```javascript
 let i = 1;
 const gen = function* () {
@@ -46,7 +123,7 @@ const timer = setInterval(()=>{
 }, 1000)
 ```
 
-### EventListener
+#### EventListener
 ```javascript
 var listener = function* () {
   console.log("first click");
@@ -61,8 +138,12 @@ document.getElementById("test")
     return eventListener.next();
   });
 ```
+</details>
 
-## Saga
+### Saga
+
+<details>
+
 ```javascript
 function* watchLogin() {
   yield take(LOGIN_USER_REQUEST, login)
@@ -100,31 +181,35 @@ function* watchLogin() {
 // ex) search event
 ```
 
-## Virtualized
+</details>
+
+### Virtualized
+
+<details>
 
 ![virtualized](https://user-images.githubusercontent.com/44011462/105692640-fe5db880-5f41-11eb-84c0-83dea11c91c0.png)
 
 The main concept behind virtual rendering is rendering only what is on the screen. There are one thousand data in the app, but it only shows around ten at any moment (the ones that fit on the screen), until you scroll to show more. So it makes sense to load only the elements that are visible and unload them when they are not by replacing them with new ones.
 
-## database 
-![relationForTweet](https://user-images.githubusercontent.com/44011462/105812886-4e945380-5ff2-11eb-9f55-8d95b7dbbd15.png)
+</details>
 
+### aws-ec2
 
-## aws-ec2
+<details>
 
-### basic setup for ubuntu
+#### basic setup for ubuntu
 ```bash
 $ sudo apt-get update
 $ sudo apt-get install -y build-essential
 ```
 
-### npm install for ubuntu
+#### npm install for ubuntu
 ```bash
 $ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash --
 $ sudo apt-get install -y nodejs
 ```
 
-### mysql install for ubuntu
+#### mysql install for ubuntu
 ```bash
 $ sudo apt-get install -y mysql-server
 $ sudo su
@@ -134,7 +219,12 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'p
 $ vim .env
 $ npx sequelize db:create
 ```
-## aws-lambda
+
+</details>
+
+### aws-lambda
+
+<details>
 
 ```bash
 $ sudo git pull
@@ -154,11 +244,18 @@ $ ls
 $ aws s3 cp "aws-upload.zip" s3://yourBucketName
 ```
 
-## https
+</details>
+
+### https
+
+<details>
+
+### nginx 
 
 ![nginx](https://user-images.githubusercontent.com/44011462/106407535-a3671c80-647f-11eb-97c7-72cc5fb66743.png)
 
-### ssl certification
+
+#### ssl certification
 ```bash
 $ sudo apt-get install nginx
 $ sudo su
@@ -190,7 +287,7 @@ $ sudo certbot renew --dry-run
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 ```
 
-### success ssl setting
+#### success ssl setting
 ```bash
 # /etc/nginx/nginx.conf
 {
@@ -222,7 +319,11 @@ $ sudo certbot renew --dry-run
 }
 ```
 
-## Forest Admin
+</details>
+
+### Forest Admin
+
+<details>
 
 ```bash
 # on root dir
@@ -233,3 +334,5 @@ $ npm install -s
 $ npm start
 #  https://app.forestadmin.com/projects
 ```
+
+</details>
