@@ -11,20 +11,20 @@ function AppLayout({ children, DefaultProfile, option }) {
   const { currentUser } = useSelector(state => state.user)
 
   return (
-    <div>
+    <div style={{ padding: 20 }}>
       <NavBar />
       <Row gutter={[10, 10]}>
-        <Col xs={24} md={6}>
+        <Col sm={24} md={6}>
           {option
             ? DefaultProfile
             : currentUser.id
               ? <UserProfile User={currentUser} />
               : <LoginForm />}
         </Col>
-        <Col xs={24} md={12}>
+        <Col sm={24} md={12}>
           {children}
         </Col>
-        <Col xs={24} md={6}>
+        <Col sm={24} md={6}>
           <a href='https://justinjeong5.github.io' target="_blank" rel="noreferrer noopener">made by JustinJeong5</a>
         </Col>
       </Row>

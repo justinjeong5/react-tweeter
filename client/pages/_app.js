@@ -4,6 +4,7 @@ import Proptypes from 'prop-types'
 import withReduxSaga from 'next-redux-saga'
 import 'antd/dist/antd.css';
 import 'react-virtualized/styles.css';
+import '../components/main.css'
 
 import wrapper from '../store/configureStore'
 

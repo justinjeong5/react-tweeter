@@ -1,0 +1,29 @@
+.menu__mobile-button {
+	float: right;
+	height: 30px;
+	padding: 6px;
+	margin: 5px 10px;
+	display: none !important; /* use of important to overwrite ant-btn */
+	background: #3e91f7;
+}
+
+.main__normal-wrapper {
+	width: calc(100vw - 300px);
+}
+
+.menu__mobile-search {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.menu__mobile-button {
+		display: inline-block !important;
+	}
+
+	.menu__normal-wrapper {
+		display: none !important;
+	}
+	.menu__mobile-search {
+		display: inline-block;
+	}
+}
