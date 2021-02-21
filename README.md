@@ -1,6 +1,6 @@
 # React Tweeter
 
-![image](https://user-images.githubusercontent.com/44011462/106691554-0dfe9080-6617-11eb-8b66-4348a2b52394.png)
+![Layer 3](https://user-images.githubusercontent.com/44011462/108623722-c768bd00-7483-11eb-95db-9bd35c2b360e.png)
 
 React Tweeter[(Here)](https://tweeter.shinywaterjeong.com) is SNS that connects people through posting text & images, retweet, following.
 
