@@ -64,8 +64,17 @@ Resizing using Lambda.
 ## 🗃️ Database 
 ![relationForTweet](https://user-images.githubusercontent.com/44011462/105812886-4e945380-5ff2-11eb-9f55-8d95b7dbbd15.png)
 
-## 📚 redux
+## 📚 Redux
+
+![redux_flow_tweeter](https://user-images.githubusercontent.com/44011462/108622394-dd727f80-747b-11eb-913c-fea473baa019.png)
+
+ 
+<details>
+    <summary>Flow</summary>
+
+### 🐎 Redux Flow
 ![redux](https://user-images.githubusercontent.com/44011462/105483516-4f28a380-5ced-11eb-965e-5596641ee6b3.png)
+</details>
 
 ## 🗓️ Future Works
 
