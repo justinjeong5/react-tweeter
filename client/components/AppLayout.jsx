@@ -26,6 +26,7 @@ function AppLayout({ children, DefaultProfile, option }) {
         </Col>
         <Col sm={24} md={6}>
           <a href="https://justinjeong5.github.io" target="_blank" rel="noreferrer noopener">made by JustinJeong5</a>
+          <a href="https://slack.shinywaterjeong.com" target="_blank" rel="noreferrer noopener">Chatting</a>
         </Col>
       </Row>
     </div>
