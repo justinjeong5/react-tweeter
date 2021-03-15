@@ -1,10 +1,11 @@
-import { HYDRATE } from 'next-redux-wrapper'
-import { combineReducers } from 'redux'
+/* eslint-disable indent */
+import { HYDRATE } from 'next-redux-wrapper';
+import { combineReducers } from 'redux';
 
-import user from './user'
-import post from './post'
-import posts from './posts'
-import image from './image'
+import user from './user';
+import post from './post';
+import posts from './posts';
+import image from './image';
 
 const rootReducer = (state, action) => {
   switch (action.type) {

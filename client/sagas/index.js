@@ -1,16 +1,16 @@
-import { all, fork } from 'redux-saga/effects'
+import { all, fork } from 'redux-saga/effects';
 import axios from 'axios';
 import config from '../config/config';
+
+import userSaga from './user';
+import postSaga from './post';
+import postsSaga from './posts';
+import imageSaga from './image';
+
 const env = process.env.NODE_ENV || 'development';
-const { server_url } = config[env];
+const { serverUrl } = config[env];
 
-
-import userSaga from './user'
-import postSaga from './post'
-import postsSaga from './posts'
-import imageSaga from './image'
-
-axios.defaults.baseURL = server_url
+axios.defaults.baseURL = serverUrl;
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {
@@ -19,5 +19,5 @@ export default function* rootSaga() {
     fork(postSaga),
     fork(postsSaga),
     fork(imageSaga),
-  ])
+  ]);
 }

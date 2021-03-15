@@ -1,6 +1,6 @@
-////////////////////////////////////////////
+// //////////////////////////////////////////
 //                  User
-////////////////////////////////////////////
+// //////////////////////////////////////////
 export const LOAD_CURRENT_USER_REQUEST = 'LOAD_CURRENT_USER_REQUEST';
 export const LOAD_CURRENT_USER_SUCCESS = 'LOAD_CURRENT_USER_SUCCESS';
 export const LOAD_CURRENT_USER_FAILURE = 'LOAD_CURRENT_USER_FAILURE';
@@ -50,10 +50,9 @@ export const GET_FOLLOW_FAILURE = 'GET_FOLLOW_FAILURE';
 
 export const RESET_USER_REDUX_STATE = 'RESET_USER_REDUX_STATE';
 
-
-////////////////////////////////////////////
+// //////////////////////////////////////////
 //                  Post
-////////////////////////////////////////////
+// //////////////////////////////////////////
 export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
@@ -90,10 +89,9 @@ export const RETWEET_FAILURE = 'RETWEET_FAILURE';
 
 export const RESET_POST_REDUX_STATE = 'RESET_POST_REDUX_STATE';
 
-
-////////////////////////////////////////////
+// //////////////////////////////////////////
 //                  Posts
-////////////////////////////////////////////
+// //////////////////////////////////////////
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
@@ -123,10 +121,9 @@ export const ADD_LIKE_TO_POSTS_LIST = 'ADD_LIKE_TO_POSTS_LIST';
 export const REMOVE_LIKE_FROM_POSTS_LIST = 'REMOVE_LIKE_FROM_POSTS_LIST';
 export const ADD_TWEET_TO_POSTS_LIST = 'ADD_TWEET_TO_POSTS_LIST';
 
-
-////////////////////////////////////////////
+// //////////////////////////////////////////
 //                  Image
-////////////////////////////////////////////
+// //////////////////////////////////////////
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';

@@ -1,4 +1,4 @@
-import { all, put, fork, call, throttle } from "redux-saga/effects";
+import { all, put, fork, call, throttle } from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -7,7 +7,7 @@ import {
   LOAD_FOLLOWER_POSTS_REQUEST, LOAD_FOLLOWER_POSTS_SUCCESS, LOAD_FOLLOWER_POSTS_FAILURE,
   LOAD_FOLLOWING_POSTS_REQUEST, LOAD_FOLLOWING_POSTS_SUCCESS, LOAD_FOLLOWING_POSTS_FAILURE,
   LOAD_HASHTAG_POSTS_REQUEST, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE,
-} from '../reducers/types'
+} from '../reducers/types';
 
 function loadPostsAPI(data) {
   return axios.get(`/api/posts?lastId=${data.lastId}`);
@@ -15,17 +15,17 @@ function loadPostsAPI(data) {
 
 function* loadPosts(action) {
   try {
-    const result = yield call(loadPostsAPI, action.data)
+    const result = yield call(loadPostsAPI, action.data);
     yield put({
       type: LOAD_POSTS_SUCCESS,
       data: result.data,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     yield put({
       type: LOAD_POSTS_FAILURE,
-      error: error.response.data
-    })
+      error: error.response.data,
+    });
   }
 }
 
@@ -35,17 +35,17 @@ function loadUserPostsAPI(data) {
 
 function* loadUserPosts(action) {
   try {
-    const result = yield call(loadUserPostsAPI, action.data)
+    const result = yield call(loadUserPostsAPI, action.data);
     yield put({
       type: LOAD_USER_POSTS_SUCCESS,
       data: result.data,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     yield put({
       type: LOAD_USER_POSTS_FAILURE,
-      error: error.response.data
-    })
+      error: error.response.data,
+    });
   }
 }
 
@@ -55,18 +55,18 @@ function loadFollowerPostsAPI(data) {
 
 function* loadFollowerPosts(action) {
   try {
-    const result = yield call(loadFollowerPostsAPI, action.data)
-    console.log(result, 'loadFollowerPostsAPI loadFollowerPostsAPI')
+    const result = yield call(loadFollowerPostsAPI, action.data);
+    console.log(result, 'loadFollowerPostsAPI loadFollowerPostsAPI');
     yield put({
       type: LOAD_FOLLOWER_POSTS_SUCCESS,
       data: result.data,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     yield put({
       type: LOAD_FOLLOWER_POSTS_FAILURE,
-      error: error.response.data
-    })
+      error: error.response.data,
+    });
   }
 }
 
@@ -76,17 +76,17 @@ function loadFollowingPostsAPI(data) {
 
 function* loadFollowingPosts(action) {
   try {
-    const result = yield call(loadFollowingPostsAPI, action.data)
+    const result = yield call(loadFollowingPostsAPI, action.data);
     yield put({
       type: LOAD_FOLLOWING_POSTS_SUCCESS,
       data: result.data,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     yield put({
       type: LOAD_FOLLOWING_POSTS_FAILURE,
-      error: error.response.data
-    })
+      error: error.response.data,
+    });
   }
 }
 
@@ -96,40 +96,39 @@ function loadHashtagPostsAPI(data) {
 
 function* loadHashtagPosts(action) {
   try {
-    const result = yield call(loadHashtagPostsAPI, action.data)
+    const result = yield call(loadHashtagPostsAPI, action.data);
     yield put({
       type: LOAD_HASHTAG_POSTS_SUCCESS,
       data: result.data,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     yield put({
       type: LOAD_HASHTAG_POSTS_FAILURE,
-      error: error.response.data
-    })
+      error: error.response.data,
+    });
   }
 }
 
 function* watchLoadPosts() {
-  yield throttle(1000, LOAD_POSTS_REQUEST, loadPosts)
+  yield throttle(1000, LOAD_POSTS_REQUEST, loadPosts);
 }
 
 function* watchLoadUserPosts() {
-  yield throttle(1000, LOAD_USER_POSTS_REQUEST, loadUserPosts)
+  yield throttle(1000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
 
 function* watchLoadFollowerPosts() {
-  yield throttle(1000, LOAD_FOLLOWER_POSTS_REQUEST, loadFollowerPosts)
+  yield throttle(1000, LOAD_FOLLOWER_POSTS_REQUEST, loadFollowerPosts);
 }
 
 function* watchLoadFollowingPosts() {
-  yield throttle(1000, LOAD_FOLLOWING_POSTS_REQUEST, loadFollowingPosts)
+  yield throttle(1000, LOAD_FOLLOWING_POSTS_REQUEST, loadFollowingPosts);
 }
 
 function* watchLoadHashtagPosts() {
-  yield throttle(1000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
+  yield throttle(1000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
-
 
 export default function* postSaga() {
   yield all([
@@ -138,5 +137,5 @@ export default function* postSaga() {
     fork(watchLoadFollowerPosts),
     fork(watchLoadFollowingPosts),
     fork(watchLoadHashtagPosts),
-  ])
+  ]);
 }
